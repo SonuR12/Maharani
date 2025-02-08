@@ -14,7 +14,7 @@ export default async function Header() {
   const t = await getTranslations()
   return (
     <header className="bg-white text-black fixed top-0 w-full z-50">
-      <div className="px-2">
+      <div className="px-2 py-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Link
@@ -41,7 +41,7 @@ export default async function Header() {
           <Search />
         </div>
       </div>
-      <div className="flex items-center px-3 mb-[1px] text-white  bg-gray-800">
+      <div className="flex items-center px-3 text-white bg-gray-800">
         <Sidebar categories={categories} />
         <div className="flex items-center flex-wrap gap-3 overflow-hidden max-h-[42px]">
           {data.headerMenus.map(menu =>
