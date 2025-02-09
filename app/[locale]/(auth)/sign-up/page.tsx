@@ -14,12 +14,14 @@ export const metadata: Metadata = {
 export default async function SignUpPage({
   searchParams
 }: {
-  searchParams: { callbackUrl?: string }
+  searchParams: Promise<{ callbackUrl?: string }>
 }) {
   const session = await auth()
 
   if (session) {
-    return redirect(searchParams.callbackUrl || '/')
+    // Await the searchParams to access its properties
+    const { callbackUrl } = await searchParams
+    return redirect(callbackUrl || '/')
   }
 
   const { site } = await getSetting()
