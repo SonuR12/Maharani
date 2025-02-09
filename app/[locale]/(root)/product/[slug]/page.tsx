@@ -17,6 +17,7 @@ import BrowsingHistoryList from '@/components/shared/browsing-history-list'
 import RatingSummary from '@/components/shared/product/rating-summary'
 import ProductSlider from '@/components/shared/product/product-slider'
 import { getTranslations } from 'next-intl/server'
+import { notFound } from 'next/navigation'
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>
@@ -35,24 +36,28 @@ export async function generateMetadata(props: {
 
 export default async function ProductDetails(props: {
   params: Promise<{ slug: string }>
-  searchParams: Promise<{ page: string; color: string; size: string }>
+  searchParams: Promise<{ page?: string; color?: string; size?: string }>
 }) {
+  // Await the searchParams to access its properties
   const searchParams = await props.searchParams
+  const { page = '1', color, size } = searchParams
 
-  const { page, color, size } = searchParams
-
+  // Await the params to access the slug
   const params = await props.params
-
   const { slug } = params
 
   const session = await auth()
-
   const product = await getProductBySlug(slug)
+
+  if (!product) {
+    // Handle the case where the product is not found
+    return notFound()
+  }
 
   const relatedProducts = await getRelatedProductsByCategory({
     category: product.category,
     productId: product._id,
-    page: Number(page || '1'),
+    page: Number(page),
   })
 
   const t = await getTranslations()
@@ -67,7 +72,7 @@ export default async function ProductDetails(props: {
 
           <div className='flex w-full flex-col gap-2 md:p-5 col-span-2'>
             <div className='flex flex-col gap-3'>
-              <p className='p-medium-16 rounded-full bg-grey-500/10   text-grey-500'>
+              <p className='p-medium-16 rounded-full bg-grey-500/10 text-grey-500'>
                 {t('Product.Brand')} {product.brand} {product.category}
               </p>
               <h1 className='font-bold text-lg lg:text-xl'>{product.name}</h1>
