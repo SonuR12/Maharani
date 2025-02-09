@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+
 import { auth } from '@/auth'
 
 import CredentialsSignInForm from './credentials-signin-form'
@@ -12,17 +13,19 @@ export const metadata: Metadata = {
   title: 'Sign In'
 }
 
+interface SearchParams {
+  callbackUrl?: string
+}
+
 export default async function SignInPage({
   searchParams
 }: {
-  searchParams: Record<string, string | string[] | undefined>
+  searchParams: Promise<SearchParams>
 }) {
   const { site } = await getSetting()
 
-  const callbackUrl =
-    typeof searchParams.callbackUrl === 'string'
-      ? searchParams.callbackUrl
-      : '/'
+  // Await the searchParams to access its properties
+  const { callbackUrl = '/' } = await searchParams
 
   const session = await auth()
   if (session) {
@@ -30,7 +33,7 @@ export default async function SignInPage({
   }
 
   return (
-    <div className="flex md:flex-row w-[80vw] items-center min-h-[35rem] h-[70vh] rounded-3xl shadow-2xl my-12">
+    <div className="flex md:flex-row w-[80vw] items-center min-h-[35rem] h-[70vh] rounded-3xl shadow-2xl my-20">
       <div className="md:w-1/2 p-12">
         <h1 className="font-medium text-3xl signIn">Sign In</h1>
         <div>
