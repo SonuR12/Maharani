@@ -26,14 +26,13 @@ interface SearchParams {
   page?: string
 }
 
-interface PageProps {
-  searchParams: SearchParams
-}
-
 export default async function OrdersPage({
   searchParams
-}: PageProps) {
-  const { page = '1' } = searchParams
+}: {
+  searchParams: Promise<SearchParams>
+}) {
+  // Await the searchParams to access its properties
+  const { page = '1' } = await searchParams
 
   const session = await auth()
   if (session?.user.role !== 'Admin')
