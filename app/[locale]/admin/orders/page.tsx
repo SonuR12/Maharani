@@ -21,24 +21,96 @@ import ProductPrice from '@/components/shared/product/product-price'
 export const metadata: Metadata = {
   title: 'Admin Orders',
 }
+
+// export default async function OrdersPage({
+//   searchParams,
+// }: {
+//   searchParams: { page: string }
+// }) {
+//   const { page = '1' } = searchParams
+
+//   const session = await auth()
+//   if (session?.user.role !== 'Admin')
+//     throw new Error('Admin permission required')
+
+//   const orders = await getAllOrders({
+//     page: Number(page),
+//   })
+//   return (
+//     <div className='space-y-2'>
+//       <h1 className='h1-bold'>Orders</h1>
+//       <div className='overflow-x-auto'>
+//         <Table>
+//           <TableHeader>
+//             <TableRow>
+//               <TableHead>Id</TableHead>
+//               <TableHead>Date</TableHead>
+//               <TableHead>Buyer</TableHead>
+//               <TableHead>Total</TableHead>
+//               <TableHead>Paid</TableHead>
+//               <TableHead>Delivered</TableHead>
+//               <TableHead>Actions</TableHead>
+//             </TableRow>
+//           </TableHeader>
+//           <TableBody>
+//             {orders.data.map((order: IOrderList) => (
+//               <TableRow key={order._id}>
+//                 <TableCell>{formatId(order._id)}</TableCell>
+//                 <TableCell>
+//                   {formatDateTime(order.createdAt!).dateTime}
+//                 </TableCell>
+//                 <TableCell>
+//                   {order.user ? order.user.name : 'Deleted User'}
+//                 </TableCell>
+//                 <TableCell>
+//                   <ProductPrice price={order.totalPrice} plain />
+//                 </TableCell>
+//                 <TableCell>
+//                   {order.isPaid && order.paidAt
+//                     ? formatDateTime(order.paidAt).dateTime
+//                     : 'No'}
+//                 </TableCell>
+//                 <TableCell>
+//                   {order.isDelivered && order.deliveredAt
+//                     ? formatDateTime(order.deliveredAt).dateTime
+//                     : 'No'}
+//                 </TableCell>
+//                 <TableCell className='flex gap-1'>
+//                   <Button asChild variant='outline' size='sm'>
+//                     <Link href={`/admin/orders/${order._id}`}>Details</Link>
+//                   </Button>
+//                   <DeleteDialog id={order._id} action={deleteOrder} />
+//                 </TableCell>
+//               </TableRow>
+//             ))}
+//           </TableBody>
+//         </Table>
+//         {orders.totalPages > 1 && (
+//           <Pagination page={page} totalPages={orders.totalPages!} />
+//         )}
+//       </div>
+//     </div>
+//   )
+// }
+
 export default async function OrdersPage({
   searchParams,
 }: {
-  searchParams: { page: string }
+  searchParams: Record<string, string | string[] | undefined>
 }) {
-  const { page = '1' } = searchParams
+  const page = Array.isArray(searchParams.page) ? searchParams.page[0] : searchParams.page || '1';
 
-  const session = await auth()
-  if (session?.user.role !== 'Admin')
-    throw new Error('Admin permission required')
+  const session = await auth();
+  if (session?.user.role !== 'Admin') {
+    throw new Error('Admin permission required');
+  }
 
-  const orders = await getAllOrders({
-    page: Number(page),
-  })
+  const orders = await getAllOrders({ page: Number(page) });
+
   return (
-    <div className='space-y-2'>
-      <h1 className='h1-bold'>Orders</h1>
-      <div className='overflow-x-auto'>
+    <div className="space-y-2">
+      <h1 className="h1-bold">Orders</h1>
+      <div className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -55,27 +127,21 @@ export default async function OrdersPage({
             {orders.data.map((order: IOrderList) => (
               <TableRow key={order._id}>
                 <TableCell>{formatId(order._id)}</TableCell>
-                <TableCell>
-                  {formatDateTime(order.createdAt!).dateTime}
-                </TableCell>
-                <TableCell>
-                  {order.user ? order.user.name : 'Deleted User'}
-                </TableCell>
+                <TableCell>{formatDateTime(order.createdAt!).dateTime}</TableCell>
+                <TableCell>{order.user ? order.user.name : 'Deleted User'}</TableCell>
                 <TableCell>
                   <ProductPrice price={order.totalPrice} plain />
                 </TableCell>
                 <TableCell>
-                  {order.isPaid && order.paidAt
-                    ? formatDateTime(order.paidAt).dateTime
-                    : 'No'}
+                  {order.isPaid && order.paidAt ? formatDateTime(order.paidAt).dateTime : 'No'}
                 </TableCell>
                 <TableCell>
                   {order.isDelivered && order.deliveredAt
                     ? formatDateTime(order.deliveredAt).dateTime
                     : 'No'}
                 </TableCell>
-                <TableCell className='flex gap-1'>
-                  <Button asChild variant='outline' size='sm'>
+                <TableCell className="flex gap-1">
+                  <Button asChild variant="outline" size="sm">
                     <Link href={`/admin/orders/${order._id}`}>Details</Link>
                   </Button>
                   <DeleteDialog id={order._id} action={deleteOrder} />
@@ -84,10 +150,9 @@ export default async function OrdersPage({
             ))}
           </TableBody>
         </Table>
-        {orders.totalPages > 1 && (
-          <Pagination page={page} totalPages={orders.totalPages!} />
-        )}
+        {orders.totalPages > 1 && <Pagination page={page} totalPages={orders.totalPages!} />}
       </div>
     </div>
-  )
+  );
 }
+
