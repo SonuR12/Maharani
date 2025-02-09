@@ -21,18 +21,12 @@ import ProductPrice from '@/components/shared/product/product-price'
 export const metadata: Metadata = {
   title: 'Admin Orders',
 }
-
-interface SearchParams {
-  page?: string
-}
-
 export default async function OrdersPage({
-  searchParams
+  searchParams,
 }: {
-  searchParams: Promise<SearchParams>
+  searchParams: { page: string }
 }) {
-  // Await the searchParams to access its properties
-  const { page = '1' } = await searchParams
+  const { page = '1' } = searchParams
 
   const session = await auth()
   if (session?.user.role !== 'Admin')

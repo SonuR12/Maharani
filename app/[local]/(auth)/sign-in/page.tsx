@@ -20,12 +20,11 @@ interface SearchParams {
 export default async function SignInPage({
   searchParams
 }: {
-  searchParams: Promise<SearchParams>
+  searchParams: SearchParams
 }) {
   const { site } = await getSetting()
 
-  // Await the searchParams to access its properties
-  const { callbackUrl = '/' } = await searchParams
+  const { callbackUrl = '/' } = searchParams
 
   const session = await auth()
   if (session) {
