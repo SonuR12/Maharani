@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 }
 
 interface SearchParams {
-  callbackUrl?: string
+  callbackUrl?: strin
 }
 
 export default async function SignInPage({
