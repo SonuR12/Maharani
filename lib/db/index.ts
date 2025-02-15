@@ -1,39 +1,46 @@
-import mongoose, { Connection } from 'mongoose';
+import mongoose, { Connection, ConnectOptions } from 'mongoose';
 
-// Define a global variable to store the cached connection
-declare global {
-  var mongooseCache: {
-    conn: Connection | null;
-    promise: Promise<typeof mongoose> | null;
-  };
+// Define the type for the cached object
+interface MongooseCache {
+  conn: Connection | null;
+  promise: Promise<Connection> | null;
 }
 
-// Initialize global cache if not already defined
-global.mongooseCache = global.mongooseCache || { conn: null, promise: null };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const globalAny: any = global;
+globalAny.mongoose = globalAny.mongoose || { conn: null, promise: null };
+const cached: MongooseCache = globalAny.mongoose;
 
 export const connectToDatabase = async (
   MONGODB_URI = process.env.MONGODB_URI
 ) => {
-  if (!MONGODB_URI) throw new Error('MONGODB_URI is missing');
+  if (cached.conn) return cached.conn;
 
-  // Return cached connection if it exists
-  if (global.mongooseCache.conn) return global.mongooseCache.conn;
+  if (!MONGODB_URI) throw new Error('❌ MONGODB_URI is missing');
 
-  // If no cached promise, create a new one
-  if (!global.mongooseCache.promise) {
-    global.mongooseCache.promise = mongoose.connect(MONGODB_URI, {
-      dbName: 'Maharaniz', // Ensure you're using the correct database
-    }).then((mongoose) => {
+  if (!cached.promise) {
+    // Define mongoose options with the correct type
+    const mongooseOptions: ConnectOptions = {
+      bufferCommands: false,
+      bufferMaxEntries: 0,
+      useFindAndModify: false,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      maxPoolSize: 5,
+      connectTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
+
+    };
+
+    cached.promise = mongoose.connect(MONGODB_URI, mongooseOptions).then((mongoose) => {
       console.log('✅ MongoDB Connected Successfully!');
-      return mongoose;
+      return mongoose.connection; // Return the connection object
     }).catch((err) => {
       console.error('❌ MongoDB Connection Error:', err);
       throw err;
     });
   }
 
-  // Wait for the connection to be established and cache it
-  global.mongooseCache.conn = await global.mongooseCache.promise;
-  return global.mongooseCache.conn;
+  cached.conn = await cached.promise;
+  return cached.conn;
 };
-
