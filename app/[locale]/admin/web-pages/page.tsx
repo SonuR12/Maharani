@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
+import { Skeleton } from '@/components/ui/skeleton'
 import { formatId } from '@/lib/utils'
 import { Metadata } from 'next'
 import { deleteWebPage, getAllWebPages } from '@/lib/actions/web-page.actions'
@@ -45,33 +46,56 @@ export default async function WebPageAdminPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {webPages.map((webPage: IWebPage) =>
-              <TableRow key={webPage._id}>
-                <TableCell>
-                  {formatId(webPage._id)}
-                </TableCell>
-                <TableCell>
-                  {webPage.title}
-                </TableCell>
-                <TableCell>
-                  {webPage.slug}
-                </TableCell>
-                <TableCell>
-                  {webPage.isPublished ? 'Yes' : 'No'}
-                </TableCell>
-                <TableCell className="flex gap-1">
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="sm"
-                    className="drop-shadow-xl"
-                  >
-                    <Link href={`/admin/web-pages/${webPage._id}`}>Edit</Link>
-                  </Button>
-                  <DeleteDialog id={webPage._id} action={deleteWebPage} />
-                </TableCell>
-              </TableRow>
-            )}
+            {webPages
+              ? webPages.map((webPage: IWebPage) =>
+                  <TableRow key={webPage._id}>
+                    <TableCell>
+                      {formatId(webPage._id)}
+                    </TableCell>
+                    <TableCell>
+                      {webPage.title}
+                    </TableCell>
+                    <TableCell>
+                      {webPage.slug}
+                    </TableCell>
+                    <TableCell>
+                      {webPage.isPublished ? 'Yes' : 'No'}
+                    </TableCell>
+                    <TableCell className="flex gap-1">
+                      <Button
+                        asChild
+                        variant="outline"
+                        size="sm"
+                        className="drop-shadow-xl"
+                      >
+                        <Link href={`/admin/web-pages/${webPage._id}`}>
+                          Edit
+                        </Link>
+                      </Button>
+                      <DeleteDialog id={webPage._id} action={deleteWebPage} />
+                    </TableCell>
+                  </TableRow>
+                )
+              : Array.from({ length: 5 }).map((_, index) =>
+                  <TableRow key={index}>
+                    <TableCell>
+                      <Skeleton className="h-4 w-20" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-32" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-40" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-24" />
+                    </TableCell>
+                    <TableCell className="flex gap-1">
+                      <Skeleton className="h-8 w-16" />
+                      <Skeleton className="h-8 w-16" />
+                    </TableCell>
+                  </TableRow>
+                )}
           </TableBody>
         </Table>
       </div>

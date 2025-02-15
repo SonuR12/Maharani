@@ -11,9 +11,9 @@ export const metadata = {
 }
 
 const AdminOrderDetailsPage = async (props: {
-  params: Promise<{
+  params: {
     id: string
-  }>
+  }
 }) => {
   const params = await props.params
 
@@ -33,6 +33,7 @@ const AdminOrderDetailsPage = async (props: {
       <OrderDetailsForm
         order={order}
         isAdmin={session?.user?.role === 'Admin' || false}
+        // isLoading={false}
       />
     </main>
   )

@@ -20,13 +20,16 @@ import { ISettingInput } from '@/types'
 import { TrashIcon } from 'lucide-react'
 import React, { useEffect } from 'react'
 import { useFieldArray, UseFormReturn } from 'react-hook-form'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function DeliveryDateForm({
   form,
   id,
+  isPending,
 }: {
   form: UseFormReturn<ISettingInput>
   id: string
+  isPending: boolean
 }) {
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -56,93 +59,97 @@ export default function DeliveryDateForm({
       </CardHeader>
       <CardContent className='space-y-4'>
         <div className='space-y-4'>
-          {fields.map((field, index) => (
-            <div key={field.id} className='flex gap-2'>
-              <FormField
-                control={form.control}
-                name={`availableDeliveryDates.${index}.name`}
-                render={({ field }) => (
-                  <FormItem>
-                    {index == 0 && <FormLabel>Name</FormLabel>}
-                    <FormControl>
-                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Name' />
-                    </FormControl>
-                    <FormMessage>
-                      {errors.availableDeliveryDates?.[index]?.name?.message}
-                    </FormMessage>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`availableDeliveryDates.${index}.daysToDeliver`}
-                render={({ field }) => (
-                  <FormItem>
-                    {index == 0 && <FormLabel>Days</FormLabel>}
-                    <FormControl>
-                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='daysToDeliver' />
-                    </FormControl>
-                    <FormMessage>
-                      {
-                        errors.availableDeliveryDates?.[index]?.daysToDeliver
-                          ?.message
-                      }
-                    </FormMessage>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`availableDeliveryDates.${index}.shippingPrice`}
-                render={({ field }) => (
-                  <FormItem>
-                    {index == 0 && <FormLabel>Shipping Price</FormLabel>}
-                    <FormControl>
-                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='shippingPrice' />
-                    </FormControl>
-                    <FormMessage>
-                      {
-                        errors.availableDeliveryDates?.[index]?.shippingPrice
-                          ?.message
-                      }
-                    </FormMessage>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`availableDeliveryDates.${index}.freeShippingMinPrice`}
-                render={({ field }) => (
-                  <FormItem>
-                    {index == 0 && <FormLabel>Free Shipping</FormLabel>}
-                    <FormControl>
-                      <Input className="bg-white dark:bg-gray-950" {...field} placeholder='freeShippingMinPrice' />
-                    </FormControl>
-                    <FormMessage>
-                      {
-                        errors.availableDeliveryDates?.[index]
-                          ?.freeShippingMinPrice?.message
-                      }
-                    </FormMessage>
-                  </FormItem>
-                )}
-              />
-              <div>
-                {index == 0 && <div className=''>Action</div>}
-                <Button
-                  type='button'
-                  disabled={fields.length === 1}
-                  variant='outline'
-                  className={index == 0 ? 'mt-2' : ''}
-                  onClick={() => {
-                    remove(index)
-                  }}
-                >
-                  <TrashIcon className='w-4 h-4' />
-                </Button>
-              </div>{' '}
-            </div>
-          ))}
+          {isPending ? (
+            <Skeleton className='h-8 w-full' />
+          ) : (
+            fields.map((field, index) => (
+              <div key={field.id} className='flex gap-2'>
+                <FormField
+                  control={form.control}
+                  name={`availableDeliveryDates.${index}.name`}
+                  render={({ field }) => (
+                    <FormItem>
+                      {index == 0 && <FormLabel>Name</FormLabel>}
+                      <FormControl>
+                        <Input className="bg-white dark:bg-gray-950" {...field} placeholder='Name' />
+                      </FormControl>
+                      <FormMessage>
+                        {errors.availableDeliveryDates?.[index]?.name?.message}
+                      </FormMessage>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`availableDeliveryDates.${index}.daysToDeliver`}
+                  render={({ field }) => (
+                    <FormItem>
+                      {index == 0 && <FormLabel>Days</FormLabel>}
+                      <FormControl>
+                        <Input className="bg-white dark:bg-gray-950" {...field} placeholder='daysToDeliver' />
+                      </FormControl>
+                      <FormMessage>
+                        {
+                          errors.availableDeliveryDates?.[index]?.daysToDeliver
+                            ?.message
+                        }
+                      </FormMessage>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`availableDeliveryDates.${index}.shippingPrice`}
+                  render={({ field }) => (
+                    <FormItem>
+                      {index == 0 && <FormLabel>Shipping Price</FormLabel>}
+                      <FormControl>
+                        <Input className="bg-white dark:bg-gray-950" {...field} placeholder='shippingPrice' />
+                      </FormControl>
+                      <FormMessage>
+                        {
+                          errors.availableDeliveryDates?.[index]?.shippingPrice
+                            ?.message
+                        }
+                      </FormMessage>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`availableDeliveryDates.${index}.freeShippingMinPrice`}
+                  render={({ field }) => (
+                    <FormItem>
+                      {index == 0 && <FormLabel>Free Shipping</FormLabel>}
+                      <FormControl>
+                        <Input className="bg-white dark:bg-gray-950" {...field} placeholder='freeShippingMinPrice' />
+                      </FormControl>
+                      <FormMessage>
+                        {
+                          errors.availableDeliveryDates?.[index]
+                            ?.freeShippingMinPrice?.message
+                        }
+                      </FormMessage>
+                    </FormItem>
+                  )}
+                />
+                <div>
+                  {index == 0 && <div className=''>Action</div>}
+                  <Button
+                    type='button'
+                    disabled={fields.length === 1}
+                    variant='outline'
+                    className={index == 0 ? 'mt-2' : ''}
+                    onClick={() => {
+                      remove(index)
+                    }}
+                  >
+                    <TrashIcon className='w-4 h-4' />
+                  </Button>
+                </div>{' '}
+              </div>
+            ))
+          )}
 
           <Button
             type='button'
@@ -167,23 +174,27 @@ export default function DeliveryDateForm({
             <FormItem>
               <FormLabel>Default DeliveryDate</FormLabel>
               <FormControl>
-                <Select
-                  value={field.value || ''}
-                  onValueChange={(value) => field.onChange(value)}
-                >
-                  <SelectTrigger className="bg-white dark:bg-gray-950">
-                    <SelectValue placeholder='Select a delivery date' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {availableDeliveryDates
-                      .filter((x) => x.name)
-                      .map((lang, index) => (
-                        <SelectItem key={index} value={lang.name}>
-                          {lang.name} ({lang.name})
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
+                {isPending ? (
+                  <Skeleton className='h-8 w-full' />
+                ) : (
+                  <Select
+                    value={field.value || ''}
+                    onValueChange={(value) => field.onChange(value)}
+                  >
+                    <SelectTrigger className="bg-white dark:bg-gray-950">
+                      <SelectValue placeholder='Select a delivery date' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableDeliveryDates
+                        .filter((x) => x.name)
+                        .map((lang, index) => (
+                          <SelectItem key={index} value={lang.name}>
+                            {lang.name} ({lang.name})
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                )}
               </FormControl>
               <FormMessage>{errors.defaultDeliveryDate?.message}</FormMessage>
             </FormItem>

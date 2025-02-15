@@ -19,13 +19,16 @@ import { COLORS, THEMES } from '@/lib/constants'
 import { ISettingInput } from '@/types'
 import React from 'react'
 import { UseFormReturn } from 'react-hook-form'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function CommonForm({
   form,
-  id
+  id,
+  isPending
 }: {
   form: UseFormReturn<ISettingInput>
   id: string
+  isPending: boolean
 }) {
   const { control } = form
 
@@ -43,11 +46,13 @@ export default function CommonForm({
               <FormItem className="w-full">
                 <FormLabel>Page Size</FormLabel>
                 <FormControl>
-                  <Input
-                    className="bg-white dark:bg-gray-950"
-                    placeholder="Enter Page Size"
-                    {...field}
-                  />
+                  {isPending
+                    ? <Skeleton className="h-10 w-full" />
+                    : <Input
+                        className="bg-white dark:bg-gray-950"
+                        placeholder="Enter Page Size"
+                        {...field}
+                      />}
                 </FormControl>
                 <FormMessage />
               </FormItem>}
@@ -59,11 +64,13 @@ export default function CommonForm({
               <FormItem className="w-full">
                 <FormLabel>Free Shipping Minimum Price</FormLabel>
                 <FormControl>
-                  <Input
-                    className="bg-white dark:bg-gray-950"
-                    placeholder="Enter Free Shipping Minimum Price"
-                    {...field}
-                  />
+                  {isPending
+                    ? <Skeleton className="h-10 w-full" />
+                    : <Input
+                        className="bg-white dark:bg-gray-950"
+                        placeholder="Enter Free Shipping Minimum Price"
+                        {...field}
+                      />}
                 </FormControl>
                 <FormMessage />
               </FormItem>}
@@ -77,21 +84,23 @@ export default function CommonForm({
               <FormItem className="w-full">
                 <FormLabel>Default Color</FormLabel>
                 <FormControl>
-                  <Select
-                    value={field.value || ''}
-                    onValueChange={value => field.onChange(value)}
-                  >
-                    <SelectTrigger className="bg-white dark:bg-gray-950">
-                      <SelectValue placeholder="Select a color" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {COLORS.map((color, index) =>
-                        <SelectItem key={index} value={color}>
-                          {color}
-                        </SelectItem>
-                      )}
-                    </SelectContent>
-                  </Select>
+                  {isPending
+                    ? <Skeleton className="h-10 w-full" />
+                    : <Select
+                        value={field.value || ''}
+                        onValueChange={value => field.onChange(value)}
+                      >
+                        <SelectTrigger className="bg-white dark:bg-gray-950">
+                          <SelectValue placeholder="Select a color" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {COLORS.map((color, index) =>
+                            <SelectItem key={index} value={color}>
+                              {color}
+                            </SelectItem>
+                          )}
+                        </SelectContent>
+                      </Select>}
                 </FormControl>
                 <FormMessage />
               </FormItem>}
@@ -103,21 +112,23 @@ export default function CommonForm({
               <FormItem className="w-full">
                 <FormLabel>Default Theme</FormLabel>
                 <FormControl>
-                  <Select
-                    value={field.value || ''}
-                    onValueChange={value => field.onChange(value)}
-                  >
-                    <SelectTrigger className="bg-white dark:bg-gray-950">
-                      <SelectValue placeholder="Select a theme" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {THEMES.map((theme, index) =>
-                        <SelectItem key={index} value={theme}>
-                          {theme}
-                        </SelectItem>
-                      )}
-                    </SelectContent>
-                  </Select>
+                  {isPending
+                    ? <Skeleton className="h-10 w-full" />
+                    : <Select
+                        value={field.value || ''}
+                        onValueChange={value => field.onChange(value)}
+                      >
+                        <SelectTrigger className="bg-white dark:bg-gray-950">
+                          <SelectValue placeholder="Select a theme" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {THEMES.map((theme, index) =>
+                            <SelectItem key={index} value={theme}>
+                              {theme}
+                            </SelectItem>
+                          )}
+                        </SelectContent>
+                      </Select>}
                 </FormControl>
                 <FormMessage />
               </FormItem>}
@@ -130,10 +141,12 @@ export default function CommonForm({
             render={({ field }) =>
               <FormItem className="space-x-2 items-center">
                 <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
+                  {isPending
+                    ? <Skeleton className="h-6 w-6" />
+                    : <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />}
                 </FormControl>
                 <FormLabel>Maintenance Mode?</FormLabel>
                 <FormMessage />

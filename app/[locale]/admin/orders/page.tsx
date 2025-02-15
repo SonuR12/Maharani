@@ -18,10 +18,12 @@ import { formatDateTime, formatId } from '@/lib/utils'
 import { IOrderList } from '@/types'
 import ProductPrice from '@/components/shared/product/product-price'
 import { redirect } from 'next/navigation'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export const metadata: Metadata = {
   title: 'Admin Orders',
 }
+
 export default async function OrdersPage({
   searchParams,
 }: {
@@ -30,14 +32,14 @@ export default async function OrdersPage({
   const { page = '1' } = await searchParams
 
   const session = await auth()
-  if (session?.user.role !== 'Admin'){
-    // throw new Error('Admin permission required')
+  if (session?.user.role !== 'Admin') {
     redirect('/')
   }
 
   const orders = await getAllOrders({
     page: Number(page),
   })
+
   return (
     <div className='py-4'>
       <h1 className='h1-bold text-xl select-none'>Orders</h1>
@@ -55,41 +57,39 @@ export default async function OrdersPage({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders.data.map((order: IOrderList) => (
-              <TableRow key={order._id}>
-                <TableCell>{formatId(order._id)}</TableCell>
-                <TableCell>
-                  {formatDateTime(order.createdAt!).dateTime}
-                </TableCell>
-                <TableCell>
-                  {order.user ? order.user.name : 'Deleted User'}
-                </TableCell>
-                <TableCell>
-                  <ProductPrice price={order.totalPrice} plain />
-                </TableCell>
-                <TableCell>
-                  {order.isPaid && order.paidAt
-                    ? formatDateTime(order.paidAt).dateTime
-                    : 'No'}
-                </TableCell>
-                <TableCell>
-                  {order.isDelivered && order.deliveredAt
-                    ? formatDateTime(order.deliveredAt).dateTime
-                    : 'No'}
-                </TableCell>
-                <TableCell className='flex gap-1'>
-                  <Button asChild variant='outline' size='sm' className="drop-shadow-xl">
-                    <Link href={`/admin/orders/${order._id}`}>Details</Link>
-                  </Button>
-                  <DeleteDialog id={order._id} action={deleteOrder} />
-                </TableCell>
-              </TableRow>
-            ))}
+            {orders ? orders.data.map((order: IOrderList) => (
+                  <TableRow key={order._id}>
+                    <TableCell>{formatId(order._id)}</TableCell>
+                    <TableCell>{formatDateTime(order.createdAt!).dateTime}</TableCell>
+                    <TableCell>{order.user ? order.user.name : 'Deleted User'}</TableCell>
+                    <TableCell><ProductPrice price={order.totalPrice} plain /></TableCell>
+                    <TableCell>{order.isPaid && order.paidAt ? formatDateTime(order.paidAt).dateTime : 'No'}</TableCell>
+                    <TableCell>{order.isDelivered && order.deliveredAt ? formatDateTime(order.deliveredAt).dateTime : 'No'}</TableCell>
+                    <TableCell className='flex gap-1'>
+                      <Button asChild variant='outline' size='sm' className='drop-shadow-xl'>
+                        <Link href={`/admin/orders/${order._id}`}>Details</Link>
+                      </Button>
+                      <DeleteDialog id={order._id} action={deleteOrder} />
+                    </TableCell>
+                  </TableRow>
+                ))
+              : Array.from({ length: 5 }).map((_, index) => (
+                  <TableRow key={index}>
+                    <TableCell><Skeleton className='h-4 w-16' /></TableCell>
+                    <TableCell><Skeleton className='h-4 w-24' /></TableCell>
+                    <TableCell><Skeleton className='h-4 w-32' /></TableCell>
+                    <TableCell><Skeleton className='h-4 w-16' /></TableCell>
+                    <TableCell><Skeleton className='h-4 w-12' /></TableCell>
+                    <TableCell><Skeleton className='h-4 w-12' /></TableCell>
+                    <TableCell className='flex gap-1'>
+                      <Skeleton className='h-8 w-16' />
+                      <Skeleton className='h-8 w-16' />
+                    </TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
-        {orders.totalPages > 1 && (
-          <Pagination page={page} totalPages={orders.totalPages!} />
-        )}
+        {orders?.totalPages > 1 && <Pagination page={page} totalPages={orders.totalPages!} />}
       </div>
     </div>
   )

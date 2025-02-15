@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { useState, useEffect } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -27,9 +28,24 @@ import { updateUser } from '@/lib/actions/user.actions'
 import { USER_ROLES } from '@/lib/constants'
 import { IUser } from '@/lib/db/models/user.model'
 import { UserUpdateSchema } from '@/lib/validator'
+import { Skeleton } from '@/components/ui/skeleton'
 
-const UserEditForm = ({ user }: { user: IUser }) => {
+const UserEditForm = ({
+  user,
+  isLoading
+}: {
+  user: IUser
+  isLoading: boolean
+}) => {
   const router = useRouter()
+  const [loading, setLoading] = useState(isLoading)
+
+  useEffect(
+    () => {
+      setLoading(isLoading)
+    },
+    [isLoading]
+  )
 
   const form = useForm<z.infer<typeof UserUpdateSchema>>({
     resolver: zodResolver(UserUpdateSchema),
@@ -38,6 +54,7 @@ const UserEditForm = ({ user }: { user: IUser }) => {
 
   const { toast } = useToast()
   async function onSubmit(values: z.infer<typeof UserUpdateSchema>) {
+    setLoading(true)
     try {
       const res = await updateUser({
         ...values,
@@ -61,7 +78,25 @@ const UserEditForm = ({ user }: { user: IUser }) => {
         description:
           error instanceof Error ? error.message : 'An unknown error occurred'
       })
+    } finally {
+      setLoading(false)
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="space-y-8">
+        <div className="flex flex-col gap-5 md:flex-row">
+          <Skeleton className="w-full h-10" />
+          <Skeleton className="w-full h-10" />
+        </div>
+        <Skeleton className="w-full h-10" />
+        <div className="flex-between">
+          <Skeleton className="w-32 h-10" />
+          <Skeleton className="w-32 h-10" />
+        </div>
+      </div>
+    )
   }
 
   return (

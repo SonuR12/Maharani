@@ -19,13 +19,16 @@ import { ISettingInput } from '@/types'
 import { TrashIcon } from 'lucide-react'
 import React, { useEffect } from 'react'
 import { useFieldArray, UseFormReturn } from 'react-hook-form'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function CurrencyForm({
   form,
   id,
+  isPending,
 }: {
   form: UseFormReturn<ISettingInput>
   id: string
+  isPending: boolean
 }) {
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -66,7 +69,11 @@ export default function CurrencyForm({
                     {' '}
                     {index == 0 && <FormLabel>Name</FormLabel>}
                     <FormControl>
-                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Name' />
+                      {isPending ? (
+                        <Skeleton className="h-10 w-full" />
+                      ) : (
+                        <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Name' />
+                      )}
                     </FormControl>
                     <FormMessage>
                       {errors.availableCurrencies?.[index]?.name?.message}
@@ -82,7 +89,11 @@ export default function CurrencyForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Code</FormLabel>}
                     <FormControl>
-                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Code' />
+                      {isPending ? (
+                        <Skeleton className="h-10 w-full" />
+                      ) : (
+                        <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Code' />
+                      )}
                     </FormControl>
                     <FormMessage>
                       {errors.availableCurrencies?.[index]?.code?.message}
@@ -97,7 +108,11 @@ export default function CurrencyForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Symbol</FormLabel>}
                     <FormControl>
-                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Symbol' />
+                      {isPending ? (
+                        <Skeleton className="h-10 w-full" />
+                      ) : (
+                        <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Symbol' />
+                      )}
                     </FormControl>
                     <FormMessage>
                       {errors.availableCurrencies?.[index]?.symbol?.message}
@@ -113,7 +128,11 @@ export default function CurrencyForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Convert Rate</FormLabel>}
                     <FormControl>
-                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Convert Rate' />
+                      {isPending ? (
+                        <Skeleton className="h-10 w-full" />
+                      ) : (
+                        <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Convert Rate' />
+                      )}
                     </FormControl>
                     <FormMessage>
                       {
@@ -159,23 +178,27 @@ export default function CurrencyForm({
             <FormItem>
               <FormLabel>Default Currency</FormLabel>
               <FormControl>
-                <Select
-                  value={field.value || ''}
-                  onValueChange={(value) => field.onChange(value)}
-                >
-                  <SelectTrigger className="bg-white dark:bg-gray-950">
-                    <SelectValue placeholder='Select a currency' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {availableCurrencies
-                      .filter((x) => x.code)
-                      .map((lang, index) => (
-                        <SelectItem key={index} value={lang.code}>
-                          {lang.name} ({lang.code})
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
+                {isPending ? (
+                  <Skeleton className="h-10 w-full" />
+                ) : (
+                  <Select
+                    value={field.value || ''}
+                    onValueChange={(value) => field.onChange(value)}
+                  >
+                    <SelectTrigger className="bg-white dark:bg-gray-950">
+                      <SelectValue placeholder='Select a currency' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableCurrencies
+                        .filter((x) => x.code)
+                        .map((lang, index) => (
+                          <SelectItem key={index} value={lang.code}>
+                            {lang.name} ({lang.code})
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                )}
               </FormControl>
               <FormMessage>{errors.defaultCurrency?.message}</FormMessage>
             </FormItem>

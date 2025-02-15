@@ -13,12 +13,21 @@ import LanguageForm from './language-form'
 import CurrencyForm from './currency-form'
 import PaymentMethodForm from './payment-method-form'
 import DeliveryDateForm from './delivery-date-form'
-import SiteInfoForm from './site-info-form'
 import CommonForm from './common-form'
 import CarouselForm from './carousel-form'
+import SiteInfoForm from './site-info-form'
+import { useState, useEffect } from 'react'
 
 const SettingForm = ({ setting }: { setting: ISettingInput }) => {
   const { setSetting } = useSetting()
+  const [isPending, setisPending] = useState(true)
+
+  useEffect(() => {
+    // Simulate data fetching
+    setTimeout(() => {
+      setisPending(false)
+    }, 2000)
+  }, [])
 
   const form = useForm<ISettingInput>({
     resolver: zodResolver(SettingInputSchema),
@@ -49,17 +58,41 @@ const SettingForm = ({ setting }: { setting: ISettingInput }) => {
         method="post"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <SiteInfoForm id="setting-site-info" form={form} />
-        <CommonForm id="setting-common" form={form} />
-        <CarouselForm id="setting-carousels" form={form} />
+        <SiteInfoForm
+          id="setting-site-info"
+          form={form}
+          isPending={isPending}
+        />
+        <CommonForm id="setting-common" form={form} isPending={isPending} />
+        <CarouselForm
+          id="setting-carousels"
+          form={form}
+          isPending={isPending}
+        />
 
-        <LanguageForm id="setting-languages" form={form} />
+        <LanguageForm
+          id="setting-languages"
+          form={form}
+          isPending={isPending}
+        />
 
-        <CurrencyForm id="setting-currencies" form={form} />
+        <CurrencyForm
+          id="setting-currencies"
+          form={form}
+          isPending={isPending}
+        />
 
-        <PaymentMethodForm id="setting-payment-methods" form={form} />
+        <PaymentMethodForm
+          id="setting-payment-methods"
+          form={form}
+          isPending={isPending}
+        />
 
-        <DeliveryDateForm id="setting-delivery-dates" form={form} />
+        <DeliveryDateForm
+          id="setting-delivery-dates"
+          form={form}
+          isPending={isPending}
+        />
 
         <div>
           <Button

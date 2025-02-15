@@ -25,6 +25,8 @@ import { ProductInputSchema, ProductUpdateSchema } from '@/lib/validator'
 import { Checkbox } from '@/components/ui/checkbox'
 import { toSlug } from '@/lib/utils'
 import { IProductInput } from '@/types'
+import { useState, useEffect } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const productDefaultValues: IProductInput = {
   name: '',
@@ -57,6 +59,16 @@ const ProductForm = ({
   productId?: string
 }) => {
   const router = useRouter()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(
+    () => {
+      if (product || type === 'Create') {
+        setLoading(false)
+      }
+    },
+    [product, type]
+  )
 
   const form = useForm<IProductInput>({
     resolver:
@@ -99,6 +111,19 @@ const ProductForm = ({
     }
   }
   const images = form.watch('images')
+
+  if (loading) {
+    return (
+      <div className="space-y-8">
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-10 w-full" />
+      </div>
+    )
+  }
 
   return (
     <Form {...form}>

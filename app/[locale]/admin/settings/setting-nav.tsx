@@ -1,5 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   CreditCard,
   Currency,
@@ -15,8 +16,12 @@ import { FaChevronRight } from 'react-icons/fa'
 
 const SettingNav = () => {
   const [active, setActive] = useState('')
+  const [isPending, setisPending] = useState(true)
 
   useEffect(() => {
+    // Simulate isPending delay
+    setTimeout(() => setisPending(false), 2000)
+
     const sections = document.querySelectorAll('div[id^="setting-"]')
 
     const observer = new IntersectionObserver(
@@ -79,22 +84,32 @@ const SettingNav = () => {
       <div className="md:sticky !top-[4.5rem]">
         <h1 className="h1-bold text-2xl">Settings</h1>
         <nav className="flex md:flex-col gap-2 md:mt-[10vh] flex-wrap">
-          {settinglinks.map(item =>
-            <Button
-              onClick={() => handleScroll(item.hash)}
-              key={item.hash}
-              variant={active === item.hash ? 'outline' : 'ghost'}
-              className={`justify-start drop-shadow-xl border border-none ${active ===
-              item.hash
-                ? 'bg-primary hover:bg-primary hover:text-black text-black'
-                : 'hover:bg-gray-300 dark:hover:bg-gray-800 text-gray-600 hover:text-black dark:text-white'}`}
-            >
-              {item.icon}
-              {item.name}
-              {active === item.hash &&
-                <FaChevronRight className="!h-4 !w-4 ml-auto" />}
-            </Button>
-          )}
+          {isPending
+            ? <div className="flex flex-col gap-2 items-center">
+                <Skeleton className="w-full h-10" />
+                <Skeleton className="w-full h-10" />
+                <Skeleton className="w-full h-10" />
+                <Skeleton className="w-full h-10" />
+                <Skeleton className="w-full h-10" />
+                <Skeleton className="w-full h-10" />
+                <Skeleton className="w-full h-10" />
+              </div>
+            : settinglinks.map(item =>
+                <Button
+                  onClick={() => handleScroll(item.hash)}
+                  key={item.hash}
+                  variant={active === item.hash ? 'outline' : 'ghost'}
+                  className={`justify-start border border-none ${active ===
+                  item.hash
+                    ? 'bg-primary hover:bg-primary hover:text-black text-black'
+                    : 'hover:bg-gray-300 dark:hover:bg-gray-800 text-gray-600 hover:text-black dark:text-white'}`}
+                >
+                  {item.icon}
+                  {item.name}
+                  {active === item.hash &&
+                    <FaChevronRight className="!h-4 !w-4 ml-auto" />}
+                </Button>
+              )}
         </nav>
       </div>
     </div>

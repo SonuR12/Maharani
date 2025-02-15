@@ -22,6 +22,7 @@ import React, { useEffect, useState, useTransition } from 'react'
 import { Input } from '@/components/ui/input'
 import { formatDateTime, formatId } from '@/lib/utils'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type ProductListDataProps = {
   products: IProduct[]
@@ -77,6 +78,111 @@ const ProductList = () => {
     })
   }, [])
 
+  if (isPending) {
+    return (
+      <div>
+        <div className='py-4 h-full'>
+          <div className='flex-between flex-wrap gap-2'>
+            <div className='flex flex-wrap items-center gap-2 '>
+              <h1 className='font-bold text-lg select-none'>Products</h1>
+              <div className='flex flex-wrap items-center  gap-2 '>
+                <Input
+                  className='w-72 border border-gray-400'
+                  type='text '
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  placeholder='Filter name...'
+                />
+                <Skeleton className='w-28 h-6' />
+              </div>
+            </div>
+            <Button asChild variant='default' className='drop-shadow-xl  bg-yellow-400 hover:bg-yellow-500'>
+              <Link href='/admin/products/create'><Skeleton className="h-5 w-24" /></Link>
+            </Button>
+          </div>
+          <div>
+          <Table>
+            <TableHeader>
+              <TableRow className='select-none'>
+                <TableHead><Skeleton className="h-5 w-12" /></TableHead>
+                <TableHead><Skeleton className="h-5 w-12" /></TableHead>
+                <TableHead><Skeleton className="h-5 w-12" /></TableHead>
+                <TableHead><Skeleton className="h-5 w-12" /></TableHead>
+                <TableHead><Skeleton className="h-5 w-12" /></TableHead>
+                <TableHead><Skeleton className="h-5 w-12" /></TableHead>
+                <TableHead><Skeleton className="h-5 w-12" /></TableHead>
+                <TableHead><Skeleton className="h-5 w-12" /></TableHead>
+                <TableHead><Skeleton className="h-5 w-12" /></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data?.products.map((product: IProduct) => (
+                <TableRow key={product._id}>
+                  <TableCell><Skeleton className="h-5 w-12" /></TableCell>
+                  <TableCell>
+                    <Link href={`/admin/products/${product._id}`}>
+                    <Skeleton className="h-5 w-60" />
+                    </Link>
+                  </TableCell>
+                  <TableCell className='text-right'><Skeleton className="h-5 w-12" /></TableCell>
+                  <TableCell><Skeleton className="h-5 w-12" /></TableCell>
+                  <TableCell><Skeleton className="h-5 w-12" /></TableCell>
+                  <TableCell><Skeleton className="h-5 w-12" /></TableCell>
+                  <TableCell><Skeleton className="h-5 w-12" /></TableCell>
+                  <TableCell>
+                  <Skeleton className="h-5 w-12" />
+                  </TableCell>
+                  <TableCell className='flex gap-1'>
+                    <Button asChild variant='outline' size='sm' className='drop-shadow-xl'>
+                      <Link href={`/admin/products/${product._id}`}><Skeleton className="h-5 w-5" /></Link>
+                    </Button>
+                    <Button asChild variant='outline' size='sm' className='drop-shadow-xl'>
+                      <Link target='_blank' href={`/product/${product.slug}`}><Skeleton className="h-5 w-5" /></Link>
+                    </Button>
+                    <DeleteDialog 
+                      id={product._id}
+                      action={deleteProduct}
+                      callbackAction={() => {
+                        startTransition(async () => {
+                          const data = await getAllProductsForAdmin({
+                            query: inputValue,
+                          })
+                          setData(data)
+                        })
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          {(data?.totalPages ?? 0) > 1 && (
+            <div className='flex items-center gap-2'>
+              <Button
+                variant='outline'
+                onClick={() => handlePageChange('prev')}
+                disabled={Number(page) <= 1}
+                className='w-24'
+              >
+                <Skeleton className="h-5 w-5" />
+              </Button>
+              <Skeleton className="h-5 w-28" />
+              <Button
+                variant='outline'
+                onClick={() => handlePageChange('next')}
+                disabled={Number(page) >= (data?.totalPages ?? 0)}
+                className='w-24'
+              >
+                <Skeleton className="h-5 w-5" />
+              </Button>
+            </div>
+          )}
+        </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div>
       <div className='py-4 h-full'>
@@ -92,16 +198,11 @@ const ProductList = () => {
                 placeholder='Filter name...'
               />
 
-              {isPending ? (
-                <p>Loading...</p>
-              ) : (
-                <p>
-                  {data?.totalProducts === 0
-                    ? 'No'
-                    : `${data?.from}-${data?.to} of ${data?.totalProducts}`}
-                  {' results'}
-                </p>
-              )}
+              <p>
+                {data?.totalProducts === 0
+                  ? 'No results'
+                  : `${data?.from}-${data?.to} of ${data?.totalProducts} results`}
+              </p>
             </div>
           </div>
 
@@ -193,3 +294,4 @@ const ProductList = () => {
 }
 
 export default ProductList
+

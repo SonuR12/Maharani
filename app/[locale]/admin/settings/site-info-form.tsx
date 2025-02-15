@@ -16,13 +16,16 @@ import { ISettingInput } from '@/types'
 import { TrashIcon } from 'lucide-react'
 import React from 'react'
 import { UseFormReturn } from 'react-hook-form'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function SiteInfoForm({
   form,
-  id
+  id,
+  isPending
 }: {
   form: UseFormReturn<ISettingInput>
   id: string
+  isPending: boolean
 }) {
   const { watch, control } = form
 
@@ -41,17 +44,17 @@ export default function SiteInfoForm({
               <FormItem className="w-full">
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input
-                    className="bg-white dark:bg-gray-950"
-                    placeholder="Enter site name"
-                    {...field}
-                  />
+                  {isPending
+                    ? <Skeleton className="h-10 w-full" />
+                    : <Input
+                        className="bg-white dark:bg-gray-950"
+                        placeholder="Enter site name"
+                        {...field}
+                      />}
                 </FormControl>
-
                 <FormMessage />
               </FormItem>}
           />
-
           <FormField
             control={control}
             name="site.url"
@@ -59,13 +62,14 @@ export default function SiteInfoForm({
               <FormItem className="w-full">
                 <FormLabel>Url</FormLabel>
                 <FormControl>
-                  <Input
-                    className="bg-white dark:bg-gray-950"
-                    placeholder="Enter url"
-                    {...field}
-                  />
+                  {isPending
+                    ? <Skeleton className="h-10 w-full" />
+                    : <Input
+                        className="bg-white dark:bg-gray-950"
+                        placeholder="Enter url"
+                        {...field}
+                      />}
                 </FormControl>
-
                 <FormMessage />
               </FormItem>}
           />
@@ -79,29 +83,32 @@ export default function SiteInfoForm({
                 <FormItem className="w-full">
                   <FormLabel>Logo</FormLabel>
                   <FormControl>
-                    <Input
-                      className="bg-white dark:bg-gray-950"
-                      placeholder="Enter image url"
-                      {...field}
-                    />
+                    {isPending
+                      ? <Skeleton className="h-10 w-full" />
+                      : <Input
+                          className="bg-white dark:bg-gray-950"
+                          placeholder="Enter image url"
+                          {...field}
+                        />}
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>}
             />
-
-            {siteLogo &&
-              <div className="flex my-2 items-center gap-2">
-                <img src={siteLogo} alt="logo" width={48} height={48} />
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => form.setValue('site.logo', '')}
-                >
-                  <TrashIcon className="w-4 h-4" />
-                </Button>
-              </div>}
+            {isPending
+              ? <Skeleton className="h-12 w-12 mt-2" />
+              : siteLogo &&
+                <div className="flex my-2 items-center gap-2">
+                  <img src={siteLogo} alt="logo" width={48} height={48} />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => form.setValue('site.logo', '')}
+                  >
+                    <TrashIcon className="w-4 h-4" />
+                  </Button>
+                </div>}
             {!siteLogo &&
+              !isPending &&
               <UploadButton
                 className="!items-start py-2"
                 endpoint="imageUploader"
@@ -123,13 +130,14 @@ export default function SiteInfoForm({
               <FormItem className="w-full">
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Textarea
-                    className="h-40 bg-white dark:bg-gray-950"
-                    placeholder="Enter description"
-                    {...field}
-                  />
+                  {isPending
+                    ? <Skeleton className="h-40 w-full" />
+                    : <Textarea
+                        className="h-40 bg-white dark:bg-gray-950"
+                        placeholder="Enter description"
+                        {...field}
+                      />}
                 </FormControl>
-
                 <FormMessage />
               </FormItem>}
           />
@@ -142,13 +150,14 @@ export default function SiteInfoForm({
               <FormItem className="w-full">
                 <FormLabel>Slogan</FormLabel>
                 <FormControl>
-                  <Input
-                    className="bg-white dark:bg-gray-950"
-                    placeholder="Enter slogan name"
-                    {...field}
-                  />
+                  {isPending
+                    ? <Skeleton className="h-10 w-full" />
+                    : <Input
+                        className="bg-white dark:bg-gray-950"
+                        placeholder="Enter slogan name"
+                        {...field}
+                      />}
                 </FormControl>
-
                 <FormMessage />
               </FormItem>}
           />
@@ -159,13 +168,14 @@ export default function SiteInfoForm({
               <FormItem className="w-full">
                 <FormLabel>Keywords</FormLabel>
                 <FormControl>
-                  <Input
-                    className="bg-white dark:bg-gray-950"
-                    placeholder="Enter keywords"
-                    {...field}
-                  />
+                  {isPending
+                    ? <Skeleton className="h-10 w-full" />
+                    : <Input
+                        className="bg-white dark:bg-gray-950"
+                        placeholder="Enter keywords"
+                        {...field}
+                      />}
                 </FormControl>
-
                 <FormMessage />
               </FormItem>}
           />
@@ -178,13 +188,14 @@ export default function SiteInfoForm({
               <FormItem className="w-full">
                 <FormLabel>Phone</FormLabel>
                 <FormControl>
-                  <Input
-                    className="bg-white dark:bg-gray-950"
-                    placeholder="Enter phone number"
-                    {...field}
-                  />
+                  {isPending
+                    ? <Skeleton className="h-10 w-full" />
+                    : <Input
+                        className="bg-white dark:bg-gray-950"
+                        placeholder="Enter phone number"
+                        {...field}
+                      />}
                 </FormControl>
-
                 <FormMessage />
               </FormItem>}
           />
@@ -195,13 +206,14 @@ export default function SiteInfoForm({
               <FormItem className="w-full">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
-                    className="bg-white dark:bg-gray-950"
-                    placeholder="Enter email address"
-                    {...field}
-                  />
+                  {isPending
+                    ? <Skeleton className="h-10 w-full" />
+                    : <Input
+                        className="bg-white dark:bg-gray-950"
+                        placeholder="Enter email address"
+                        {...field}
+                      />}
                 </FormControl>
-
                 <FormMessage />
               </FormItem>}
           />
@@ -214,13 +226,14 @@ export default function SiteInfoForm({
               <FormItem className="w-full">
                 <FormLabel>Address</FormLabel>
                 <FormControl>
-                  <Input
-                    className="bg-white dark:bg-gray-950"
-                    placeholder="Enter address"
-                    {...field}
-                  />
+                  {isPending
+                    ? <Skeleton className="h-10 w-full" />
+                    : <Input
+                        className="bg-white dark:bg-gray-950"
+                        placeholder="Enter address"
+                        {...field}
+                      />}
                 </FormControl>
-
                 <FormMessage />
               </FormItem>}
           />
@@ -231,13 +244,14 @@ export default function SiteInfoForm({
               <FormItem className="w-full">
                 <FormLabel>Copyright</FormLabel>
                 <FormControl>
-                  <Input
-                    className="bg-white dark:bg-gray-950"
-                    placeholder="Enter copyright"
-                    {...field}
-                  />
+                  {isPending
+                    ? <Skeleton className="h-10 w-full" />
+                    : <Input
+                        className="bg-white dark:bg-gray-950"
+                        placeholder="Enter copyright"
+                        {...field}
+                      />}
                 </FormControl>
-
                 <FormMessage />
               </FormItem>}
           />

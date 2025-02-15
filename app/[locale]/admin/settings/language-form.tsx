@@ -19,13 +19,16 @@ import { ISettingInput } from '@/types'
 import { TrashIcon } from 'lucide-react'
 import React, { useEffect } from 'react'
 import { useFieldArray, UseFormReturn } from 'react-hook-form'
+import { Skeleton } from '@/components/ui/skeleton' // Add this import
 
 export default function LanguageForm({
   form,
   id,
+  isPending, // Add isPending prop
 }: {
   form: UseFormReturn<ISettingInput>
   id: string
+  isPending: boolean // Add isPending prop type
 }) {
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -57,7 +60,7 @@ export default function LanguageForm({
       <CardContent className='space-y-4'>
         <div className='space-y-4'>
           {fields.map((field, index) => (
-            <div key={field.id} className='flex   gap-2'>
+            <div key={field.id} className='flex gap-2'>
               <FormField
                 control={form.control}
                 name={`availableLanguages.${index}.name`}
@@ -65,7 +68,11 @@ export default function LanguageForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Name</FormLabel>}
                     <FormControl>
-                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Name' />
+                      {isPending ? (
+                        <Skeleton className="h-8 w-full" />
+                      ) : (
+                        <Input className="bg-white dark:bg-gray-950" {...field} placeholder='Name' />
+                      )}
                     </FormControl>
                     <FormMessage>
                       {errors.availableLanguages?.[index]?.name?.message}
@@ -81,7 +88,11 @@ export default function LanguageForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Code</FormLabel>}
                     <FormControl>
-                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Code' />
+                      {isPending ? (
+                        <Skeleton className="h-8 w-full" />
+                      ) : (
+                        <Input className="bg-white dark:bg-gray-950" {...field} placeholder='Code' />
+                      )}
                     </FormControl>
                     <FormMessage>
                       {errors.availableLanguages?.[index]?.code?.message}
@@ -122,23 +133,27 @@ export default function LanguageForm({
             <FormItem>
               <FormLabel>Default Language</FormLabel>
               <FormControl>
-                <Select
-                  value={field.value || ''}
-                  onValueChange={(value) => field.onChange(value)}
-                >
-                  <SelectTrigger className="bg-white dark:bg-gray-950">
-                    <SelectValue placeholder='Select a language' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {availableLanguages
-                      .filter((x) => x.code)
-                      .map((lang, index) => (
-                        <SelectItem key={index} value={lang.code}>
-                          {lang.name} ({lang.code})
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
+                {isPending ? (
+                  <Skeleton className="h-8 w-full" />
+                ) : (
+                  <Select
+                    value={field.value || ''}
+                    onValueChange={(value) => field.onChange(value)}
+                  >
+                    <SelectTrigger className="bg-white dark:bg-gray-950">
+                      <SelectValue placeholder='Select a language' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableLanguages
+                        .filter((x) => x.code)
+                        .map((lang, index) => (
+                          <SelectItem key={index} value={lang.code}>
+                            {lang.name} ({lang.code})
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                )}
               </FormControl>
               <FormMessage>{errors.defaultLanguage?.message}</FormMessage>
             </FormItem>
