@@ -12,7 +12,8 @@ export const metadata = {
 
 const AdminOrderDetailsPage = async (props: { params: { id: string } }) => {
   const { params } = props;
-  const { id } = await params;
+  const awaitedParams = await Promise.resolve(params); // Ensuring params is awaited
+  const { id } = awaitedParams;
 
   const order = await getOrderById(id);
   if (!order) notFound();
