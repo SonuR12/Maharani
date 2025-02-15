@@ -25,9 +25,9 @@ export const metadata: Metadata = {
 export default async function OrdersPage({
   searchParams,
 }: {
-  searchParams: { page: string }
+  searchParams: Promise<{ page: string }>
 }) {
-  const { page = '1' } = searchParams
+  const { page = '1' } = await searchParams
 
   const session = await auth()
   if (session?.user.role !== 'Admin'){
