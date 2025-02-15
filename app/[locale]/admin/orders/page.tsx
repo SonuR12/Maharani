@@ -27,8 +27,8 @@ export default async function OrdersPage({
 }: {
   searchParams: { page: string }
 }) {
-  // Await the searchParams
-  const { page = '1' } = await searchParams
+  const resolvedSearchParams = await searchParams
+  const { page = '1' } = resolvedSearchParams
 
   const session = await auth()
   if (session?.user.role !== 'Admin')
@@ -37,7 +37,6 @@ export default async function OrdersPage({
   const orders = await getAllOrders({
     page: Number(page),
   })
-  
   return (
     <div className='space-y-2'>
       <h1 className='h1-bold'>Orders</h1>
