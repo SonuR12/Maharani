@@ -1,19 +1,18 @@
-import { notFound } from 'next/navigation'
-import React from 'react'
+import { notFound } from 'next/navigation';
+import React from 'react';
 
-import { auth } from '@/auth'
-import { getOrderById } from '@/lib/actions/order.actions'
-import OrderDetailsForm from '@/components/shared/order/order-details-form'
-import Link from 'next/link'
+import { auth } from '@/auth';
+import { getOrderById } from '@/lib/actions/order.actions';
+import OrderDetailsForm from '@/components/shared/order/order-details-form';
+import Link from 'next/link';
 
 export const metadata = {
-  title: 'Admin Order Details'
-}
+  title: 'Admin Order Details',
+};
 
 const AdminOrderDetailsPage = async (props: { params: { id: string } }) => {
-  const { params } = props;
-  const awaitedParams = await Promise.resolve(params); // Ensuring params is awaited
-  const { id } = awaitedParams;
+  // Await the params to access id
+  const { id } = await props.params; // Awaiting params
 
   const order = await getOrderById(id);
   if (!order) notFound();
