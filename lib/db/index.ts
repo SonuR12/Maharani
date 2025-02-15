@@ -22,14 +22,9 @@ export const connectToDatabase = async (
     // Define mongoose options with the correct type
     const mongooseOptions: ConnectOptions = {
       bufferCommands: false,
-      bufferMaxEntries: 0,
-      useFindAndModify: false,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       maxPoolSize: 5,
       connectTimeoutMS: 10000,
       socketTimeoutMS: 45000,
-
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, mongooseOptions).then((mongoose) => {
