@@ -12,11 +12,11 @@ export const metadata: Metadata = {
   title: 'Sign In'
 }
 
-export default async function SignInPage({
-  searchParams = {}
-}: {
-  searchParams?: Record<string, string | undefined>
-}) {
+interface SignInPageProps {
+  searchParams: Record<string, string | undefined>
+}
+
+export default async function SignInPage({ searchParams }: SignInPageProps) {
   const { site } = await getSetting()
   const session = await auth()
 
@@ -34,7 +34,7 @@ export default async function SignInPage({
           Don&apos;t have a {site.name} account?
           <Link
             className="!text-red-500 hover:!text-red-400 ml-1 hover:underline"
-            href={`/sign-up`}
+            href="/sign-up"
           >
             Sign Up
           </Link>
