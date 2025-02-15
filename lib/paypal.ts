@@ -16,7 +16,7 @@ export const paypal = {
           {
             amount: {
               currency_code: 'USD',
-              value: price,
+              value: price
             },
           },
         ],
