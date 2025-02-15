@@ -1,10 +1,10 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useState, useEffect } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -23,28 +23,24 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/hooks/use-toast'
 import { updateUser } from '@/lib/actions/user.actions'
 import { USER_ROLES } from '@/lib/constants'
 import { IUser } from '@/lib/db/models/user.model'
 import { UserUpdateSchema } from '@/lib/validator'
-import { Skeleton } from '@/components/ui/skeleton'
 
-const UserEditForm = ({
-  user,
-  isLoading
-}: {
-  user: IUser
-  isLoading: boolean
-}) => {
+const UserEditForm = ({ user }: { user: IUser }) => {
   const router = useRouter()
-  const [loading, setLoading] = useState(isLoading)
+  const { toast } = useToast()
+
+  const [loading, setLoading] = useState(true)
 
   useEffect(
     () => {
-      setLoading(isLoading)
+      if (user) setLoading(false)
     },
-    [isLoading]
+    [user]
   )
 
   const form = useForm<z.infer<typeof UserUpdateSchema>>({
@@ -52,60 +48,38 @@ const UserEditForm = ({
     defaultValues: user
   })
 
-  const { toast } = useToast()
   async function onSubmit(values: z.infer<typeof UserUpdateSchema>) {
-    setLoading(true)
     try {
-      const res = await updateUser({
-        ...values,
-        _id: user._id
-      })
-      if (!res.success)
-        return toast({
-          variant: 'destructive',
-          description: res.message
-        })
+      const res = await updateUser({ ...values, _id: user._id })
+      if (!res.success) {
+        return toast({ variant: 'destructive', description: res.message })
+      }
 
-      toast({
-        description: res.message
-      })
+      toast({ description: res.message })
       form.reset()
       router.push(`/admin/users`)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error) {
       toast({
         variant: 'destructive',
         description:
           error instanceof Error ? error.message : 'An unknown error occurred'
       })
-    } finally {
-      setLoading(false)
     }
   }
 
   if (loading) {
     return (
-      <div className="space-y-8">
-        <div className="flex flex-col gap-5 md:flex-row">
-          <Skeleton className="w-full h-10" />
-          <Skeleton className="w-full h-10" />
-        </div>
-        <Skeleton className="w-full h-10" />
-        <div className="flex-between">
-          <Skeleton className="w-32 h-10" />
-          <Skeleton className="w-32 h-10" />
-        </div>
+      <div className="space-y-4">
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-10 w-full" />
       </div>
     )
   }
 
   return (
     <Form {...form}>
-      <form
-        method="post"
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="flex flex-col gap-5 md:flex-row">
           <FormField
             control={form.control}
@@ -114,11 +88,7 @@ const UserEditForm = ({
               <FormItem className="w-full">
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input
-                    className="bg-white dark:bg-gray-800"
-                    placeholder="Enter user name"
-                    {...field}
-                  />
+                  <Input placeholder="Enter user name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>}
@@ -130,11 +100,7 @@ const UserEditForm = ({
               <FormItem className="w-full">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
-                    className="bg-white dark:bg-gray-800"
-                    placeholder="Enter user email"
-                    {...field}
-                  />
+                  <Input placeholder="Enter user email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>}
@@ -152,11 +118,8 @@ const UserEditForm = ({
                   value={field.value.toString()}
                 >
                   <FormControl>
-                    <SelectTrigger className="bg-white dark:bg-gray-800">
-                      <SelectValue
-                        className="bg-white dark:bg-gray-800"
-                        placeholder="Select a role"
-                      />
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a role" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -167,14 +130,13 @@ const UserEditForm = ({
                     )}
                   </SelectContent>
                 </Select>
-
                 <FormMessage />
               </FormItem>}
           />
         </div>
         <div className="flex-between">
           <Button type="submit" disabled={form.formState.isSubmitting}>
-            {form.formState.isSubmitting ? 'Submitting...' : `Update User `}
+            {form.formState.isSubmitting ? 'Submitting...' : 'Update User'}
           </Button>
           <Button
             variant="outline"
