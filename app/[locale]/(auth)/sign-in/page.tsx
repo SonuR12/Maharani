@@ -17,15 +17,16 @@ interface SearchParams {
 }
 
 export default async function SignInPage({
-  searchParams = {} as SearchParams // Ensure searchParams is always an object
+  searchParams = Promise.resolve({}) as Promise<SearchParams> // Ensure searchParams is a promise
 }: {
-  searchParams?: SearchParams
+  searchParams?: Promise<SearchParams>
 }) {
   const { site } = await getSetting()
   const session = await auth()
 
   // Await searchParams to access its properties
-  const callbackUrl = (await searchParams)?.callbackUrl ?? '/'
+  const resolvedSearchParams = await searchParams
+  const callbackUrl = resolvedSearchParams?.callbackUrl ?? '/'
 
   if (session) {
     return redirect(callbackUrl)
