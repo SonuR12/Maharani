@@ -21,12 +21,14 @@ import ProductPrice from '@/components/shared/product/product-price'
 export const metadata: Metadata = {
   title: 'Admin Orders',
 }
+
 export default async function OrdersPage({
   searchParams,
 }: {
   searchParams: { page: string }
 }) {
-  const { page = '1' } = searchParams
+  // Await the searchParams
+  const { page = '1' } = await searchParams
 
   const session = await auth()
   if (session?.user.role !== 'Admin')
@@ -35,6 +37,7 @@ export default async function OrdersPage({
   const orders = await getAllOrders({
     page: Number(page),
   })
+  
   return (
     <div className='space-y-2'>
       <h1 className='h1-bold'>Orders</h1>
