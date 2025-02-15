@@ -19,7 +19,7 @@ export default async function Header() {
           <div className="flex items-center">
             <Link
               href="/"
-              className="flex items-center header-button font-extrabold text-2xl m-1 "
+              className="flex items-center gap-1 header-button font-extrabold text-2xl m-1 "
             >
               <Image
                 className="!h-8 !w-8"

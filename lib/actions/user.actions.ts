@@ -103,8 +103,10 @@ export const SignInWithGoogle = async () => {
   await signIn('google')
 }
 export const SignOut = async () => {
-  const redirectTo = await signOut({ redirect: false })
-  redirect(redirectTo.redirect)
+  await signOut({ redirect: false })
+  redirect('/')
+  // revalidatePath('/admin') // Revalidate the admin page
+  // redirect(`/sign-in?callbackUrl=${encodeURIComponent('/admin/overview')}`)
 }
 
 // GET
