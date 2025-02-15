@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default async function SignInPage({
   searchParams = {}
 }: {
-  searchParams?: { callbackUrl?: string }
+  searchParams?: Record<string, string | undefined>
 }) {
   const { site } = await getSetting()
   const session = await auth()
