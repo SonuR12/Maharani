@@ -10,13 +10,9 @@ export const metadata = {
   title: 'Admin Order Details'
 }
 
-const AdminOrderDetailsPage = async (props: {
-  params: {
-    id: string
-  }
-}) => {
-  // Await the params to access id
-  const { id } = await props.params;
+const AdminOrderDetailsPage = async ({ params }: { params: { id: string } }) => {
+  const awaitedParams = await params; // Ensuring params is awaited
+  const { id } = awaitedParams;
 
   const order = await getOrderById(id);
   if (!order) notFound();
@@ -34,7 +30,7 @@ const AdminOrderDetailsPage = async (props: {
         isAdmin={session?.user?.role === 'Admin' || false}
       />
     </main>
-  )
-}
+  );
+};
 
 export default AdminOrderDetailsPage;
