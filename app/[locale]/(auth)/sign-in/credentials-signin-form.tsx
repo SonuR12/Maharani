@@ -45,10 +45,13 @@ export default function CredentialsSignInForm() {
   const onSubmit = async (data: IUserSignIn) => {
     try {
       setPending(true)
-      await signInWithCredentials({
+      const result = await signInWithCredentials({
         email: data.email,
         password: data.password
       })
+      if (result.error) {
+        throw new Error(result.error)
+      }
       redirect(callbackUrl)
     } catch (error) {
       if (isRedirectError(error)) {

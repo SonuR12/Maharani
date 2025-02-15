@@ -89,7 +89,15 @@ export async function updateUserName(user: IUserName) {
 }
 
 export async function signInWithCredentials(user: IUserSignIn) {
-  return await signIn('credentials', { ...user, redirect: false })
+  try {
+    const result = await signIn('credentials', { ...user, redirect: false })
+    if (result.error) {
+      return { error: 'Invalid email or password' }
+    }
+    return result
+  } catch (error) {
+    return { error: 'An unexpected error occurred. Please try again.' }
+  }
 }
 export const SignInWithGoogle = async () => {
   await signIn('google')
