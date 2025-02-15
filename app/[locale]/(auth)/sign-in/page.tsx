@@ -7,16 +7,13 @@ import CredentialsSignInForm from './credentials-signin-form'
 import { GoogleSignInForm } from './google-signin-form'
 import { getSetting } from '@/lib/actions/setting.actions'
 import Image from 'next/image'
+import { NextPage } from 'next'
 
 export const metadata: Metadata = {
   title: 'Sign In'
 }
 
-interface SignInPageProps {
-  searchParams: Record<string, string | undefined>
-}
-
-export default async function SignInPage({ searchParams }: SignInPageProps) {
+const SignInPage: NextPage<{ searchParams: Record<string, string | undefined> }> = async ({ searchParams }) => {
   const { site } = await getSetting()
   const session = await auth()
 
@@ -52,3 +49,5 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
     </div>
   )
 }
+
+export default SignInPage
