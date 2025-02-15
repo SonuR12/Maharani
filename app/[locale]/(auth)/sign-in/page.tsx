@@ -23,7 +23,7 @@ export default async function SignInPage({ searchParams }: { searchParams: Recor
   return (
     <div className="flex md:flex-row w-[80vw] items-center min-h-[35rem] h-[70vh] rounded-3xl shadow-2xl my-20">
       <div className="md:w-1/2 p-12">
-        <h1 className="font-medium text-3xl">Sign In</h1>
+        <h1 className="font-medium text-3xl">hii</h1>
         <CredentialsSignInForm />
         <GoogleSignInForm />
         <div className="text-center text-sm my-7">
