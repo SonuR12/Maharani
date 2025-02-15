@@ -15,14 +15,13 @@ const AdminOrderDetailsPage = async (props: {
     id: string
   }
 }) => {
-  const params = await props.params
+  // Await the params to access id
+  const { id } = await props.params;
 
-  const { id } = params
+  const order = await getOrderById(id);
+  if (!order) notFound();
 
-  const order = await getOrderById(id)
-  if (!order) notFound()
-
-  const session = await auth()
+  const session = await auth();
 
   return (
     <main className="max-w-6xl mx-auto p-4">
@@ -33,10 +32,9 @@ const AdminOrderDetailsPage = async (props: {
       <OrderDetailsForm
         order={order}
         isAdmin={session?.user?.role === 'Admin' || false}
-        // isLoading={false}
       />
     </main>
   )
 }
 
-export default AdminOrderDetailsPage
+export default AdminOrderDetailsPage;
