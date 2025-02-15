@@ -65,7 +65,7 @@ export default function DeliveryDateForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Name</FormLabel>}
                     <FormControl>
-                      <Input {...field} placeholder='Name' />
+                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Name' />
                     </FormControl>
                     <FormMessage>
                       {errors.availableDeliveryDates?.[index]?.name?.message}
@@ -80,7 +80,7 @@ export default function DeliveryDateForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Days</FormLabel>}
                     <FormControl>
-                      <Input {...field} placeholder='daysToDeliver' />
+                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='daysToDeliver' />
                     </FormControl>
                     <FormMessage>
                       {
@@ -98,7 +98,7 @@ export default function DeliveryDateForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Shipping Price</FormLabel>}
                     <FormControl>
-                      <Input {...field} placeholder='shippingPrice' />
+                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='shippingPrice' />
                     </FormControl>
                     <FormMessage>
                       {
@@ -116,7 +116,7 @@ export default function DeliveryDateForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Free Shipping</FormLabel>}
                     <FormControl>
-                      <Input {...field} placeholder='freeShippingMinPrice' />
+                      <Input className="bg-white dark:bg-gray-950" {...field} placeholder='freeShippingMinPrice' />
                     </FormControl>
                     <FormMessage>
                       {
@@ -171,7 +171,7 @@ export default function DeliveryDateForm({
                   value={field.value || ''}
                   onValueChange={(value) => field.onChange(value)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-white dark:bg-gray-950">
                     <SelectValue placeholder='Select a delivery date' />
                   </SelectTrigger>
                   <SelectContent>

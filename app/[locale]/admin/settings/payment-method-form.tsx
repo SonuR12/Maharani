@@ -65,7 +65,7 @@ export default function PaymentMethodForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Name</FormLabel>}
                     <FormControl>
-                      <Input {...field} placeholder='Name' />
+                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Name' />
                     </FormControl>
                     <FormMessage>
                       {errors.availablePaymentMethods?.[index]?.name?.message}
@@ -80,7 +80,7 @@ export default function PaymentMethodForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Commission</FormLabel>}
                     <FormControl>
-                      <Input {...field} placeholder='Commission' />
+                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Commission' />
                     </FormControl>
                     <FormMessage>
                       {
@@ -128,7 +128,7 @@ export default function PaymentMethodForm({
                   value={field.value || ''}
                   onValueChange={(value) => field.onChange(value)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-white dark:bg-gray-950">
                     <SelectValue placeholder='Select a payment method' />
                   </SelectTrigger>
                   <SelectContent>

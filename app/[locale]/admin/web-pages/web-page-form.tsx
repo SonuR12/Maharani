@@ -101,7 +101,8 @@ const WebPageForm = ({
                 <FormLabel>Title</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter title"
+                    className="bg-white dark:bg-gray-800"
+                    placeholder="Enter title..."
                     {...field}
                     autoComplete="off"
                   />
@@ -121,8 +122,8 @@ const WebPageForm = ({
                 <FormControl>
                   <div className="relative">
                     <Input
-                      placeholder="Enter slug"
-                      className=""
+                      className="bg-white dark:bg-gray-800"
+                      placeholder="Enter slug..."
                       {...field}
                       autoComplete="off"
                     />
@@ -189,7 +190,7 @@ const WebPageForm = ({
             type="submit"
             size="lg"
             disabled={form.formState.isSubmitting}
-            className="button col-span-2 w-full"
+            className="button col-span-2 w-full drop-shadow-xl"
           >
             {form.formState.isSubmitting ? 'Submitting...' : `${type} Page `}
           </Button>

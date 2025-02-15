@@ -13,13 +13,13 @@ export default async function Header() {
   const { site } = await getSetting()
   const t = await getTranslations()
   return (
-    <header className="bg-white text-black fixed top-0 w-full z-50">
+    <header className="bg-white dark:bg-gray-900 dark:text-white text-black fixed top-0 w-full z-50">
       <div className="px-2 py-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Link
               href="/"
-              className="flex items-center gap-1 header-button font-extrabold text-2xl m-1 "
+              className="flex items-center header-button font-extrabold text-2xl m-1 "
             >
               <Image
                 className="!h-8 !w-8"

@@ -17,33 +17,34 @@ import { deleteOrder, getAllOrders } from '@/lib/actions/order.actions'
 import { formatDateTime, formatId } from '@/lib/utils'
 import { IOrderList } from '@/types'
 import ProductPrice from '@/components/shared/product/product-price'
+import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: 'Admin Orders',
 }
-
 export default async function OrdersPage({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string }>
+  searchParams: { page: string }
 }) {
-  const params = await searchParams
-  const { page = '1' } = params
+  const { page = '1' } = searchParams
 
   const session = await auth()
-  if (session?.user.role !== 'Admin')
-    throw new Error('Admin permission required')
+  if (session?.user.role !== 'Admin'){
+    // throw new Error('Admin permission required')
+    redirect('/')
+  }
 
   const orders = await getAllOrders({
     page: Number(page),
   })
   return (
-    <div className='space-y-2'>
-      <h1 className='h1-bold'>Orders</h1>
+    <div className='py-4'>
+      <h1 className='h1-bold text-xl select-none'>Orders</h1>
       <div className='overflow-x-auto'>
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className='select-none'>
               <TableHead>Id</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Buyer</TableHead>
@@ -77,7 +78,7 @@ export default async function OrdersPage({
                     : 'No'}
                 </TableCell>
                 <TableCell className='flex gap-1'>
-                  <Button asChild variant='outline' size='sm'>
+                  <Button asChild variant='outline' size='sm' className="drop-shadow-xl">
                     <Link href={`/admin/orders/${order._id}`}>Details</Link>
                   </Button>
                   <DeleteDialog id={order._id} action={deleteOrder} />

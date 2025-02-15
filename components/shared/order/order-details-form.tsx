@@ -11,7 +11,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
+  TableRow
 } from '@/components/ui/table'
 import { IOrder } from '@/lib/db/models/order.model'
 import { cn, formatDateTime } from '@/lib/utils'
@@ -22,7 +22,7 @@ import { deliverOrder, updateOrderToPaid } from '@/lib/actions/order.actions'
 
 export default function OrderDetailsForm({
   order,
-  isAdmin,
+  isAdmin
 }: {
   order: IOrder
   isAdmin: boolean
@@ -39,15 +39,15 @@ export default function OrderDetailsForm({
     paidAt,
     isDelivered,
     deliveredAt,
-    expectedDeliveryDate,
+    expectedDeliveryDate
   } = order
 
   return (
-    <div className='grid md:grid-cols-3 md:gap-5'>
-      <div className='overflow-x-auto md:col-span-2 space-y-4'>
+    <div className="grid md:grid-cols-3 md:gap-5">
+      <div className="overflow-x-auto md:col-span-2 space-y-4">
         <Card>
-          <CardContent className='p-4 gap-4'>
-            <h2 className='text-xl pb-4'>Shipping Address</h2>
+          <CardContent className="p-4 gap-4">
+            <h2 className="text-xl pb-4">Shipping Address</h2>
             <p>
               {shippingAddress.fullName} {shippingAddress.phone}
             </p>
@@ -57,36 +57,35 @@ export default function OrderDetailsForm({
               {shippingAddress.country}{' '}
             </p>
 
-            {isDelivered ? (
-              <Badge>
-                Delivered at {formatDateTime(deliveredAt!).dateTime}
-              </Badge>
-            ) : (
-              <div>
-                {' '}
-                <Badge variant='destructive'>Not delivered</Badge>
-                <div>
-                  Expected delivery at{' '}
-                  {formatDateTime(expectedDeliveryDate!).dateTime}
-                </div>
-              </div>
-            )}
+            {isDelivered
+              ? <Badge>
+                  Delivered at {formatDateTime(deliveredAt!).dateTime}
+                </Badge>
+              : <div>
+                  {' '}<Badge variant="destructive">Not delivered</Badge>
+                  <div>
+                    Expected delivery at{' '}
+                    {formatDateTime(expectedDeliveryDate!).dateTime}
+                  </div>
+                </div>}
           </CardContent>
         </Card>
         <Card>
-          <CardContent className='p-4 gap-4'>
-            <h2 className='text-xl pb-4'>Payment Method</h2>
-            <p>{paymentMethod}</p>
-            {isPaid ? (
-              <Badge>Paid at {formatDateTime(paidAt!).dateTime}</Badge>
-            ) : (
-              <Badge variant='destructive'>Not paid</Badge>
-            )}
+          <CardContent className="p-4 gap-4">
+            <h2 className="text-xl pb-4">Payment Method</h2>
+            <p>
+              {paymentMethod}
+            </p>
+            {isPaid
+              ? <Badge>
+                  Paid at {formatDateTime(paidAt!).dateTime}
+                </Badge>
+              : <Badge variant="destructive">Not paid</Badge>}
           </CardContent>
         </Card>
         <Card>
-          <CardContent className='p-4   gap-4'>
-            <h2 className='text-xl pb-4'>Order Items</h2>
+          <CardContent className="p-4   gap-4">
+            <h2 className="text-xl pb-4">Order Items</h2>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -96,28 +95,35 @@ export default function OrderDetailsForm({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {items.map((item) => (
+                {items.map(item =>
                   <TableRow key={item.slug}>
                     <TableCell>
                       <Link
                         href={`/product/${item.slug}`}
-                        className='flex items-center'
+                        className="flex items-center"
                       >
                         <Image
                           src={item.image}
                           alt={item.name}
                           width={50}
                           height={50}
-                        ></Image>
-                        <span className='px-2'>{item.name}</span>
+                        />
+                        <span className="px-2">
+                          {item.name}
+                        </span>
                       </Link>
                     </TableCell>
                     <TableCell>
-                      <span className='px-2'>{item.quantity}</span>
+                      <span className="px-2">
+                        {item.quantity}
+                      </span>
                     </TableCell>
-                    <TableCell className='text-right'>${item.price}</TableCell>
+                    <TableCell className="text-right">
+                      {/* ${item.price} */}
+                      price={itemsPrice}
+                    </TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </CardContent>
@@ -125,58 +131,56 @@ export default function OrderDetailsForm({
       </div>
       <div>
         <Card>
-          <CardContent className='p-4  space-y-4 gap-4'>
-            <h2 className='text-xl pb-4'>Order Summary</h2>
-            <div className='flex justify-between'>
+          <CardContent className="p-4  space-y-4 gap-4">
+            <h2 className="text-xl pb-4">Order Summary</h2>
+            <div className="flex justify-between">
               <div>Items</div>
               <div>
-                {' '}
-                <ProductPrice price={itemsPrice} plain />
+                {' '}<ProductPrice price={itemsPrice} plain />
               </div>
             </div>
-            <div className='flex justify-between'>
+            <div className="flex justify-between">
               <div>Tax</div>
               <div>
-                {' '}
-                <ProductPrice price={taxPrice} plain />
+                {' '}<ProductPrice price={taxPrice} plain />
               </div>
             </div>
-            <div className='flex justify-between'>
+            <div className="flex justify-between">
               <div>Shipping</div>
               <div>
-                {' '}
-                <ProductPrice price={shippingPrice} plain />
+                {' '}<ProductPrice price={shippingPrice} plain />
               </div>
             </div>
-            <div className='flex justify-between'>
+            <div className="flex justify-between">
               <div>Total</div>
               <div>
-                {' '}
-                <ProductPrice price={totalPrice} plain />
+                {' '}<ProductPrice price={totalPrice} plain />
               </div>
             </div>
 
-            {!isPaid && ['Stripe', 'PayPal'].includes(paymentMethod) && (
+            {!isPaid &&
+              ['Stripe', 'PayPal'].includes(paymentMethod) &&
               <Link
                 className={cn(buttonVariants(), 'w-full')}
                 href={`/checkout/${order._id}`}
               >
                 Pay Order
-              </Link>
-            )}
+              </Link>}
 
-            {isAdmin && !isPaid && paymentMethod === 'Cash On Delivery' && (
+            {isAdmin &&
+              !isPaid &&
+              paymentMethod === 'Cash On Delivery' &&
               <ActionButton
-                caption='Mark as paid'
+                caption="Mark as paid"
                 action={() => updateOrderToPaid(order._id)}
-              />
-            )}
-            {isAdmin && isPaid && !isDelivered && (
+              />}
+            {isAdmin &&
+              isPaid &&
+              !isDelivered &&
               <ActionButton
-                caption='Mark as delivered'
+                caption="Mark as delivered"
                 action={() => deliverOrder(order._id)}
-              />
-            )}
+              />}
           </CardContent>
         </Card>
       </div>

@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 
 import { useEffect, useState } from 'react'
+import { FaChevronRight } from 'react-icons/fa'
 
 const SettingNav = () => {
   const [active, setActive] = useState('')
@@ -34,57 +35,68 @@ const SettingNav = () => {
   const handleScroll = (id: string) => {
     const section = document.getElementById(id)
     if (section) {
-      const top = section.offsetTop - 16 // 20px above the section
+      const top = section.offsetTop - 80 // 20px above the section
       window.scrollTo({ top, behavior: 'smooth' })
     }
   }
 
+  const settinglinks = [
+    { name: 'Site Info', hash: 'setting-site-info', icon: <Info /> },
+    {
+      name: 'Common Settings',
+      hash: 'setting-common',
+      icon: <SettingsIcon />
+    },
+    {
+      name: 'Carousels',
+      hash: 'setting-carousels',
+      icon: <ImageIcon />
+    },
+    {
+      name: 'Languages',
+      hash: 'setting-languages',
+      icon: <Languages />
+    },
+    {
+      name: 'Currencies',
+      hash: 'setting-currencies',
+      icon: <Currency />
+    },
+    {
+      name: 'Payment Methods',
+      hash: 'setting-payment-methods',
+      icon: <CreditCard />
+    },
+    {
+      name: 'Delivery Dates',
+      hash: 'setting-delivery-dates',
+      icon: <Package />
+    }
+  ]
+
   return (
-    <div>
-      <h1 className="h1-bold text-2xl sticky top-40 mt-20">Settings</h1>
-      <nav className="flex md:flex-col gap-2 md:fixed mt-4 md:mt-[5vh] flex-wrap">
-        {[
-          { name: 'Site Info', hash: 'setting-site-info', icon: <Info /> },
-          {
-            name: 'Common Settings',
-            hash: 'setting-common',
-            icon: <SettingsIcon />
-          },
-          {
-            name: 'Carousels',
-            hash: 'setting-carousels',
-            icon: <ImageIcon />
-          },
-          { name: 'Languages', hash: 'setting-languages', icon: <Languages /> },
-          {
-            name: 'Currencies',
-            hash: 'setting-currencies',
-            icon: <Currency />
-          },
-          {
-            name: 'Payment Methods',
-            hash: 'setting-payment-methods',
-            icon: <CreditCard />
-          },
-          {
-            name: 'Delivery Dates',
-            hash: 'setting-delivery-dates',
-            icon: <Package />
-          }
-        ].map(item =>
-          <Button
-            onClick={() => handleScroll(item.hash)}
-            key={item.hash}
-            variant={active === item.hash ? 'outline' : 'ghost'}
-            className={`justify-start ${active === item.hash
-              ? ''
-              : 'border border-transparent'}`}
-          >
-            {item.icon}
-            {item.name}
-          </Button>
-        )}
-      </nav>
+    <div className="sticky top-20 max-h-screen overflow-y-auto hide-scrollbar">
+      <div className="md:sticky !top-[4.5rem]">
+        <h1 className="h1-bold text-2xl">Settings</h1>
+        <nav className="flex md:flex-col gap-2 md:mt-[10vh] flex-wrap">
+          {settinglinks.map(item =>
+            <Button
+              onClick={() => handleScroll(item.hash)}
+              key={item.hash}
+              variant={active === item.hash ? 'outline' : 'ghost'}
+              className={`justify-start drop-shadow-xl border border-none ${active ===
+              item.hash
+                ? 'bg-primary hover:bg-primary hover:text-black text-black'
+                : 'hover:bg-gray-300 dark:hover:bg-gray-800 text-gray-600 hover:text-black dark:text-white'}`}
+            >
+              {item.icon}
+              {item.name}
+              {active === item.hash &&
+                <FaChevronRight className="!h-4 !w-4 ml-auto" />}
+            </Button>
+          )}
+        </nav>
+      </div>
     </div>
   )
 }

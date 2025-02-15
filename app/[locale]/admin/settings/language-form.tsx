@@ -65,7 +65,7 @@ export default function LanguageForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Name</FormLabel>}
                     <FormControl>
-                      <Input {...field} placeholder='Name' />
+                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Name' />
                     </FormControl>
                     <FormMessage>
                       {errors.availableLanguages?.[index]?.name?.message}
@@ -81,7 +81,7 @@ export default function LanguageForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Code</FormLabel>}
                     <FormControl>
-                      <Input {...field} placeholder='Code' />
+                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Code' />
                     </FormControl>
                     <FormMessage>
                       {errors.availableLanguages?.[index]?.code?.message}
@@ -126,7 +126,7 @@ export default function LanguageForm({
                   value={field.value || ''}
                   onValueChange={(value) => field.onChange(value)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-white dark:bg-gray-950">
                     <SelectValue placeholder='Select a language' />
                   </SelectTrigger>
                   <SelectContent>

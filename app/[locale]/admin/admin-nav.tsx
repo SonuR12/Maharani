@@ -8,8 +8,8 @@ import { useTranslations } from 'next-intl'
 
 const links = [
   {
-    title: 'Overview',
-    href: '/admin/overview'
+    title: 'Dashboard',
+    href: '/admin/dashboard'
   },
   {
     title: 'Products',
@@ -39,7 +39,6 @@ export function AdminNav({
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname()
   const t = useTranslations('Admin')
-  
 
   return (
     <nav
@@ -54,7 +53,7 @@ export function AdminNav({
           key={item.href}
           href={item.href}
           className={cn(
-            'px-3 py-2 rounded-md',
+            'px-3 py-2 rounded-md ',
             pathname.includes(item.href)
               ? ' text-primary'
               : 'text-muted-foreground'

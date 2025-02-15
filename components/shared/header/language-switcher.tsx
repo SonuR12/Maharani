@@ -27,25 +27,33 @@ export default function LanguageSwitcher() {
     setting: { availableCurrencies, currency },
     setCurrency
   } = useSettingStore()
+
+  const [isOpen, setIsOpen] = React.useState(false)
+
   const handleCurrencyChange = async (newCurrency: string) => {
     await setCurrencyOnServer(newCurrency)
     setCurrency(newCurrency)
   }
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="header-button h-[41px]">
-        <div className="flex items-center gap-1">
+    <DropdownMenu onOpenChange={setIsOpen}>
+      <DropdownMenuTrigger className="header-button h-[41px] select-none hover:bg-gray-200 dark:hover:bg-gray-800 rounded-md" asChild>
+        <div className="flex items-center gap-1 select-none">
           <span className="text-xl">
-            {locales.find((l) => l.code === locale)?.icon}
+            {locales.find(l => l.code === locale)?.icon}
           </span>
           {locale.toUpperCase().slice(0, 2)}
-          <ChevronDownIcon />
+          <ChevronDownIcon
+            className={`transition-transform duration-200 ${
+              isOpen ? 'rotate-180' : ''
+            }`}
+          />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="w-56 select-none">
         <DropdownMenuLabel>Language</DropdownMenuLabel>
         <DropdownMenuRadioGroup value={locale}>
-          {locales.map(c =>
+          {locales.map(c => (
             <DropdownMenuRadioItem key={c.name} value={c.code}>
               <Link
                 className="w-full flex items-center gap-1"
@@ -55,7 +63,7 @@ export default function LanguageSwitcher() {
                 <span className="text-lg">{c.icon}</span> {c.name}
               </Link>
             </DropdownMenuRadioItem>
-          )}
+          ))}
         </DropdownMenuRadioGroup>
 
         <DropdownMenuSeparator />
@@ -65,11 +73,11 @@ export default function LanguageSwitcher() {
           value={currency}
           onValueChange={handleCurrencyChange}
         >
-          {availableCurrencies.map(c =>
+          {availableCurrencies.map(c => (
             <DropdownMenuRadioItem key={c.name} value={c.code}>
               {c.symbol} {c.code}
             </DropdownMenuRadioItem>
-          )}
+          ))}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

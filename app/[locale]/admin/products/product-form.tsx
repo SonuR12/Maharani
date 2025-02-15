@@ -116,6 +116,7 @@ const ProductForm = ({
                 <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input
+                    className="bg-white dark:bg-gray-800"
                     placeholder="Enter product name"
                     autoComplete="off"
                     {...field}
@@ -136,8 +137,8 @@ const ProductForm = ({
                 <FormControl>
                   <div className="relative">
                     <Input
+                      className="bg-white dark:bg-gray-800"
                       placeholder="Enter product slug"
-                      className=""
                       autoComplete="off"
                       {...field}
                     />
@@ -166,6 +167,7 @@ const ProductForm = ({
                 <FormLabel>Category</FormLabel>
                 <FormControl>
                   <Input
+                    className="bg-white dark:bg-gray-800"
                     placeholder="Enter category"
                     autoComplete="off"
                     {...field}
@@ -183,6 +185,7 @@ const ProductForm = ({
                 <FormLabel>Brand</FormLabel>
                 <FormControl>
                   <Input
+                    className="bg-white dark:bg-gray-800"
                     placeholder="Enter product brand"
                     autoComplete="off"
                     {...field}
@@ -202,6 +205,7 @@ const ProductForm = ({
                 <FormLabel>List Price</FormLabel>
                 <FormControl>
                   <Input
+                    className="bg-white dark:bg-gray-800"
                     placeholder="Enter product list price"
                     autoComplete="off"
                     {...field}
@@ -218,6 +222,7 @@ const ProductForm = ({
                 <FormLabel>Net Price</FormLabel>
                 <FormControl>
                   <Input
+                    className="bg-white dark:bg-gray-800"
                     placeholder="Enter product price"
                     autoComplete="off"
                     {...field}
@@ -234,6 +239,7 @@ const ProductForm = ({
                 <FormLabel>Count In Stock</FormLabel>
                 <FormControl>
                   <Input
+                    className="bg-white dark:bg-gray-800"
                     type="number"
                     placeholder="Enter product count in stock"
                     autoComplete="off"
@@ -298,7 +304,7 @@ const ProductForm = ({
                 <FormControl>
                   <Textarea
                     placeholder="Tell us a little bit about product"
-                    className="resize-none"
+                    className="resize-none bg-white dark:bg-gray-800"
                     autoComplete="off"
                     {...field}
                   />
@@ -316,7 +322,7 @@ const ProductForm = ({
             control={form.control}
             name="isPublished"
             render={({ field }) =>
-              <FormItem className="space-x-2 items-center">
+              <FormItem className="space-x-2 flex items-center">
                 <FormControl>
                   <Checkbox
                     checked={field.value}

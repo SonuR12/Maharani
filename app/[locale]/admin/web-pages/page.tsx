@@ -8,7 +8,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
+  TableRow
 } from '@/components/ui/table'
 import { formatId } from '@/lib/utils'
 import { Metadata } from 'next'
@@ -16,45 +16,62 @@ import { deleteWebPage, getAllWebPages } from '@/lib/actions/web-page.actions'
 import { IWebPage } from '@/lib/db/models/web-page.model'
 
 export const metadata: Metadata = {
-  title: 'Admin Web Pages',
+  title: 'Admin Web Pages'
 }
 
 export default async function WebPageAdminPage() {
   const webPages = await getAllWebPages()
   return (
-    <div className='space-y-2'>
-      <div className='flex-between'>
-        <h1 className='h1-bold'>Web Pages</h1>
-        <Button asChild variant='default'>
-          <Link href='/admin/web-pages/create'>Create WebPage</Link>
+    <div className="space-y-2 my-2">
+      <div className="flex-between">
+        <h1 className="h1-bold">Web Pages</h1>
+        <Button
+          asChild
+          variant="default"
+          className="drop-shadow-xl bg-yellow-400 hover:bg-yellow-500 select-none"
+        >
+          <Link href="/admin/web-pages/create">Create WebPage</Link>
         </Button>
       </div>
       <div>
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead className='w-[100px]'>Id</TableHead>
+            <TableRow className="select-none">
+              <TableHead>Id</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Slug</TableHead>
               <TableHead>IsPublished</TableHead>
-              <TableHead className='w-[100px]'>Actions</TableHead>
+              <TableHead className="w-[100px]">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {webPages.map((webPage: IWebPage) => (
+            {webPages.map((webPage: IWebPage) =>
               <TableRow key={webPage._id}>
-                <TableCell>{formatId(webPage._id)}</TableCell>
-                <TableCell>{webPage.title}</TableCell>
-                <TableCell>{webPage.slug}</TableCell>
-                <TableCell>{webPage.isPublished ? 'Yes' : 'No'}</TableCell>
-                <TableCell className='flex gap-1'>
-                  <Button asChild variant='outline' size='sm'>
+                <TableCell>
+                  {formatId(webPage._id)}
+                </TableCell>
+                <TableCell>
+                  {webPage.title}
+                </TableCell>
+                <TableCell>
+                  {webPage.slug}
+                </TableCell>
+                <TableCell>
+                  {webPage.isPublished ? 'Yes' : 'No'}
+                </TableCell>
+                <TableCell className="flex gap-1">
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="sm"
+                    className="drop-shadow-xl"
+                  >
                     <Link href={`/admin/web-pages/${webPage._id}`}>Edit</Link>
                   </Button>
                   <DeleteDialog id={webPage._id} action={deleteWebPage} />
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </div>

@@ -32,13 +32,14 @@ export default async function AdminUser(props: {
   const users = await getAllUsers({
     page,
   })
+  
   return (
-    <div className='space-y-2'>
-      <h1 className='h1-bold'>Users</h1>
+    <div className='py-4'>
+      <h1 className='h1-bold text-xl select-none'>Users</h1>
       <div>
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className='select-none'>
               <TableHead>Id</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
@@ -54,7 +55,7 @@ export default async function AdminUser(props: {
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.role}</TableCell>
                 <TableCell className='flex gap-1'>
-                  <Button asChild variant='outline' size='sm'>
+                  <Button asChild variant='outline' size='sm' className="drop-shadow-xl">
                     <Link href={`/admin/users/${user._id}`}>Edit</Link>
                   </Button>
                   <DeleteDialog id={user._id} action={deleteUser} />

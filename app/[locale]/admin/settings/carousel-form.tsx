@@ -46,7 +46,7 @@ export default function CarouselForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Title</FormLabel>}
                     <FormControl>
-                      <Input {...field} placeholder='Title' />
+                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Title' />
                     </FormControl>
                     <FormMessage>
                       {errors.carousels?.[index]?.title?.message}
@@ -61,7 +61,7 @@ export default function CarouselForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Url</FormLabel>}
                     <FormControl>
-                      <Input {...field} placeholder='Url' />
+                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Url' />
                     </FormControl>
                     <FormMessage>
                       {errors.carousels?.[index]?.url?.message}
@@ -76,7 +76,7 @@ export default function CarouselForm({
                   <FormItem>
                     {index == 0 && <FormLabel>Caption</FormLabel>}
                     <FormControl>
-                      <Input {...field} placeholder='buttonCaption' />
+                      <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='buttonCaption' />
                     </FormControl>
                     <FormMessage>
                       {errors.carousels?.[index]?.buttonCaption?.message}
@@ -93,7 +93,7 @@ export default function CarouselForm({
                       {index == 0 && <FormLabel>Image</FormLabel>}
 
                       <FormControl>
-                        <Input placeholder='Enter image url' {...field} />
+                        <Input  className="bg-white dark:bg-gray-950" placeholder='Enter image url' {...field} />
                       </FormControl>
 
                       <FormMessage />

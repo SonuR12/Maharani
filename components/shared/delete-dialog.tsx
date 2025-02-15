@@ -9,7 +9,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
+  AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
@@ -17,7 +17,7 @@ import { useToast } from '@/hooks/use-toast'
 export default function DeleteDialog({
   id,
   action,
-  callbackAction,
+  callbackAction
 }: {
   id: string
   action: (id: string) => Promise<{ success: boolean; message: string }>
@@ -29,7 +29,7 @@ export default function DeleteDialog({
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button size='sm' variant='outline'>
+        <Button size="sm" variant="outline" className="drop-shadow-xl">
           Delete
         </Button>
       </AlertDialogTrigger>
@@ -41,11 +41,14 @@ export default function DeleteDialog({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel className="drop-shadow-xl">
+            Cancel
+          </AlertDialogCancel>
 
           <Button
-            variant='destructive'
-            size='sm'
+            variant="destructive"
+            className="drop-shadow-xl bg-red-500 hover:bg-red-600"
+            // size="sm"
             disabled={isPending}
             onClick={() =>
               startTransition(async () => {
@@ -53,17 +56,16 @@ export default function DeleteDialog({
                 if (!res.success) {
                   toast({
                     variant: 'destructive',
-                    description: res.message,
+                    description: res.message
                   })
                 } else {
                   setOpen(false)
                   toast({
-                    description: res.message,
+                    description: res.message
                   })
                   if (callbackAction) callbackAction()
                 }
-              })
-            }
+              })}
           >
             {isPending ? 'Deleting...' : 'Delete'}
           </Button>

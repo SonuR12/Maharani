@@ -5,7 +5,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import {
@@ -13,7 +13,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from '@/components/ui/select'
 import { COLORS, THEMES } from '@/lib/constants'
 import { ISettingInput } from '@/types'
@@ -22,7 +22,7 @@ import { UseFormReturn } from 'react-hook-form'
 
 export default function CommonForm({
   form,
-  id,
+  id
 }: {
   form: UseFormReturn<ISettingInput>
   id: string
@@ -34,100 +34,101 @@ export default function CommonForm({
       <CardHeader>
         <CardTitle>Common Settings</CardTitle>
       </CardHeader>
-      <CardContent className='space-y-4'>
-        <div className='flex flex-col gap-5 md:flex-row'>
+      <CardContent className="space-y-4">
+        <div className="flex flex-col gap-5 md:flex-row">
           <FormField
             control={control}
-            name='common.pageSize'
-            render={({ field }) => (
-              <FormItem className='w-full'>
+            name="common.pageSize"
+            render={({ field }) =>
+              <FormItem className="w-full">
                 <FormLabel>Page Size</FormLabel>
                 <FormControl>
-                  <Input placeholder='Enter Page Size' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={control}
-            name='common.freeShippingMinPrice'
-            render={({ field }) => (
-              <FormItem className='w-full'>
-                <FormLabel>Free Shipping Minimum Price</FormLabel>
-                <FormControl>
                   <Input
-                    placeholder='Enter Free Shipping Minimum Price'
+                    className="bg-white dark:bg-gray-950"
+                    placeholder="Enter Page Size"
                     {...field}
                   />
                 </FormControl>
                 <FormMessage />
-              </FormItem>
-            )}
+              </FormItem>}
           />
-        </div>
-        <div className='flex flex-col gap-5 md:flex-row'>
           <FormField
             control={control}
-            name='common.defaultColor'
-            render={({ field }) => (
-              <FormItem className='w-full'>
+            name="common.freeShippingMinPrice"
+            render={({ field }) =>
+              <FormItem className="w-full">
+                <FormLabel>Free Shipping Minimum Price</FormLabel>
+                <FormControl>
+                  <Input
+                    className="bg-white dark:bg-gray-950"
+                    placeholder="Enter Free Shipping Minimum Price"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>}
+          />
+        </div>
+        <div className="flex flex-col gap-5 md:flex-row">
+          <FormField
+            control={control}
+            name="common.defaultColor"
+            render={({ field }) =>
+              <FormItem className="w-full">
                 <FormLabel>Default Color</FormLabel>
                 <FormControl>
                   <Select
                     value={field.value || ''}
-                    onValueChange={(value) => field.onChange(value)}
+                    onValueChange={value => field.onChange(value)}
                   >
-                    <SelectTrigger>
-                      <SelectValue placeholder='Select a color' />
+                    <SelectTrigger className="bg-white dark:bg-gray-950">
+                      <SelectValue placeholder="Select a color" />
                     </SelectTrigger>
                     <SelectContent>
-                      {COLORS.map((color, index) => (
+                      {COLORS.map((color, index) =>
                         <SelectItem key={index} value={color}>
                           {color}
                         </SelectItem>
-                      ))}
+                      )}
                     </SelectContent>
                   </Select>
                 </FormControl>
                 <FormMessage />
-              </FormItem>
-            )}
+              </FormItem>}
           />
           <FormField
             control={control}
-            name='common.defaultTheme'
-            render={({ field }) => (
-              <FormItem className='w-full'>
+            name="common.defaultTheme"
+            render={({ field }) =>
+              <FormItem className="w-full">
                 <FormLabel>Default Theme</FormLabel>
                 <FormControl>
                   <Select
                     value={field.value || ''}
-                    onValueChange={(value) => field.onChange(value)}
+                    onValueChange={value => field.onChange(value)}
                   >
-                    <SelectTrigger>
-                      <SelectValue placeholder='Select a theme' />
+                    <SelectTrigger className="bg-white dark:bg-gray-950">
+                      <SelectValue placeholder="Select a theme" />
                     </SelectTrigger>
                     <SelectContent>
-                      {THEMES.map((theme, index) => (
+                      {THEMES.map((theme, index) =>
                         <SelectItem key={index} value={theme}>
                           {theme}
                         </SelectItem>
-                      ))}
+                      )}
                     </SelectContent>
                   </Select>
                 </FormControl>
                 <FormMessage />
-              </FormItem>
-            )}
+              </FormItem>}
           />
         </div>
         <div>
           <FormField
             control={control}
-            name='common.isMaintenanceMode'
-            render={({ field }) => (
-              <FormItem className='space-x-2 items-center'>
+            name="common.isMaintenanceMode"
+            render={({ field }) =>
+              <FormItem className="space-x-2 items-center">
                 <FormControl>
                   <Checkbox
                     checked={field.value}
@@ -136,8 +137,7 @@ export default function CommonForm({
                 </FormControl>
                 <FormLabel>Maintenance Mode?</FormLabel>
                 <FormMessage />
-              </FormItem>
-            )}
+              </FormItem>}
           />
         </div>
       </CardContent>

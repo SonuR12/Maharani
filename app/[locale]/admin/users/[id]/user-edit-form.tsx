@@ -12,7 +12,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import {
@@ -20,7 +20,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from '@/components/ui/select'
 import { useToast } from '@/hooks/use-toast'
 import { updateUser } from '@/lib/actions/user.actions'
@@ -33,7 +33,7 @@ const UserEditForm = ({ user }: { user: IUser }) => {
 
   const form = useForm<z.infer<typeof UserUpdateSchema>>({
     resolver: zodResolver(UserUpdateSchema),
-    defaultValues: user,
+    defaultValues: user
   })
 
   const { toast } = useToast()
@@ -41,24 +41,24 @@ const UserEditForm = ({ user }: { user: IUser }) => {
     try {
       const res = await updateUser({
         ...values,
-        _id: user._id,
+        _id: user._id
       })
       if (!res.success)
         return toast({
           variant: 'destructive',
-          description: res.message,
+          description: res.message
         })
 
       toast({
-        description: res.message,
+        description: res.message
       })
       form.reset()
       router.push(`/admin/users`)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    } catch (error) {
       toast({
         variant: 'destructive',
-        description: error.message,
+        description: error.message
       })
     }
   }
@@ -66,75 +66,83 @@ const UserEditForm = ({ user }: { user: IUser }) => {
   return (
     <Form {...form}>
       <form
-        method='post'
+        method="post"
         onSubmit={form.handleSubmit(onSubmit)}
-        className='space-y-8'
+        className="space-y-8"
       >
-        <div className='flex flex-col gap-5 md:flex-row'>
+        <div className="flex flex-col gap-5 md:flex-row">
           <FormField
             control={form.control}
-            name='name'
-            render={({ field }) => (
-              <FormItem className='w-full'>
+            name="name"
+            render={({ field }) =>
+              <FormItem className="w-full">
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder='Enter user name' {...field} />
+                  <Input
+                    className="bg-white dark:bg-gray-800"
+                    placeholder="Enter user name"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
-              </FormItem>
-            )}
+              </FormItem>}
           />
           <FormField
             control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem className='w-full'>
+            name="email"
+            render={({ field }) =>
+              <FormItem className="w-full">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder='Enter user email' {...field} />
+                  <Input
+                    className="bg-white dark:bg-gray-800"
+                    placeholder="Enter user email"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
-              </FormItem>
-            )}
+              </FormItem>}
           />
         </div>
         <div>
           <FormField
             control={form.control}
-            name='role'
-            render={({ field }) => (
-              <FormItem className='space-x-2 items-center'>
+            name="role"
+            render={({ field }) =>
+              <FormItem className="space-x-2 items-center">
                 <FormLabel>Role</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   value={field.value.toString()}
                 >
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder='Select a role' />
+                    <SelectTrigger className="bg-white dark:bg-gray-800">
+                      <SelectValue
+                        className="bg-white dark:bg-gray-800"
+                        placeholder="Select a role"
+                      />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {USER_ROLES.map((role) => (
+                    {USER_ROLES.map(role =>
                       <SelectItem key={role} value={role}>
                         {role}
                       </SelectItem>
-                    ))}
+                    )}
                   </SelectContent>
                 </Select>
 
                 <FormMessage />
-              </FormItem>
-            )}
+              </FormItem>}
           />
         </div>
-        <div className='flex-between'>
-          <Button type='submit' disabled={form.formState.isSubmitting}>
+        <div className="flex-between">
+          <Button type="submit" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting ? 'Submitting...' : `Update User `}
           </Button>
           <Button
-            variant='outline'
-            type='button'
+            variant="outline"
+            type="button"
             onClick={() => router.push(`/admin/users`)}
           >
             Back

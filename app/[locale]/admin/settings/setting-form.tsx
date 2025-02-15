@@ -45,7 +45,7 @@ const SettingForm = ({ setting }: { setting: ISettingInput }) => {
   return (
     <Form {...form}>
       <form
-        className="space-y-4"
+        className="space-y-4 mt-4"
         method="post"
         onSubmit={form.handleSubmit(onSubmit)}
       >
@@ -66,7 +66,7 @@ const SettingForm = ({ setting }: { setting: ISettingInput }) => {
             type="submit"
             size="lg"
             disabled={isSubmitting}
-            className="w-full mb-24"
+            className="w-full mb-24 drop-shadow-xl"
           >
             {isSubmitting ? 'Submitting...' : `Save Setting`}
           </Button>
