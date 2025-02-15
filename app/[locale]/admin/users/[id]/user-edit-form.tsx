@@ -58,7 +58,8 @@ const UserEditForm = ({ user }: { user: IUser }) => {
     } catch (error) {
       toast({
         variant: 'destructive',
-        description: error.message
+        description:
+          error instanceof Error ? error.message : 'An unknown error occurred'
       })
     }
   }
