@@ -112,10 +112,6 @@ export default function Footer() {
                   width={300}
                   height={500}
                   className="!h-8 !w-8"
-                  style={{
-                    maxWidth: '100%',
-                    height: 'auto'
-                  }}
                 />
               </div>
 
