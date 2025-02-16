@@ -184,7 +184,10 @@ export default function CredentialsSignInForm() {
             </div>
           </div>
           <div className="mt-16">
-            <Button className="w-full py-6 submitsignup" type="submit">
+            <Button
+              className="w-full py-6 submitsignup text-white"
+              type="submit"
+            >
               Sign Up
             </Button>
           </div>
