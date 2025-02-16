@@ -29,7 +29,7 @@ export default async function UserButton() {
             <div className="flex flex-col text-xs text-left select-none">
               <span>
                 {t('Header.Hello')},{' '}
-                {session ? session.user.name : t('Header.sign in')}
+                {session ? session?.user.name : t('Header.sign in')}
               </span>
               <span className="font-bold">
                 {t('Header.Account & Orders')}
@@ -47,10 +47,10 @@ export default async function UserButton() {
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none">
-                    {session.user.name}
+                    {session?.user.name}
                   </p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    {session.user.email}
+                    {session?.user.email}
                   </p>
                 </div>
               </DropdownMenuLabel>
@@ -66,7 +66,7 @@ export default async function UserButton() {
                   </DropdownMenuItem>
                 </Link>
 
-                {session.user.role === 'Admin' &&
+                {session?.user.role === 'Admin' &&
                   <Link className="w-full" href="/admin/dashboard">
                     <DropdownMenuItem>
                       {t('Header.Admin')}

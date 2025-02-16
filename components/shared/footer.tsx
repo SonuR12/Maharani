@@ -104,18 +104,21 @@ export default function Footer() {
         </div>
         <div className="border-t border-gray-800">
           <div className="max-w-7xl mx-auto py-8 px-4 flex flex-col items-center space-y-4">
-            <div className="flex items-center space-x-4 flex-wrap md:flex-nowrap">
-              <Image
-                src={site.logo}
-                alt={`${site.name} logo`}
-                width={48}
-                height={48}
-                className="w-14"
-                style={{
-                  maxWidth: '100%',
-                  height: 'auto'
-                }}
-              />{' '}
+            <div className="flex items-center justify-center space-x-4 flex-wrap md:flex-nowrap">
+              <div className="flex items-center gap-2">
+                <Image
+                  src={site.logo}
+                  alt={`${site.name} logo`}
+                  width={300}
+                  height={500}
+                  className="!h-8 !w-8"
+                  style={{
+                    maxWidth: '100%',
+                    height: 'auto'
+                  }}
+                />
+              </div>
+
               <Select
                 value={locale}
                 onValueChange={value => {

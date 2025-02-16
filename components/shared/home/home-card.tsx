@@ -33,7 +33,7 @@ export function HomeCard({ cards }: { cards: CardItem[] }) {
                   <Image
                     src={item.image}
                     alt={item.name}
-                    className="aspect-square object-scale-down max-w-full h-auto mx-auto"
+                    className="aspect-square !object-scale-down max-w-full !h-auto mx-auto"
                     height={120}
                     width={120}
                   />

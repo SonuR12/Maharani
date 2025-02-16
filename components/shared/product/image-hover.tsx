@@ -6,7 +6,7 @@ import { useState } from 'react'
 const ImageHover = ({
   src,
   hoverSrc,
-  alt,
+  alt
 }: {
   src: string
   hoverSrc: string
@@ -25,7 +25,7 @@ const ImageHover = ({
 
   return (
     <div
-      className='relative h-52'
+      className="relative h-52"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -33,19 +33,19 @@ const ImageHover = ({
         src={src}
         alt={alt}
         fill
-        sizes='80vw'
-        className={`object-contain transition-opacity duration-500 ${
-          isHovered ? 'opacity-0' : 'opacity-100'
-        }`}
+        sizes="80vw"
+        className={`aspect-square !object-scale-down max-w-[50vw] sm:!w-[32vw] md:max-w-full !h-auto mx-auto transition-opacity duration-500 ${isHovered
+          ? 'opacity-0'
+          : 'opacity-100'}`}
       />
       <Image
         src={hoverSrc}
         alt={alt}
         fill
-        sizes='80vw'
-        className={`absolute inset-0 object-contain transition-opacity duration-500 ${
-          isHovered ? 'opacity-100' : 'opacity-0'
-        }`}
+        sizes="80vw"
+        className={` absolute inset-0 object-contain transition-opacity duration-500 ${isHovered
+          ? 'opacity-100'
+          : 'opacity-0'}`}
       />
     </div>
   )
