@@ -49,30 +49,35 @@ export default function CurrencyForm({
     if (!validCodes.includes(defaultCurrency)) {
       setValue('defaultCurrency', '')
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(availableCurrencies)])
+  }, [JSON.stringify(availableCurrencies)]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Card id={id}>
+    <Card id={id} className="w-full">
       <CardHeader>
         <CardTitle>Currencies</CardTitle>
       </CardHeader>
-      <CardContent className='space-y-4'>
-        <div className='space-y-4'>
+      <CardContent className="space-y-6">
+        <div className="space-y-6">
           {fields.map((field, index) => (
-            <div key={field.id} className='flex   gap-2'>
+            <div
+              key={field.id}
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 items-center"
+            >
               <FormField
                 control={form.control}
                 name={`availableCurrencies.${index}.name`}
                 render={({ field }) => (
                   <FormItem>
-                    {' '}
-                    {index == 0 && <FormLabel>Name</FormLabel>}
+                    {index === 0 && <FormLabel>Name</FormLabel>}
                     <FormControl>
                       {isPending ? (
                         <Skeleton className="h-10 w-full" />
                       ) : (
-                        <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Name' />
+                        <Input
+                          className="bg-white dark:bg-gray-950 w-full"
+                          {...field}
+                          placeholder="Name"
+                        />
                       )}
                     </FormControl>
                     <FormMessage>
@@ -87,12 +92,16 @@ export default function CurrencyForm({
                 name={`availableCurrencies.${index}.code`}
                 render={({ field }) => (
                   <FormItem>
-                    {index == 0 && <FormLabel>Code</FormLabel>}
+                    {index === 0 && <FormLabel>Code</FormLabel>}
                     <FormControl>
                       {isPending ? (
                         <Skeleton className="h-10 w-full" />
                       ) : (
-                        <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Code' />
+                        <Input
+                          className="bg-white dark:bg-gray-950 w-full"
+                          {...field}
+                          placeholder="Code"
+                        />
                       )}
                     </FormControl>
                     <FormMessage>
@@ -101,17 +110,22 @@ export default function CurrencyForm({
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name={`availableCurrencies.${index}.symbol`}
                 render={({ field }) => (
                   <FormItem>
-                    {index == 0 && <FormLabel>Symbol</FormLabel>}
+                    {index === 0 && <FormLabel>Symbol</FormLabel>}
                     <FormControl>
                       {isPending ? (
                         <Skeleton className="h-10 w-full" />
                       ) : (
-                        <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Symbol' />
+                        <Input
+                          className="bg-white dark:bg-gray-950 w-full"
+                          {...field}
+                          placeholder="Symbol"
+                        />
                       )}
                     </FormControl>
                     <FormMessage>
@@ -126,12 +140,16 @@ export default function CurrencyForm({
                 name={`availableCurrencies.${index}.convertRate`}
                 render={({ field }) => (
                   <FormItem>
-                    {index == 0 && <FormLabel>Convert Rate</FormLabel>}
+                    {index === 0 && <FormLabel>Convert Rate</FormLabel>}
                     <FormControl>
                       {isPending ? (
                         <Skeleton className="h-10 w-full" />
                       ) : (
-                        <Input  className="bg-white dark:bg-gray-950" {...field} placeholder='Convert Rate' />
+                        <Input
+                          className="bg-white dark:bg-gray-950 w-full"
+                          {...field}
+                          placeholder="Convert Rate"
+                        />
                       )}
                     </FormControl>
                     <FormMessage>
@@ -143,26 +161,26 @@ export default function CurrencyForm({
                   </FormItem>
                 )}
               />
-              <div>
-                {index == 0 && <div>Action</div>}
+
+              <div className="flex items-center justify-center sm:justify-start">
+                {index === 0 && <FormLabel>Action</FormLabel>}
                 <Button
-                  type='button'
+                  type="button"
                   disabled={fields.length === 1}
-                  variant='outline'
-                  className={index == 0 ? 'mt-2' : ''}
-                  onClick={() => {
-                    remove(index)
-                  }}
+                  variant="outline"
+                  className="mt-2 sm:mt-0"
+                  onClick={() => remove(index)}
                 >
-                  <TrashIcon className='w-4 h-4' />
+                  <TrashIcon className="w-4 h-4" />
                 </Button>
               </div>
             </div>
           ))}
 
           <Button
-            type='button'
-            variant={'outline'}
+            type="button"
+            variant="outline"
+            className="w-full sm:w-auto"
             onClick={() =>
               append({ name: '', code: '', symbol: '', convertRate: 1 })
             }
@@ -173,7 +191,7 @@ export default function CurrencyForm({
 
         <FormField
           control={control}
-          name='defaultCurrency'
+          name="defaultCurrency"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Default Currency</FormLabel>
@@ -185,8 +203,8 @@ export default function CurrencyForm({
                     value={field.value || ''}
                     onValueChange={(value) => field.onChange(value)}
                   >
-                    <SelectTrigger className="bg-white dark:bg-gray-950">
-                      <SelectValue placeholder='Select a currency' />
+                    <SelectTrigger className="bg-white dark:bg-gray-950 w-full">
+                      <SelectValue placeholder="Select a currency" />
                     </SelectTrigger>
                     <SelectContent>
                       {availableCurrencies

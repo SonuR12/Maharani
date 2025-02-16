@@ -45,86 +45,77 @@ export default function PaymentMethodForm({
   const defaultPaymentMethod = watch('defaultPaymentMethod')
 
   useEffect(() => {
-    const validCodes = availablePaymentMethods.map((lang) => lang.name)
-    if (!validCodes.includes(defaultPaymentMethod)) {
+    const validNames = availablePaymentMethods.map((method) => method.name)
+    if (!validNames.includes(defaultPaymentMethod)) {
       setValue('defaultPaymentMethod', '')
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(availablePaymentMethods)])
+  }, [JSON.stringify(availablePaymentMethods)]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Card id={id}>
+    <Card id={id} className="w-full">
       <CardHeader>
         <CardTitle>Payment Methods</CardTitle>
       </CardHeader>
-      <CardContent className='space-y-4'>
-        <div className='space-y-4'>
-          {isPending ? (
-            <>
-              <Skeleton className='h-8 w-full' />
-              <Skeleton className='h-8 w-full' />
-              <Skeleton className='h-8 w-full' />
-            </>
-          ) : (
-            fields.map((field, index) => (
-              <div key={field.id} className='flex gap-2'>
-                <FormField
-                  control={form.control}
-                  name={`availablePaymentMethods.${index}.name`}
-                  render={({ field }) => (
-                    <FormItem>
-                      {index == 0 && <FormLabel>Name</FormLabel>}
-                      <FormControl>
-                        <Input className="bg-white dark:bg-gray-950" {...field} placeholder='Name' />
-                      </FormControl>
-                      <FormMessage>
-                        {errors.availablePaymentMethods?.[index]?.name?.message}
-                      </FormMessage>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name={`availablePaymentMethods.${index}.commission`}
-                  render={({ field }) => (
-                    <FormItem>
-                      {index == 0 && <FormLabel>Commission</FormLabel>}
-                      <FormControl>
-                        <Input className="bg-white dark:bg-gray-950" {...field} placeholder='Commission' />
-                      </FormControl>
-                      <FormMessage>
-                        {errors.availablePaymentMethods?.[index]?.commission?.message}
-                      </FormMessage>
-                    </FormItem>
-                  )}
-                />
-                <div>
-                  {index == 0 && <div>Action</div>}
-                  <Button
-                    type='button'
-                    disabled={fields.length === 1}
-                    variant='outline'
-                    className={index == 0 ? 'mt-2' : ''}
-                    onClick={() => {
-                      remove(index)
-                    }}
-                  >
-                    <TrashIcon className='w-4 h-4' />
-                  </Button>
-                </div>
-              </div>
-            ))
-          )}
-
-          {!isPending && (
-            <Button
-              type='button'
-              variant={'outline'}
-              onClick={() => append({ name: '', commission: 0 })}
+      <CardContent className='space-y-6'>
+        <div className='space-y-6'>
+          {fields.map((field, index) => (
+            <div
+              key={field.id}
+              className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 items-center'
             >
-              Add PaymentMethod
-            </Button>
-          )}
+              <FormField
+                control={form.control}
+                name={`availablePaymentMethods.${index}.name`}
+                render={({ field }) => (
+                  <FormItem>
+                    {index === 0 && <FormLabel>Name</FormLabel>}
+                    <FormControl>
+                      <Input className="bg-white dark:bg-gray-950 w-full" {...field} placeholder='Name' />
+                    </FormControl>
+                    <FormMessage>
+                      {errors.availablePaymentMethods?.[index]?.name?.message}
+                    </FormMessage>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={`availablePaymentMethods.${index}.commission`}
+                render={({ field }) => (
+                  <FormItem>
+                    {index === 0 && <FormLabel>Commission</FormLabel>}
+                    <FormControl>
+                      <Input className="bg-white dark:bg-gray-950 w-full" {...field} placeholder='Commission' />
+                    </FormControl>
+                    <FormMessage>
+                      {errors.availablePaymentMethods?.[index]?.commission?.message}
+                    </FormMessage>
+                  </FormItem>
+                )}
+              />
+              <div className='flex items-center justify-center sm:justify-start'>
+                {index === 0 && <FormLabel>Action</FormLabel>}
+                <Button
+                  type='button'
+                  disabled={fields.length === 1}
+                  variant='outline'
+                  className='mt-2 sm:mt-0'
+                  onClick={() => remove(index)}
+                >
+                  <TrashIcon className='w-4 h-4' />
+                </Button>
+              </div>
+            </div>
+          ))}
+
+          <Button
+            type='button'
+            variant={'outline'}
+            className='w-full sm:w-auto'
+            onClick={() => append({ name: '', commission: 0 })}
+          >
+            Add Payment Method
+          </Button>
         </div>
 
         <FormField
@@ -132,24 +123,24 @@ export default function PaymentMethodForm({
           name='defaultPaymentMethod'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Default PaymentMethod</FormLabel>
+              <FormLabel>Default Payment Method</FormLabel>
               <FormControl>
                 {isPending ? (
-                  <Skeleton className='h-8 w-full' />
+                  <Skeleton className='h-10 w-full' />
                 ) : (
                   <Select
                     value={field.value || ''}
                     onValueChange={(value) => field.onChange(value)}
                   >
-                    <SelectTrigger className="bg-white dark:bg-gray-950">
+                    <SelectTrigger className="bg-white dark:bg-gray-950 w-full">
                       <SelectValue placeholder='Select a payment method' />
                     </SelectTrigger>
                     <SelectContent>
                       {availablePaymentMethods
                         .filter((x) => x.name)
-                        .map((lang, index) => (
-                          <SelectItem key={index} value={lang.name}>
-                            {lang.name} ({lang.name})
+                        .map((method, index) => (
+                          <SelectItem key={index} value={method.name}>
+                            {method.name}
                           </SelectItem>
                         ))}
                     </SelectContent>

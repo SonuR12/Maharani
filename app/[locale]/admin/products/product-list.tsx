@@ -100,7 +100,7 @@ const ProductList = () => {
               <Link href='/admin/products/create'><Skeleton className="h-5 w-24" /></Link>
             </Button>
           </div>
-          <div>
+          <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow className='select-none'>
@@ -156,6 +156,7 @@ const ProductList = () => {
               ))}
             </TableBody>
           </Table>
+          </div>
           {(data?.totalPages ?? 0) > 1 && (
             <div className='flex items-center gap-2'>
               <Button
@@ -178,20 +179,19 @@ const ProductList = () => {
             </div>
           )}
         </div>
-        </div>
       </div>
     )
   }
 
   return (
-    <div>
+    <div className=''>
       <div className='py-4 h-full'>
         <div className='flex-between flex-wrap gap-2'>
           <div className='flex flex-wrap items-center gap-2 '>
             <h1 className='font-bold text-lg select-none'>Products</h1>
             <div className='flex flex-wrap items-center  gap-2 '>
               <Input
-                className='w-72 border border-gray-400'
+                className='w-72 border border-gray-400 input'
                 type='text '
                 value={inputValue}
                 onChange={handleInputChange}
@@ -210,7 +210,7 @@ const ProductList = () => {
             <Link href='/admin/products/create'>Create Product</Link>
           </Button>
         </div>
-        <div>
+        <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow className='select-none'>
@@ -225,9 +225,9 @@ const ProductList = () => {
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className='w-full overflow-x-scroll'>
               {data?.products.map((product: IProduct) => (
-                <TableRow key={product._id}>
+                <TableRow key={product._id} className='w-[20vw]'>
                   <TableCell>{formatId(product._id)}</TableCell>
                   <TableCell>
                     <Link href={`/admin/products/${product._id}`}>
@@ -266,6 +266,7 @@ const ProductList = () => {
               ))}
             </TableBody>
           </Table>
+          </div>
           {(data?.totalPages ?? 0) > 1 && (
             <div className='flex items-center gap-2'>
               <Button
@@ -289,7 +290,6 @@ const ProductList = () => {
           )}
         </div>
       </div>
-    </div>
   )
 }
 

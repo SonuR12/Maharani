@@ -17,6 +17,7 @@ import { TrashIcon } from 'lucide-react'
 import React from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { Skeleton } from '@/components/ui/skeleton'
+import Image from 'next/image'
 
 export default function SiteInfoForm({
   form,
@@ -31,7 +32,7 @@ export default function SiteInfoForm({
 
   const siteLogo = watch('site.logo')
   return (
-    <Card id={id}>
+    <Card id={id} className="">
       <CardHeader>
         <CardTitle>Site Info</CardTitle>
       </CardHeader>
@@ -98,7 +99,14 @@ export default function SiteInfoForm({
               ? <Skeleton className="h-12 w-12 mt-2" />
               : siteLogo &&
                 <div className="flex my-2 items-center gap-2">
-                  <img src={siteLogo} alt="logo" width={48} height={48} />
+                  {/* <Image src={siteLogo} alt="logo" width={48} height={48} /> */}
+                  <Image
+                    className="!h-10 !w-10"
+                    src={siteLogo}
+                    width={300}
+                    height={500}
+                    alt={`logo`}
+                  />
                   <Button
                     type="button"
                     variant="outline"

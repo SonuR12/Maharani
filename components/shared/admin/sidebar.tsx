@@ -12,11 +12,13 @@ import { RiFunctionAddFill } from "react-icons/ri";
 import { FiBox } from "react-icons/fi";
 import { SiPagespeedinsights } from "react-icons/si"
 import { IoSettingsOutline } from 'react-icons/io5'
+import { useTranslations } from 'next-intl'
 // import { Separator } from '@radix-ui/react-separator'
 
 export default function SideBar() {
   const [site, setSite] = useState<{ name: string; logo: string } | null>(null)
   const pathname = usePathname()
+   const t = useTranslations('Admin')
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -64,16 +66,16 @@ export default function SideBar() {
   ]
 
   return (
-    <section className="min-w-[200px] border-r sticky top-0 max-h-screen overflow-y-auto hide-scrollbar dark:text-black">
+    <section className="min-w-[20vw] hidden sm:block border-r sticky top-0 max-h-screen overflow-y-auto overflow-x-hidden hide-scrollbar dark:text-black">
       <div className='flex flex-col'>
         
        <div className="px-4 py-2 border-b">
         <Link href="/" className='flex items-center gap-2'>
           {site?.logo ? (
-            <Image className='mb-3'
+            <Image className='mb-3 !h-10 !w-10'
               src={site.logo}
-              width={48}
-              height={48}
+              width={300}
+              height={500}
               alt={`${site?.name || 'Site'} logo`}
             />
           ) : (
@@ -94,13 +96,13 @@ export default function SideBar() {
               key={item.href}
               href={item.href}
               className={cn(
-              "px-3 py-2 rounded-md flex items-center gap-2 drop-shadow-xl",
+              "px-3 py-2 rounded-md flex items-center gap-2 drop-shadow-xl overflow-x-hidden sm:text-sm md:text-base",
               pathname.includes(item.href) ? "bg-primary font-medium": "text-gray-500 transition-colors hover:bg-gray-300 dark:hover:bg-gray-800 dark:text-white hover:text-black"
               )}>
               {/* Icon and Title at the left */}
-              <div className="flex items-center gap-2 flex-1">
+              <div className="flex items-center gap-2 flex-1 mr-3">
               {item.icon}
-              <span>{item.title}</span>
+              <span>{t(item.title)}</span>
           </div>
 
              {/* Chevron Right at the right */}

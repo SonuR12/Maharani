@@ -54,7 +54,7 @@ const SettingForm = ({ setting }: { setting: ISettingInput }) => {
   return (
     <Form {...form}>
       <form
-        className="space-y-4 mt-4"
+        className="mt-4 px-2 pr-2 space-y-4 sm:w-full settingform"
         method="post"
         onSubmit={form.handleSubmit(onSubmit)}
       >

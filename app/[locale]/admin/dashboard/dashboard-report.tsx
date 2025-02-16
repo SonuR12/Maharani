@@ -347,8 +347,8 @@ export default function DashboardReport() {
                 </CardTitle>
                 <BadgeDollarSign />
               </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="text-2xl font-bold">
+              <CardContent className="space-y-2 overflow-x-scroll">
+                <div className="text-lg sm:text-2xl font-bold">
                   <ProductPrice price={data.totalSales} plain />
                 </div>
                 <div>
@@ -365,8 +365,8 @@ export default function DashboardReport() {
                 </CardTitle>
                 <CreditCard />
               </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="text-2xl font-bold">
+              <CardContent className="space-y-2 overflow-x-scroll">
+                <div className="text-lg sm:text-2xl font-bold">
                   {formatNumber(data.ordersCount)}
                 </div>
                 <div>
@@ -383,8 +383,8 @@ export default function DashboardReport() {
                 </CardTitle>
                 <Users />
               </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="text-2xl font-bold">
+              <CardContent className="space-y-2 overflow-x-scroll">
+                <div className="text-lg sm:text-2xl font-bold">
                   {data.usersCount}
                 </div>
                 <div>
@@ -401,8 +401,8 @@ export default function DashboardReport() {
                 </CardTitle>
                 <Barcode />
               </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="text-2xl font-bold">
+              <CardContent className="space-y-2 overflow-x-scroll">
+                <div className="text-lg sm:text-2xl font-bold">
                   {data.productsCount}
                 </div>
                 <div>

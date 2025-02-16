@@ -80,26 +80,22 @@ const SettingNav = () => {
   ]
 
   return (
-    <div className="sticky top-20 max-h-screen overflow-y-auto hide-scrollbar">
-      <div className="md:sticky !top-[4.5rem]">
+    <div className="md:sticky md:top-20 mt-6 sm:mt-0 max-h-screen md:overflow-y-auto hide-scrollbar">
+      <div className="sm:sticky !top-[4.5rem]">
         <h1 className="h1-bold text-2xl">Settings</h1>
-        <nav className="flex md:flex-col gap-2 md:mt-[10vh] flex-wrap">
+        <nav className="flex flex-row sm:flex-col gap-2 md:mt-[10vh] flex-wrap">
           {isPending
-            ? <div className="flex flex-col gap-2 items-center">
-                <Skeleton className="w-full h-10" />
-                <Skeleton className="w-full h-10" />
-                <Skeleton className="w-full h-10" />
-                <Skeleton className="w-full h-10" />
-                <Skeleton className="w-full h-10" />
-                <Skeleton className="w-full h-10" />
-                <Skeleton className="w-full h-10" />
+            ? <div className="flex flex-row sm:flex-col gap-2 items-center w-full">
+                {[...Array(7)].map((_, index) =>
+                  <Skeleton key={index} className="w-full h-10" />
+                )}
               </div>
             : settinglinks.map(item =>
                 <Button
                   onClick={() => handleScroll(item.hash)}
                   key={item.hash}
                   variant={active === item.hash ? 'outline' : 'ghost'}
-                  className={`justify-start border border-none ${active ===
+                  className={`justify-start border border-none w-fit ${active ===
                   item.hash
                     ? 'bg-primary hover:bg-primary hover:text-black text-black'
                     : 'hover:bg-gray-300 dark:hover:bg-gray-800 text-gray-600 hover:text-black dark:text-white'}`}

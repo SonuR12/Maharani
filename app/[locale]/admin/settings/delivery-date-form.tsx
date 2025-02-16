@@ -63,95 +63,73 @@ export default function DeliveryDateForm({
             <Skeleton className='h-8 w-full' />
           ) : (
             fields.map((field, index) => (
-              <div key={field.id} className='flex gap-2'>
-                <FormField
-                  control={form.control}
-                  name={`availableDeliveryDates.${index}.name`}
-                  render={({ field }) => (
-                    <FormItem>
-                      {index == 0 && <FormLabel>Name</FormLabel>}
-                      <FormControl>
-                        <Input className="bg-white dark:bg-gray-950" {...field} placeholder='Name' />
-                      </FormControl>
-                      <FormMessage>
-                        {errors.availableDeliveryDates?.[index]?.name?.message}
-                      </FormMessage>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name={`availableDeliveryDates.${index}.daysToDeliver`}
-                  render={({ field }) => (
-                    <FormItem>
-                      {index == 0 && <FormLabel>Days</FormLabel>}
-                      <FormControl>
-                        <Input className="bg-white dark:bg-gray-950" {...field} placeholder='daysToDeliver' />
-                      </FormControl>
-                      <FormMessage>
-                        {
-                          errors.availableDeliveryDates?.[index]?.daysToDeliver
-                            ?.message
-                        }
-                      </FormMessage>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name={`availableDeliveryDates.${index}.shippingPrice`}
-                  render={({ field }) => (
-                    <FormItem>
-                      {index == 0 && <FormLabel>Shipping Price</FormLabel>}
-                      <FormControl>
-                        <Input className="bg-white dark:bg-gray-950" {...field} placeholder='shippingPrice' />
-                      </FormControl>
-                      <FormMessage>
-                        {
-                          errors.availableDeliveryDates?.[index]?.shippingPrice
-                            ?.message
-                        }
-                      </FormMessage>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name={`availableDeliveryDates.${index}.freeShippingMinPrice`}
-                  render={({ field }) => (
-                    <FormItem>
-                      {index == 0 && <FormLabel>Free Shipping</FormLabel>}
-                      <FormControl>
-                        <Input className="bg-white dark:bg-gray-950" {...field} placeholder='freeShippingMinPrice' />
-                      </FormControl>
-                      <FormMessage>
-                        {
-                          errors.availableDeliveryDates?.[index]
-                            ?.freeShippingMinPrice?.message
-                        }
-                      </FormMessage>
-                    </FormItem>
-                  )}
-                />
-                <div>
-                  {index == 0 && <div className=''>Action</div>}
+              <div key={field.id} className='flex flex-col md:flex-row gap-2'>
+                <div className='w-full md:w-1/4'>
+                  <FormField
+                    control={form.control}
+                    name={`availableDeliveryDates.${index}.name`}
+                    render={({ field }) => (
+                      <FormItem>
+                        {index == 0 && <FormLabel>Name</FormLabel>}
+                        <FormControl>
+                          <Input className='bg-white dark:bg-gray-950' {...field} placeholder='Name' />
+                        </FormControl>
+                        <FormMessage>
+                          {errors.availableDeliveryDates?.[index]?.name?.message}
+                        </FormMessage>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className='w-full md:w-1/4'>
+                  <FormField
+                    control={form.control}
+                    name={`availableDeliveryDates.${index}.daysToDeliver`}
+                    render={({ field }) => (
+                      <FormItem>
+                        {index == 0 && <FormLabel>Days</FormLabel>}
+                        <FormControl>
+                          <Input className='bg-white dark:bg-gray-950' {...field} placeholder='Days' />
+                        </FormControl>
+                        <FormMessage>
+                          {errors.availableDeliveryDates?.[index]?.daysToDeliver?.message}
+                        </FormMessage>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className='w-full md:w-1/4'>
+                  <FormField
+                    control={form.control}
+                    name={`availableDeliveryDates.${index}.shippingPrice`}
+                    render={({ field }) => (
+                      <FormItem>
+                        {index == 0 && <FormLabel>Shipping Price</FormLabel>}
+                        <FormControl>
+                          <Input className='bg-white dark:bg-gray-950' {...field} placeholder='Shipping Price' />
+                        </FormControl>
+                        <FormMessage>
+                          {errors.availableDeliveryDates?.[index]?.shippingPrice?.message}
+                        </FormMessage>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className='w-full md:w-1/4 flex items-end'>
                   <Button
                     type='button'
                     disabled={fields.length === 1}
                     variant='outline'
-                    className={index == 0 ? 'mt-2' : ''}
-                    onClick={() => {
-                      remove(index)
-                    }}
+                    onClick={() => remove(index)}
                   >
                     <TrashIcon className='w-4 h-4' />
                   </Button>
-                </div>{' '}
+                </div>
               </div>
             ))
           )}
 
-          <Button
+          <Button className='w-full sm:w-auto'
             type='button'
             variant={'outline'}
             onClick={() =>
@@ -163,7 +141,7 @@ export default function DeliveryDateForm({
               })
             }
           >
-            Add DeliveryDate
+            Add Delivery Date
           </Button>
         </div>
 
@@ -172,7 +150,7 @@ export default function DeliveryDateForm({
           name='defaultDeliveryDate'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Default DeliveryDate</FormLabel>
+              <FormLabel>Default Delivery Date</FormLabel>
               <FormControl>
                 {isPending ? (
                   <Skeleton className='h-8 w-full' />
@@ -181,7 +159,7 @@ export default function DeliveryDateForm({
                     value={field.value || ''}
                     onValueChange={(value) => field.onChange(value)}
                   >
-                    <SelectTrigger className="bg-white dark:bg-gray-950">
+                    <SelectTrigger className='bg-white dark:bg-gray-950'>
                       <SelectValue placeholder='Select a delivery date' />
                     </SelectTrigger>
                     <SelectContent>
@@ -189,7 +167,7 @@ export default function DeliveryDateForm({
                         .filter((x) => x.name)
                         .map((lang, index) => (
                           <SelectItem key={index} value={lang.name}>
-                            {lang.name} ({lang.name})
+                            {lang.name}
                           </SelectItem>
                         ))}
                     </SelectContent>

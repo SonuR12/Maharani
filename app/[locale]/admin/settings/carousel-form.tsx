@@ -53,7 +53,7 @@ export default function CarouselForm({
         ) : (
           <div className='space-y-4'>
             {fields.map((field, index) => (
-              <div key={field.id} className='flex justify-between gap-1 w-full  '>
+              <div key={field.id} className='flex justify-between gap-1 w-full flex-wrap '>
                 <FormField
                   control={form.control}
                   name={`carousels.${index}.title`}
@@ -99,6 +99,20 @@ export default function CarouselForm({
                     </FormItem>
                   )}
                 />
+                <div className='block sm:hidden'>
+                  {index == 0 && <div>Action</div>}
+                  <Button
+                    type='button'
+                    disabled={fields.length === 1}
+                    variant='outline'
+                    className={index == 0 ? 'mt-2' : ''}
+                    onClick={() => {
+                      remove(index)
+                    }}
+                  >
+                    <TrashIcon className='w-4 h-4' />
+                  </Button>
+                </div>
                 <div>
                   <FormField
                     control={form.control}
@@ -115,12 +129,11 @@ export default function CarouselForm({
                       </FormItem>
                     )}
                   />
-
                   {watch(`carousels.${index}.image`) && (
                     <Image
                       src={watch(`carousels.${index}.image`)}
                       alt='image'
-                      className=' w-full object-cover object-center rounded-sm'
+                      className=' sm:w-full sm:h-full object-cover object-center rounded-sm !h-20'
                       width={192}
                       height={68}
                     />
@@ -140,7 +153,7 @@ export default function CarouselForm({
                     />
                   )}
                 </div>
-                <div>
+                <div className='sm:block hidden'>
                   {index == 0 && <div>Action</div>}
                   <Button
                     type='button'

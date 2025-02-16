@@ -7,6 +7,8 @@ import { getSetting } from '@/lib/actions/setting.actions'
 import SideBar from '@/components/shared/admin/sidebar'
 import Footer from '@/components/shared/footer'
 import { auth } from '@/auth'
+import Link from 'next/link'
+import Image from 'next/image'
 
 // Add metadata type for Next.js app router
 interface RootLayoutProps {
@@ -24,7 +26,26 @@ export default async function AdminLayout({ children }: RootLayoutProps) {
         <SideBar />
         <div className="pb-4 w-full h-full">
           <header className="sticky top-0 px-2 pl-4 w-full z-50 border-b !backdrop-blur-md dark:border-0 text-black dark:text-white">
-            <div className="flex h-16 items-center pr-6 font-semibold select-none">
+            <div className="flex h-16 items-center justify-center pr-6 font-semibold select-none">
+            <Link href="/" className='flex items-center gap-2'>
+          {site?.logo ? (
+            <Image className='mb-3 !h-10 !w-10'
+              src={site.logo}
+              width={300}
+              height={500}
+              alt={`${site?.name || 'Site'} logo`}
+            />
+          ) : (
+            // <div className="w-12 h-12 bg-white flex items-center justify-center rounded-md">
+            //   Logo.png
+            // </div>
+            <img src="/" alt="logo.png" />
+          )}
+          <div>
+          <span className='sm:block hidden'> Welcome Admin {session?.user.name}, {site.name}</span>
+          <span className='font-semibold dark:text-white sm:hidden block'>{site?.name}, Welcome Admin {session?.user.name}</span>
+          </div>
+        </Link>
               {/* <Link href="/">
                 <Image
                   src={site.logo}
@@ -32,20 +53,20 @@ export default async function AdminLayout({ children }: RootLayoutProps) {
                   height={48}
                   alt={`${site.name} logo`}
                 />
-              </Link> */}
-              {/* <AdminNav className="mx-4 hidden md:flex" /> */}
-              Welcome Admin {session?.user.name}, {site.name}
+              </Link>
+              {/* <AdminNav className="mx-4 hidden md:flex" />
+              Welcome Admin {session?.user.name}, {site.name} */}
               <div className="ml-auto flex items-center space-x-4">
                 <Menu forAdmin />
               </div>
             </div>
-            <div>
-              <AdminNav className="flex md:hidden px-4 pb-2" />
-            </div>
           </header>
-          <div className="px-4">
+          <div className="px-4 sm:w-[80vw]">
             {children}
           </div>
+          <div>
+              <AdminNav />
+            </div>
         </div>
       </div>
       {/* <footer className=" flex-1 mt-8  bg-gray-800 w-full flex flex-col gap-4 items-center p-8 text-sm">

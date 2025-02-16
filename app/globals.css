@@ -177,3 +177,19 @@ body {
     /* margin-top: 20rem; */
   }
 }
+
+@media (min-width: 0px) and (max-width: 350px) {
+  .settingform {
+    width: 90vw;
+  }
+
+  .input {
+    width: auto;
+  }
+}
+
+@media (min-width: 351px) and (max-width: 970px) {
+  .productlist {
+    /* width: 75vw; */
+  }
+}
