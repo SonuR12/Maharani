@@ -200,7 +200,7 @@ export default function CredentialsSignInForm() {
             <Button
               disabled={pending}
               type="submit"
-              className="w-full p-3 py-5 text-white rounded-md border bg-gradient-to-b from-[rgb(255,60,0)] via-[rgb(255,42,0)] to-[rgb(255,32,32)] border-red-600 hover:border-red-800 dark:hover:bg-red-800 dark:hover:shadow-lg hover:shadow-lg"
+              className="w-full p-3 py-5 text-white submitsignup rounded-md border bg-gradient-to-b from-[rgb(255,60,0)] via-[rgb(255,42,0)] to-[rgb(255,32,32)] border-red-600 hover:border-red-800 dark:hover:bg-red-800 dark:hover:shadow-lg hover:shadow-lg"
             >
               {pending ? 'Sign Up...' : 'Sign Up'}
             </Button>

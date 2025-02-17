@@ -1,5 +1,6 @@
 import Header from '@/components/shared/header'
 import Footer from '@/components/shared/footer'
+import { BottomNav } from '@/components/shared/header/bottomnav'
 
 export default async function HomeLayout({
   children
@@ -12,6 +13,7 @@ export default async function HomeLayout({
       <main className="flex-1 flex flex-col pt-24">
         {children}
       </main>
+      <BottomNav />
       <Footer />
     </div>
   )
