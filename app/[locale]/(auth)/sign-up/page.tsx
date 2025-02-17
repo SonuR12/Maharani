@@ -25,16 +25,41 @@ export default async function SignUpPage({
   }
 
   const { site } = await getSetting()
-  return (
-    <div className="flex md:flex-row w-[80vw] text-left items-center justify-center min-h-[35rem] rounded-3xl shadow-2xl my-4">
-      <div className="md:w-1/2 p-12 pb-5">
+  return ( 
+    <>
+    <style>
+                {/* {`
+                    body {
+                         background-image: 
+                            linear-gradient(to bottom, 
+                                rgb(255, 47, 0, 0.7) 0%,
+                                rgba(253, 23, 23, 0.6) 50%,
+                                rgba(253, 23, 23, 0.5) 50%,
+                                rgb(255, 231, 231) 100%);
+
+
+                        } 
+                                body::-webkit-scrollbar{
+                                        display: none;
+                                }
+
+                        input::placeholder {
+                        color: gray;
+                        opacity: 1;
+                        }
+                `} */}
+
+            </style>
+
+    <div className="flex md:flex-row w-full text-left items-center bg-white dark:bg-white text-black dark:text-black justify-center !min-h-[43rem] sm:min-h-[45rem] sm:h-[90vh] rounded-3xl shadow-2xl my-4">
+      <div className="md:w-1/2 p-6 sm:p-12 min-h-[35rem]">
         <h1 className="text-2xl font-medium signUp">Sign Up</h1>
         <div className="pt-5">
           <SignUpForm />
         </div>
       </div>
-      <div className="lg:w-1/2 h-full text-center image hidden md:block">
-        <Image
+      <div className="w-1/2 h-full text-center image hidden md:block rounded-r-3xl overflow-hidden">
+        {/* <Image
           className="object-cover md:m-auto rounded-r-3xl"
           src={site.logo}
           width={64}
@@ -43,15 +68,16 @@ export default async function SignUpPage({
         />
         <p>
           Welcome to {site.name}
-        </p>
-        {/* <Image
-          className="object-cover w-full h-full md:m-auto rounded-r-3xl"
+        </p> */}
+        <Image
+          className="object-cover w-full h-full md:m-auto"
           src="/SignUp.png"
           width={500}
           height={300}
           alt="SignIn-image"
-        /> */}
+        />
       </div>
     </div>
+    </>
   )
 }

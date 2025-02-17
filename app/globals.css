@@ -116,7 +116,6 @@ body {
 }
 
 
-
 .signIn {
   background: linear-gradient(to right, #0078ff, #4a89ff, rgb(0, 68, 255));
   background-size: 200%;
@@ -139,7 +138,7 @@ body {
   }
 }
 
-.submitsignin {
+/* .submitsignin {
   background: linear-gradient(to bottom, #0078ff, #0059ff, rgb(0, 68, 255));
   background-size: 200%;
   animation: animate-gradient 2s linear infinite;
@@ -149,7 +148,7 @@ body {
   background: linear-gradient(to bottom, rgb(255, 60, 0), rgb(255, 42, 0), rgb(255, 32, 32));
   background-size: 200%;
   animation: animate-gradient 2s linear infinite;
-}
+} */
 
 @media (min-width:251px) and (max-width:450px) {
   .image {

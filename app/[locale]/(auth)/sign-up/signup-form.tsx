@@ -37,6 +37,7 @@ export default function CredentialsSignInForm() {
   const { setting: { site } } = useSettingStore()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') || '/'
+  const [pending, setPending] = useState(false)
 
   const form = useForm<IUserSignUp>({
     resolver: zodResolver(UserSignUpSchema),
@@ -47,6 +48,7 @@ export default function CredentialsSignInForm() {
 
   const onSubmit = async (data: IUserSignUp) => {
     try {
+      setPending(true)
       const res = await registerUser(data)
       if (!res.success) {
         toast({
@@ -70,6 +72,8 @@ export default function CredentialsSignInForm() {
         description: 'Invalid email or password',
         variant: 'destructive'
       })
+    } finally {
+      setPending(false)
     }
   }
 
@@ -77,10 +81,11 @@ export default function CredentialsSignInForm() {
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
-          className="flex px-3 py-4 rounded-md bg-[#eaebee] w-full pr-10"
+          className="flex px-3 py-4 rounded-md bg-[#eaebee] w-full pr-10 "
           type="hidden"
           name="callbackUrl"
           value={callbackUrl}
+          disabled={pending}
         />
         <div className="flex flex-col gap-2">
           <FormField
@@ -94,6 +99,7 @@ export default function CredentialsSignInForm() {
                     className="flex px-3 py-6 rounded-md bg-[#eaebee] w-full pr-10"
                     placeholder="Enter your name"
                     {...field}
+                    disabled={pending}
                   />
                 </FormControl>
                 <FormMessage />
@@ -111,6 +117,7 @@ export default function CredentialsSignInForm() {
                     className="flex px-3 py-6 rounded-md bg-[#eaebee] w-full pr-10"
                     placeholder="Enter email address"
                     {...field}
+                    disabled={pending}
                   />
                 </FormControl>
                 <FormMessage />
@@ -130,6 +137,7 @@ export default function CredentialsSignInForm() {
                       type={showPassword ? 'text' : 'password'}
                       placeholder="Enter password"
                       {...field}
+                      disabled={pending}
                     />
                     <button
                       type="button"
@@ -157,6 +165,7 @@ export default function CredentialsSignInForm() {
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Confirm Password"
                     {...field}
+                    disabled={pending}
                   />
                 </FormControl>
                 <FormMessage />
@@ -164,7 +173,11 @@ export default function CredentialsSignInForm() {
           />
           <div className="text-sm text-gray-600">
             <div className="flex gap-2 items-center">
-              <input className="cursor-pointer" type="checkbox" required />
+              <input
+                className="cursor-pointer checked:bg-red-50 bg-white dark:!bg-white  dark:accent-red-500"
+                type="checkbox"
+                required
+              />
               <label>
                 I agree to the {site.name} &apos;s{' '}
                 <Link
@@ -185,10 +198,11 @@ export default function CredentialsSignInForm() {
           </div>
           <div className="mt-16">
             <Button
-              className="w-full py-6 submitsignup text-white"
+              disabled={pending}
               type="submit"
+              className="w-full p-3 py-5 text-white rounded-md border bg-gradient-to-b from-[rgb(255,60,0)] via-[rgb(255,42,0)] to-[rgb(255,32,32)] border-red-600 hover:border-red-800 dark:hover:bg-red-800 dark:hover:shadow-lg hover:shadow-lg"
             >
-              Sign Up
+              {pending ? 'Sign Up...' : 'Sign Up'}
             </Button>
           </div>
         </div>
@@ -198,7 +212,7 @@ export default function CredentialsSignInForm() {
         <GoogleSignInForm />
       </div>
 
-      <Separator className="mb-4" />
+      <Separator className="mb-4 bg-white" />
       <div className="text-sm text-center">
         Already have an account?{' '}
         <Link

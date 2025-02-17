@@ -10,7 +10,9 @@ export default async function AuthLayout({
 }) {
   const { site } = await getSetting()
   return (
-    <div className="flex flex-col items-center highlight-link mt-3">
+    <>
+
+    <main className="flex flex-col items-center highlight-link">
       <header className="mt-8">
         {/* <Link href="/">
           <Image
@@ -27,10 +29,10 @@ export default async function AuthLayout({
           />
         </Link> */}
       </header>
-      <main className="mx-auto">
+      <main className="sm:mx-auto px-4 sm:px-8 ">
         {children}
       </main>
-      <footer className=" flex-1 mt-8 bg-gray-800 w-full flex flex-col gap-4 items-center p-8 text-sm">
+      {/* <footer className=" flex-1 mt-8 bg-gray-800 w-full flex flex-col gap-4 items-center p-8 text-sm">
         <div className="flex justify-center space-x-4">
           <Link href="/page/conditions-of-use">Conditions of Use</Link>
           <Link href="/page/privacy-policy"> Privacy Notice</Link>
@@ -41,7 +43,8 @@ export default async function AuthLayout({
             {site.copyright}
           </p>
         </div>
-      </footer>
-    </div>
+      </footer> */}
+    </main>
+    </>
   )
 }

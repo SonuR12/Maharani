@@ -49,7 +49,7 @@ export default function CredentialsSignInForm() {
         email: data.email,
         password: data.password
       })
-      if (result.error) {
+      if (result?.error) {
         throw new Error(result.error)
       }
       redirect(callbackUrl)
@@ -59,7 +59,7 @@ export default function CredentialsSignInForm() {
       }
       toast({
         title: 'Error',
-        description: 'Invalid email or password',
+        description: error instanceof Error ? error.message : 'Invalid email or password',
         variant: 'destructive'
       })
     } finally {
@@ -76,25 +76,27 @@ export default function CredentialsSignInForm() {
           <FormField
             control={control}
             name="email"
-            render={({ field }) =>
+            render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
                     autoComplete="off"
                     placeholder="Enter email address"
-                    className="flex px-3 py-6 rounded-md w-full bg-[rgba(219,234,254,0.7)] border-none"
+                    className="flex px-3 py-6 rounded-md !w-full bg-[rgba(219,234,254,0.7)] dark:text-black border-none"
                     {...field}
+                    disabled={pending}
                   />
                 </FormControl>
                 <FormMessage />
-              </FormItem>}
+              </FormItem>
+            )}
           />
 
           <FormField
             control={control}
             name="password"
-            render={({ field }) =>
+            render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel>Password</FormLabel>
                 <FormControl>
@@ -104,6 +106,7 @@ export default function CredentialsSignInForm() {
                       placeholder="Enter your password"
                       className="flex px-3 py-6 rounded-md w-full bg-[rgba(219,234,254,0.7)] border-none"
                       {...field}
+                      disabled={pending}
                     />
                     <button
                       type="button"
@@ -118,14 +121,15 @@ export default function CredentialsSignInForm() {
                   </div>
                 </FormControl>
                 <FormMessage />
-              </FormItem>}
+              </FormItem>
+            )}
           />
 
           <div className="text-sm text-gray-600">
             <div className="flex gap-2 items-center">
               <input className="cursor-pointer" type="checkbox" required />
               <label>
-                I agree to the {site.name} &apos;s{' '}
+                I agree to the {site?.name} &apos;s{' '}
                 <Link
                   href="/page/conditions-of-use"
                   className="text-blue-500 hover:underline"
@@ -147,7 +151,7 @@ export default function CredentialsSignInForm() {
             <Button
               disabled={pending}
               type="submit"
-              className="w-full p-3 py-5 text-white rounded-md submitsignin border hover:border-blue-800 hover:shadow-2xl"
+              className="w-full p-3 py-5 text-white rounded-md bg-gradient-to-b from-[#0078ff] via-[#0059ff] to-[rgb(0,68,255)] border hover:border-blue-800 dark:hover:border-blue-800 dark:hover:shadow-lg hover:shadow-lg"
             >
               {pending ? 'Signing In...' : 'Sign In'}
             </Button>

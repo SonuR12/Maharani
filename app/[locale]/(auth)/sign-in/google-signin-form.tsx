@@ -11,7 +11,7 @@ export function GoogleSignInForm() {
     return (
       <Button
         disabled={pending}
-        className="w-full flex items-center gap-2 justify-center p-3 py-5 text-black hover:bg-white border border-gray-400 hover:border-black hover:shadow-lg hover:text-black rounded-md"
+        className="w-full flex items-center gap-2 justify-center p-3 py-5 text-black dark:bg-transparent hover:bg-white dark:hover:bg-gray-100 border border-gray-400 hover:border-black hover:shadow-lg hover:text-black rounded-md"
         variant="outline"
       >
         {pending ? 'Redirecting to Google...' : 'Sign In with Google'}

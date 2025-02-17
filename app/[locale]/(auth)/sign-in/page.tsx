@@ -33,9 +33,9 @@ export default async function SignInPage({
   }
 
   return (
-    <div className="flex md:flex-row w-[80vw] items-center min-h-[35rem] h-[70vh] rounded-3xl shadow-2xl my-20">
-      <div className="md:w-1/2 p-12">
-        <h1 className="font-medium text-3xl signIn">Sign In</h1>
+    <div className="flex md:flex-row w-full my-16 bg-white dark:bg-gray-50 dark:text-black items-center !min-h-[40rem] sm:min-h-[37rem] sm:h-[70vh] rounded-3xl shadow-2xl">
+      <div className="md:w-1/2 p-6 sm:p-12">
+        <h1 className="font-medium text-3xl my-10 signIn">Sign In</h1>
         <CredentialsSignInForm />
         <GoogleSignInForm />
         <div className="text-center text-sm my-7">
@@ -48,7 +48,7 @@ export default async function SignInPage({
           </Link>
         </div>
       </div>
-      <div className="lg:w-1/2 h-full hidden md:block">
+      <div className="md:w-1/2 h-full hidden md:block">
         <Image
           className="object-cover w-full h-full rounded-r-3xl"
           src="/SignIn.png"
