@@ -1,6 +1,6 @@
-import { getSetting } from '@/lib/actions/setting.actions'
+// import { getSetting } from '@/lib/actions/setting.actions'
 // import Image from 'next/image'
-import Link from 'next/link'
+// import Link from 'next/link'
 import React from 'react'
 
 export default async function AuthLayout({
@@ -8,7 +8,7 @@ export default async function AuthLayout({
 }: {
   children: React.ReactNode
 }) {
-  const { site } = await getSetting()
+  // const { site } = await getSetting()
   return (
     <>
 

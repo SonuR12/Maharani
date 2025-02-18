@@ -29,11 +29,21 @@ export default function LanguageSwitcher() {
   } = useSettingStore()
 
   const [isOpen, setIsOpen] = React.useState(false)
+  const [selectedCurrency, setSelectedCurrency] = React.useState(currency)
 
-  const handleCurrencyChange = async (newCurrency: string) => {
+  // Update the store only when selectedCurrency changes
+  React.useEffect(() => {
+    if (selectedCurrency !== currency) {
+      React.startTransition(() => {
+        setCurrency(selectedCurrency)
+      })
+    }
+  }, [selectedCurrency, currency, setCurrency])
+
+  const handleCurrencyChange = React.useCallback(async (newCurrency: string) => {
     await setCurrencyOnServer(newCurrency)
-    setCurrency(newCurrency)
-  }
+    setSelectedCurrency(newCurrency)
+  }, [])
 
   return (
     <DropdownMenu onOpenChange={setIsOpen}>
@@ -70,8 +80,12 @@ export default function LanguageSwitcher() {
 
         <DropdownMenuLabel>Currency</DropdownMenuLabel>
         <DropdownMenuRadioGroup
-          value={currency}
-          onValueChange={handleCurrencyChange}
+          value={selectedCurrency}
+          onValueChange={(newCurrency) => {
+            React.startTransition(() => {
+              handleCurrencyChange(newCurrency)
+            })
+          }}
         >
           {availableCurrencies.map(c => (
             <DropdownMenuRadioItem key={c.name} value={c.code}>
