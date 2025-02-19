@@ -34,7 +34,7 @@ export default function CartPage() {
 
   const t = useTranslations()
   return (
-    <div className='mt-28'>
+    <div className='mt-40 sm:mt-28'>
       <div className='grid grid-cols-1 md:grid-cols-4  md:gap-4'>
         {items.length === 0 ? (
           <Card className='col-span-4 rounded-none'>
@@ -51,13 +51,15 @@ export default function CartPage() {
         ) : (
           <>
             <div className='col-span-3'>
-              <Card className='rounded-none'>
+              <Card className='rounded-md'>
                 <CardHeader className='text-3xl pb-0'>
                   {t('Cart.Shopping Cart')}
                 </CardHeader>
                 <CardContent className='p-4'>
                   <div className='flex justify-end border-b mb-4'>
+                    <div className='sm:block hidden'>
                     {t('Cart.Price')}
+                    </div>
                   </div>
 
                   {items.map((item) => (
@@ -72,6 +74,7 @@ export default function CartPage() {
                             alt={item.name}
                             fill
                             sizes='20vw'
+                            className='!w-36 !h-40'
                             style={{
                               objectFit: 'contain',
                             }}
@@ -165,7 +168,7 @@ export default function CartPage() {
               </Card>
             </div>
             <div>
-              <Card className='rounded-none'>
+              <Card className='rounded-md'>
                 <CardContent className='py-4 space-y-4'>
                   {itemsPrice < freeShippingMinPrice ? (
                     <div className='flex-1'>

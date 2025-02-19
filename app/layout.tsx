@@ -1,11 +1,11 @@
 import { Geist, Geist_Mono } from 'next/font/google'
-import '../globals.css'
+import './globals.css'
 import ClientProviders from '@/components/shared/client-providers'
 import { getDirection } from '@/i18n-config'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
-import { notFound } from 'next/navigation'
+// import { notFound } from 'next/navigation'
 import { getSetting } from '@/lib/actions/setting.actions'
 import { cookies } from 'next/headers'
 
@@ -52,7 +52,7 @@ export default async function AppLayout({
   // Ensure that the incoming `locale` is valid
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (!routing.locales.includes(locale as any)) {
-    notFound()
+    // notFound()
   }
   const messages = await getMessages()
 
@@ -63,7 +63,7 @@ export default async function AppLayout({
       suppressHydrationWarning
     >
       <body
-        className={`min-h-screen ${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`min-h-screen mb-7 sm:mb-0 ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ClientProviders setting={{ ...setting, currency }}>

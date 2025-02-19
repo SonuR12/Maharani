@@ -8,7 +8,7 @@ export default async function HomeLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen mb-7 sm:mb-0">
       <Header />
       <main className="flex-1 flex flex-col pt-24">
         {children}

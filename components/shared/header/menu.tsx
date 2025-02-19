@@ -23,12 +23,12 @@ const Menu = ({ forAdmin = false }: { forAdmin?: boolean }) => {
         <UserButton />
         {forAdmin ? null : <CartButton />}
       </nav>
-      <nav className="md:hidden">
-        {/* <div className='flex'>
-          <LanguageSwitcher />
-        <ThemeSwitcher />
-        <UserButton /> 
-        </div> */}
+      <nav className="md:hidden flex">
+        <div className="flex">
+          {/* <LanguageSwitcher /> */}
+          <ThemeSwitcher />
+          {/* <UserButton />  */}
+        </div>
 
         <Sheet>
           <SheetTrigger className="align-middle header-button">

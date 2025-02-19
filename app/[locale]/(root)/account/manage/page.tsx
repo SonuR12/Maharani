@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default async function ProfilePage() {
   const session = await auth()
   return (
-    <div className='mb-24'>
+    <div className='sm:my-10'>
       <SessionProvider session={session}>
         <div className='flex gap-2 '>
           <Link href='/account'>Your Account</Link>

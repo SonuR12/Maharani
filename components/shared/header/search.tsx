@@ -35,7 +35,7 @@ export default async function Search() {
           )}
         </SelectContent>
       </Select>
-      <div className="relative w-full max-w-md">
+      <div className="relative w-full max-w-md border rounded-r-md rtl:rounded-r-none rtl:rounded-l-md">
         <SearchIcon className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
         <Input
           autoComplete="off"

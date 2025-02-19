@@ -162,14 +162,16 @@ export default function CurrencyForm({
                 )}
               />
 
-              <div className="flex items-center justify-center sm:justify-start">
-                {index === 0 && <FormLabel>Action</FormLabel>}
+<div>
+                {index == 0 && <div>Action</div>}
                 <Button
-                  type="button"
+                  type='button'
                   disabled={fields.length === 1}
-                  variant="outline"
-                  className="mt-2 sm:mt-0"
-                  onClick={() => remove(index)}
+                  variant='outline'
+                  className={index == 0 ? 'mt-2' : ''}
+                  onClick={() => {
+                    remove(index)
+                  }}
                 >
                   <TrashIcon className="w-4 h-4" />
                 </Button>
