@@ -37,7 +37,7 @@ export default async function ProductDetailsPage(props: {
   console.log('Size:', size)
 
   return (
-    <div className="p-4 max-w-3xl mx-auto">
+    <div className="p-4 max-w-3xl mx-auto mt-40 md:mt-28">
       <h1 className="h1-bold py-4">
         {webPage.title}
       </h1>

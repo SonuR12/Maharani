@@ -107,11 +107,11 @@ export default function Footer() {
             <div className="flex items-center justify-center space-x-4 flex-wrap md:flex-nowrap">
               <div className="flex items-center gap-2">
                 <Image
+                  className="!h-8 !w-8 md:!w-20"
                   src={site.logo}
-                  alt={`${site.name} logo`}
                   width={300}
                   height={500}
-                  className="!h-8 !w-8"
+                  alt={`${site.name} logo`}
                 />
               </div>
 

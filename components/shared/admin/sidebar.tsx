@@ -70,7 +70,7 @@ export default function SideBar() {
       <div className='flex flex-col'>
         
        <div className="px-4 py-2 border-b">
-        <Link href="/" className='flex items-center gap-2'>
+        <Link href="/" prefetch={false} className='flex items-center gap-2'>
           {site?.logo ? (
             <Image className='mb-3 !h-10 !w-10'
               src={site.logo}
@@ -79,10 +79,7 @@ export default function SideBar() {
               alt={`${site?.name || 'Site'} logo`}
             />
           ) : (
-            // <div className="w-12 h-12 bg-white flex items-center justify-center rounded-md">
-            //   Logo.png
-            // </div>
-            <img src="/" alt="logo.png" />
+            <img src="/path/to/default/logo.png" alt="logo.png" />
           )}
           <span className='font-semibold dark:text-white'>{site?.name}</span>
         </Link>
@@ -95,6 +92,7 @@ export default function SideBar() {
           <Link
               key={item.href}
               href={item.href}
+              prefetch={false}
               className={cn(
               "px-3 py-2 rounded-md flex items-center gap-2 drop-shadow-xl overflow-x-hidden sm:text-sm md:text-base",
               pathname.includes(item.href) ? "bg-primary font-medium": "text-gray-500 transition-colors hover:bg-gray-300 dark:hover:bg-gray-800 dark:text-white hover:text-black"

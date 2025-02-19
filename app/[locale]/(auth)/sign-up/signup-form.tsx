@@ -50,26 +50,33 @@ export default function CredentialsSignInForm() {
     try {
       setPending(true)
       const res = await registerUser(data)
+
       if (!res.success) {
         toast({
           title: 'Error',
           description: res.error,
-          variant: 'destructive'
+          variant: 'destructive' // ❌ Show error toast
         })
         return
       }
+
       await signInWithCredentials({
         email: data.email,
         password: data.password
       })
-      redirect(callbackUrl)
+
+      toast({
+        title: 'Success',
+        description: 'Account created successfully! Redirecting...',
+        variant: 'success' // ✅ Show success toast
+      })
+
+      setTimeout(() => redirect(callbackUrl)) // Redirect after a short delay
     } catch (error) {
-      if (isRedirectError(error)) {
-        throw error
-      }
+      if (isRedirectError(error)) throw error
       toast({
         title: 'Error',
-        description: 'Invalid email or password',
+        description: 'Signup failed. Please try again.',
         variant: 'destructive'
       })
     } finally {

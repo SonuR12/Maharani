@@ -5,7 +5,7 @@ import { auth } from '@/auth'
 
 import SignUpForm from './signup-form'
 import Image from 'next/image'
-import { getSetting } from '@/lib/actions/setting.actions'
+// import { getSetting } from '@/lib/actions/setting.actions'
 
 export const metadata: Metadata = {
   title: 'Sign Up'
@@ -24,7 +24,7 @@ export default async function SignUpPage({
     return redirect(callbackUrl || '/')
   }
 
-  const { site } = await getSetting()
+  // const { site } = await getSetting()
   return ( 
     <>
     <style>

@@ -22,9 +22,10 @@ export default function LanguageSwitcher() {
   const { locales } = i18n
   const locale = useLocale()
   const pathname = usePathname()
-    const [isOpen, setIsOpen] = React.useState(false)
-  
-
+  const [isOpen, setIsOpen] = React.useState(false)
+  const handleLocaleChange = (newLocale: string) => {
+    window.location.href = `/${newLocale}${pathname}`
+  }
   const {
     setting: { availableCurrencies, currency },
     setCurrency,
@@ -34,18 +35,16 @@ export default function LanguageSwitcher() {
     setCurrency(newCurrency)
   }
   return (
-    <DropdownMenu onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger className="header-button h-[41px] hover:bg-gray-200 dark:hover:bg-gray-800 rounded-md select-none">
+    <DropdownMenu onOpenChange={(open) => setIsOpen(open)}>
+      <DropdownMenuTrigger className="header-button h-[41px] hover:bg-gray-200 dark:hover:bg-gray-800 rounded-md select-none focus:outline-none">
         <div className='flex items-center gap-1'>
           <span className='text-xl'>
             {locales.find((l) => l.code === locale)?.icon}
           </span>
           {locale.toUpperCase().slice(0, 2)}
           <ChevronDownIcon
-                          className={`transition-transform duration-200 ${isOpen
-                            ? 'rotate-180'
-                            : ''}`}
-            />
+            className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-56'>
@@ -57,6 +56,7 @@ export default function LanguageSwitcher() {
                 className='w-full flex items-center gap-1'
                 href={pathname}
                 locale={c.code}
+                onClick={() => handleLocaleChange(c.code)}
               >
                 <span className='text-lg'>{c.icon}</span> {c.name}
               </Link>
@@ -81,3 +81,4 @@ export default function LanguageSwitcher() {
     </DropdownMenu>
   )
 }
+

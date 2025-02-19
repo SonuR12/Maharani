@@ -37,7 +37,7 @@ export default function ThemeSwitcher() {
           ? <div className="flex items-center gap-1 select-none">
               <Moon className="h-4 w-4" /> {t('Dark')}
               <ChevronDownIcon
-                className={`transition-transform duration-200 hidden sm:block ${isOpen
+                className={`transition-transform duration-200 ${isOpen
                   ? 'rotate-180'
                   : ''}`}
               />
@@ -45,7 +45,7 @@ export default function ThemeSwitcher() {
           : <div className="flex items-center gap-1">
               <Sun className="h-4 w-4" /> {t('Light')}{' '}
               <ChevronDownIcon
-                className={`transition-transform duration-200 hidden sm:block ${isOpen
+                className={`transition-transform duration-200 ${isOpen
                   ? 'rotate-180'
                   : ''}`}
               />
@@ -55,11 +55,11 @@ export default function ThemeSwitcher() {
         <DropdownMenuLabel>Theme</DropdownMenuLabel>
 
         <DropdownMenuRadioGroup value={theme} onValueChange={changeTheme}>
-          <DropdownMenuRadioItem value="light">
-            <Moon className="h-4 w-4 mr-1" /> {t('Light')}
-          </DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="dark">
-            <Sun className="h-4 w-4 mr-1" /> {t('Dark')}
+            <Moon className="h-4 w-4 mr-1" /> {t('Dark')}
+          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="light">
+            <Sun className="h-4 w-4 mr-1" /> {t('Light')}
           </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
         <DropdownMenuSeparator />

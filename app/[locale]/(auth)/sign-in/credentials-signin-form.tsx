@@ -19,11 +19,11 @@ import { useForm } from 'react-hook-form'
 import { IUserSignIn } from '@/types'
 import { signInWithCredentials } from '@/lib/actions/user.actions'
 
-import { toast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UserSignInSchema } from '@/lib/validator'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { useState } from 'react'
+import { useToast } from '@/hooks/use-toast'
 
 export default function CredentialsSignInForm() {
   const { setting: { site } } = useSettingStore()
@@ -31,6 +31,8 @@ export default function CredentialsSignInForm() {
   const callbackUrl = searchParams.get('callbackUrl') || '/'
   const [pending, setPending] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+
+  const { toast } = useToast() // ✅ Initialize shadcn toast
 
   const form = useForm<IUserSignIn>({
     resolver: zodResolver(UserSignInSchema),
@@ -49,23 +51,35 @@ export default function CredentialsSignInForm() {
         email: data.email,
         password: data.password
       })
+  
       if (result?.error) {
         throw new Error(result.error)
       }
-      redirect(callbackUrl)
+  
+      // ✅ Show success toast
+      toast({
+        title: 'Success',
+        description: 'Successfully Signed In!',
+        variant: 'success'
+      })
+  
+      redirect(callbackUrl) // Ensure this correctly handles navigation
     } catch (error) {
       if (isRedirectError(error)) {
         throw error
       }
+  
+      // ✅ Show error toast with proper error handling
       toast({
         title: 'Error',
-        description: error instanceof Error ? error.message : 'Invalid email or password',
+        description: error instanceof Error ? 'Invalid email or password' : error.message ,
         variant: 'destructive'
       })
     } finally {
       setPending(false)
     }
   }
+  
 
   return (
     <div>
