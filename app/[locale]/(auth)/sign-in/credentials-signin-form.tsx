@@ -64,7 +64,7 @@ export default function CredentialsSignInForm() {
       })
   
       redirect(callbackUrl) // Ensure this correctly handles navigation
-    } catch (error) {
+    } catch (error: unknown) {
       if (isRedirectError(error)) {
         throw error
       }
@@ -72,7 +72,7 @@ export default function CredentialsSignInForm() {
       // ✅ Show error toast with proper error handling
       toast({
         title: 'Error',
-        description: error instanceof Error ? 'Invalid email or password' : error.message ,
+        description: error instanceof Error ? 'Invalid email or password' : 'An unknown error occurred',
         variant: 'destructive'
       })
     } finally {

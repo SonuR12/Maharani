@@ -31,7 +31,7 @@ export const createOrder = async (clientSideCart: Cart) => {
       message: 'Order placed successfully',
       data: { orderId: createdOrder._id.toString() },
     }
-  } catch (error) {
+  } catch (error: unknown) {
     return { success: false, message: formatError(error) }
   }
 }
@@ -110,7 +110,7 @@ const updateProductStock = async (orderId: string) => {
     await session.commitTransaction()
     session.endSession()
     return true
-  } catch (error) {
+  } catch (error: unknown) {
     await session.abortTransaction()
     session.endSession()
     throw error
@@ -146,7 +146,7 @@ export async function deleteOrder(id: string) {
       success: true,
       message: 'Order deleted successfully',
     }
-  } catch (error) {
+  } catch (error: unknown) {
     return { success: false, message: formatError(error) }
   }
 }
