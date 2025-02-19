@@ -341,13 +341,13 @@ export default function DashboardReport() {
         <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
           <Link className="text-xs" href="/admin/orders">
             <Card className="hover:bg-gray-100 dark:hover:bg-gray-800 border-none drop-shadow-xl">
-              <CardHeader className="p-4 sm:p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardHeader className="p-4 sm:p-6 sm:px-4 flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
                   {t('Total Revenue')}
                 </CardTitle>
                 <BadgeDollarSign />
               </CardHeader>
-              <CardContent className="p-4 py-2 sm:px-4 sm:py-6 space-y-2 overflow-x-scroll">
+              <CardContent className="p-4 py-2 sm:p-4 space-y-2 overflow-x-scroll">
                 <div className="text-lg sm:text-2xl font-bold">
                   <ProductPrice price={data.totalSales} plain />
                 </div>
@@ -359,13 +359,13 @@ export default function DashboardReport() {
           </Link>
           <Link className="text-xs" href="/admin/orders">
             <Card className="hover:bg-gray-100 dark:hover:bg-gray-800 border-none drop-shadow-xl">
-              <CardHeader className="p-4 sm:p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardHeader className="p-4 sm:p-6 sm:px-4  flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
                   {t('Orders')}
                 </CardTitle>
                 <CreditCard />
               </CardHeader>
-              <CardContent className="p-4 py-2 sm:px-4 sm:py-6 space-y-2 overflow-x-scroll">
+              <CardContent className="p-4 py-2 sm:p-4 space-y-2 overflow-x-scroll">
                 <div className="text-lg sm:text-2xl font-bold">
                   {formatNumber(data.ordersCount)}
                 </div>
@@ -377,13 +377,13 @@ export default function DashboardReport() {
           </Link>
           <Link className="text-xs" href="/admin/users">
             <Card className="hover:bg-gray-100 dark:hover:bg-gray-800 border-none drop-shadow-xl">
-              <CardHeader className="p-4 py-2 sm:p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardHeader className="p-4 py-2 sm:p-6 sm:px-4  flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium select-none">
                   {t('Customers')}
                 </CardTitle>
                 <Users />
               </CardHeader>
-              <CardContent className="p-4 sm:px-4 sm:py-6 space-y-2 overflow-x-scroll">
+              <CardContent className="p-4 sm:p-4 space-y-2 overflow-x-scroll">
                 <div className="text-lg sm:text-2xl font-bold">
                   {data.usersCount}
                 </div>
@@ -395,13 +395,13 @@ export default function DashboardReport() {
           </Link>
           <Link className="text-xs" href="/admin/products">
             <Card className="hover:bg-gray-100 dark:hover:bg-gray-800 border-none drop-shadow-xl">
-              <CardHeader className="p-4 py-2 sm:p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardHeader className="p-4 py-2 sm:p-6 sm:px-4 flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium select-none">
                   {t('Products')}
                 </CardTitle>
                 <Barcode />
               </CardHeader>
-              <CardContent className="p-4 sm:px-4 sm:py-6 space-y-2 overflow-x-scroll">
+              <CardContent className="p-4 sm:p-4 space-y-2 overflow-x-scroll">
                 <div className="text-lg sm:text-2xl font-bold">
                   {data.productsCount}
                 </div>

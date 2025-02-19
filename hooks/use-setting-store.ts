@@ -8,6 +8,7 @@ interface SettingState {
   setting: ClientSetting
   setSetting: (newSetting: ClientSetting) => void
   getCurrency: () => SiteCurrency
+  getCurrencyDisplay: () => string
   setCurrency: (currency: string) => void
 }
 
@@ -30,6 +31,10 @@ const useSettingStore = create<SettingState>((set, get) => ({
         (c) => c.code === get().setting.currency
       ) || data.settings[0].availableCurrencies[0]
     )
+  },
+  getCurrencyDisplay: () => {
+    const currency = get().getCurrency()
+    return currency.code === 'INR' ? 'IND' : currency.symbol
   },
   setCurrency: async (currency: string) => {
     set({ setting: { ...get().setting, currency } })
