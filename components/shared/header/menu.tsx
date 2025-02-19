@@ -24,6 +24,12 @@ const Menu = ({ forAdmin = false }: { forAdmin?: boolean }) => {
         {forAdmin ? null : <CartButton />}
       </nav>
       <nav className="md:hidden">
+        {/* <div className='flex'>
+          <LanguageSwitcher />
+        <ThemeSwitcher />
+        <UserButton /> 
+        </div> */}
+
         <Sheet>
           <SheetTrigger className="align-middle header-button">
             <EllipsisVertical className="h-6 w-6" />

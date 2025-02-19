@@ -8,7 +8,7 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
 import { useLocale } from 'next-intl'
@@ -25,52 +25,34 @@ export default function LanguageSwitcher() {
 
   const {
     setting: { availableCurrencies, currency },
-    setCurrency
+    setCurrency,
   } = useSettingStore()
-
-  const [isOpen, setIsOpen] = React.useState(false)
-  const [selectedCurrency, setSelectedCurrency] = React.useState(currency)
-
-  // Update the store only when selectedCurrency changes
-  React.useEffect(() => {
-    if (selectedCurrency !== currency) {
-      React.startTransition(() => {
-        setCurrency(selectedCurrency)
-      })
-    }
-  }, [selectedCurrency, currency, setCurrency])
-
-  const handleCurrencyChange = React.useCallback(async (newCurrency: string) => {
+  const handleCurrencyChange = async (newCurrency: string) => {
     await setCurrencyOnServer(newCurrency)
-    setSelectedCurrency(newCurrency)
-  }, [])
-
+    setCurrency(newCurrency)
+  }
   return (
-    <DropdownMenu onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger className="header-button h-[41px] select-none hover:bg-gray-200 dark:hover:bg-gray-800 rounded-md" asChild>
-        <div className="flex items-center gap-1 select-none">
-          <span className="text-xl">
-            {locales.find(l => l.code === locale)?.icon}
+    <DropdownMenu>
+      <DropdownMenuTrigger className="header-button h-[41px] hover:bg-gray-200 dark:hover:bg-gray-800 rounded-md select-none">
+        <div className='flex items-center gap-1'>
+          <span className='text-xl'>
+            {locales.find((l) => l.code === locale)?.icon}
           </span>
           {locale.toUpperCase().slice(0, 2)}
-          <ChevronDownIcon
-            className={`transition-transform duration-200 ${
-              isOpen ? 'rotate-180' : ''
-            }`}
-          />
+          <ChevronDownIcon />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 select-none">
+      <DropdownMenuContent className='w-56'>
         <DropdownMenuLabel>Language</DropdownMenuLabel>
         <DropdownMenuRadioGroup value={locale}>
-          {locales.map(c => (
+          {locales.map((c) => (
             <DropdownMenuRadioItem key={c.name} value={c.code}>
               <Link
-                className="w-full flex items-center gap-1"
+                className='w-full flex items-center gap-1'
                 href={pathname}
                 locale={c.code}
               >
-                <span className="text-lg">{c.icon}</span> {c.name}
+                <span className='text-lg'>{c.icon}</span> {c.name}
               </Link>
             </DropdownMenuRadioItem>
           ))}
@@ -80,14 +62,10 @@ export default function LanguageSwitcher() {
 
         <DropdownMenuLabel>Currency</DropdownMenuLabel>
         <DropdownMenuRadioGroup
-          value={selectedCurrency}
-          onValueChange={(newCurrency) => {
-            React.startTransition(() => {
-              handleCurrencyChange(newCurrency)
-            })
-          }}
+          value={currency}
+          onValueChange={handleCurrencyChange}
         >
-          {availableCurrencies.map(c => (
+          {availableCurrencies.map((c) => (
             <DropdownMenuRadioItem key={c.name} value={c.code}>
               {c.symbol} {c.code}
             </DropdownMenuRadioItem>

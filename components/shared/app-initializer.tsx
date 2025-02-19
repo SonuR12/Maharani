@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import useSettingStore from '@/hooks/use-setting-store'
-import { ClientSetting } from '@/types'
+import React, { useEffect, useState } from 'react';
+import useSettingStore from '@/hooks/use-setting-store';
+import { ClientSetting } from '@/types';
 
 export default function AppInitializer({
   setting,
   children,
 }: {
-  setting: ClientSetting
-  children: React.ReactNode
+  setting: ClientSetting;
+  children: React.ReactNode;
 }) {
-  const [rendered, setRendered] = useState(false)
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    setRendered(true)
-  }, [setting])
-  if (!rendered) {
-    useSettingStore.setState({
-      setting,
-    })
+    // Update the setting in the store when the component mounts or when the setting changes
+    useSettingStore.setState({ setting });
+    setIsInitialized(true);
+  }, [setting]);
+
+  // Render nothing or a loading state until the settings are initialized
+  if (!isInitialized) {
+    return null; // or a loading spinner, etc.
   }
 
-  return children
+  return <>{children}</>; // Render children only after initialization
 }
