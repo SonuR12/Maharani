@@ -1,14 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import useColorStore from '@/hooks/use-color-store'
 import { useTheme } from 'next-themes'
 import React from 'react'
 import { PieChart, Pie, ResponsiveContainer, Cell } from 'recharts'
 
 export default function SalesCategoryPieChart({ data }: { data: any[] }) {
   const { theme } = useTheme()
-  const { cssColors } = useColorStore(theme)
+
+  const colors = [
+    'hsl(330, 100%, 70%)', // Pink
+    'hsl(200, 100%, 70%)', // Light Blue
+    'hsl(120, 100%, 70%)', // Light Green
+    'hsl(60, 100%, 70%)', // Light Yellow
+    'hsl(30, 100%, 70%)' // Light Orange
+  ]
 
   const RADIAN = Math.PI / 180
   const renderCustomizedLabel = ({
@@ -30,6 +36,7 @@ export default function SalesCategoryPieChart({ data }: { data: any[] }) {
         textAnchor={x > cx ? 'start' : 'end'}
         dominantBaseline="central"
         className="text-xs"
+        fill={theme === 'dark' ? 'white' : 'black'}
       >
         {`${data[index]._id} ${data[index].totalSales} sales`}
       </text>
@@ -45,15 +52,15 @@ export default function SalesCategoryPieChart({ data }: { data: any[] }) {
             dataKey="totalSales"
             cx="50%"
             cy="50%"
-            outerRadius="80%" // Use percentage for responsiveness
+            outerRadius="80%"
             innerRadius="50%"
             labelLine={false}
             label={renderCustomizedLabel}
           >
-            {data.map((entry, index) =>
+            {data.map((_, index) =>
               <Cell
                 key={`cell-${index}`}
-                fill={`hsl(${cssColors['--primary']})`}
+                fill={colors[index % colors.length]}
               />
             )}
           </Pie>

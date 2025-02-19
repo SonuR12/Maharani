@@ -42,10 +42,10 @@ export function CalendarDateRangePicker({
             <CalendarIcon className='mr-0 h-4 w-4' />
             {calendarDate?.from ? (
               calendarDate.to ? (
-                <>
+                <div className='hidden sm:block'>
                   {formatDateTime(calendarDate.from).dateOnly} -{' '}
                   {formatDateTime(calendarDate.to).dateOnly}
-                </>
+                </div>
               ) : (
                 formatDateTime(calendarDate.from).dateOnly
               )
