@@ -1,4 +1,3 @@
-import { EllipsisVertical } from 'lucide-react'
 import {
   Sheet,
   SheetContent,
@@ -12,6 +11,7 @@ import UserButton from './user-button'
 import ThemeSwitcher from './theme-switcher'
 import LanguageSwitcher from './language-switcher'
 import { useTranslations } from 'next-intl'
+import { RxHamburgerMenu } from 'react-icons/rx'
 
 const Menu = ({ forAdmin = false }: { forAdmin?: boolean }) => {
   const t = useTranslations()
@@ -32,7 +32,12 @@ const Menu = ({ forAdmin = false }: { forAdmin?: boolean }) => {
 
         <Sheet>
           <SheetTrigger className="align-middle header-button">
-            <EllipsisVertical className="h-6 w-6" />
+            {/* <RxHamburgerMenu className="h-5 w-5 " /> */}
+            <div className="flex flex-col items-center gap-1 bg-white border p-2 rounded-md">
+              <div className="w-4 h-[2px] bg-black rounded" />
+              <div className="w-4 h-[2px] bg-black rounded" />
+              <div className="w-4 h-[2px] bg-black rounded" />
+            </div>
           </SheetTrigger>
           <SheetContent className="bg-black text-white flex flex-col items-start">
             <SheetHeader className="w-full">
