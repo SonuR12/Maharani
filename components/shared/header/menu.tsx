@@ -11,7 +11,7 @@ import UserButton from './user-button'
 import ThemeSwitcher from './theme-switcher'
 import LanguageSwitcher from './language-switcher'
 import { useTranslations } from 'next-intl'
-import { RxHamburgerMenu } from 'react-icons/rx'
+// import { RxHamburgerMenu } from 'react-icons/rx'
 
 const Menu = ({ forAdmin = false }: { forAdmin?: boolean }) => {
   const t = useTranslations()
@@ -33,10 +33,10 @@ const Menu = ({ forAdmin = false }: { forAdmin?: boolean }) => {
         <Sheet>
           <SheetTrigger className="align-middle header-button">
             {/* <RxHamburgerMenu className="h-5 w-5 " /> */}
-            <div className="flex flex-col items-center gap-1 bg-white border p-2 rounded-md">
+            <div className="flex flex-col justify-end items-end gap-1 bg-white border p-2 rounded-md">
               <div className="w-4 h-[2px] bg-black rounded" />
-              <div className="w-4 h-[2px] bg-black rounded" />
-              <div className="w-4 h-[2px] bg-black rounded" />
+              <div className="w-3 h-[2px] bg-black rounded" />
+              <div className="w-2 h-[2px] bg-black rounded" />
             </div>
           </SheetTrigger>
           <SheetContent className="bg-black text-white flex flex-col items-start">
