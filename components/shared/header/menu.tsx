@@ -33,7 +33,7 @@ const Menu = ({ forAdmin = false }: { forAdmin?: boolean }) => {
         <Sheet>
           <SheetTrigger className="align-middle header-button">
             {/* <RxHamburgerMenu className="h-5 w-5 " /> */}
-            <div className="flex flex-col justify-end items-end gap-1 bg-white border p-2 rounded-md">
+            <div className="flex flex-col justify-end items-end gap-1 bg-white p-2 rounded-md border border-gray-200 drop-shadow-xl">
               <div className="w-4 h-[2px] bg-black rounded" />
               <div className="w-3 h-[2px] bg-black rounded" />
               <div className="w-2 h-[2px] bg-black rounded" />

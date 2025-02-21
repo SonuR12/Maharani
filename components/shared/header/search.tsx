@@ -22,7 +22,7 @@ export default async function Search() {
     <form
       action="/search"
       method="GET"
-      className="flex items-stretch h-10 border border-gray-400 w-full rounded-md overflow-hidden"
+      className="flex items-stretch h-10 border border-gray-400 w-full rounded-md drop-shadow-xl overflow-hidden"
     >
       <Select name="category">
         <SelectTrigger className="w-auto h-full pl-4 dark:-gray-200 bg-white text-black border-none">
