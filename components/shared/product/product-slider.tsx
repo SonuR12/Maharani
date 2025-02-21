@@ -27,8 +27,7 @@ export default function ProductSlider({
       </h2>
       <Carousel
         opts={{
-          align: 'start',
-          loop: false
+          align: 'start'
         }}
         className="w-full"
       >

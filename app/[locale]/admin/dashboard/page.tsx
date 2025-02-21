@@ -10,7 +10,9 @@ const DashboardPage = async () => {
   if (session?.user.role !== 'Admin')
     throw new Error('Admin permission required')
 
-  return <DashboardReport/>
+  return (
+      <DashboardReport/>
+)
 }
 
 export default DashboardPage

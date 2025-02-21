@@ -2,7 +2,7 @@
 import { ChevronUp } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-
+import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import useSettingStore from '@/hooks/use-setting-store'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '../ui/select'
@@ -24,7 +24,12 @@ export default function Footer() {
   const locale = useLocale()
   const t = useTranslations()
   return (
-    <footer className="bg-black mb-8 sm:mb-0 text-white underline-link bottom-0">
+    <motion.footer
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0, transition: { duration: 0.8 } }}
+      viewport={{ once: true, amount: 0.2 }}
+      className="bg-black mb-8 sm:mb-0 text-white underline-link bottom-0"
+    >
       <div className="w-full">
         <Button
           variant="ghost"
@@ -183,6 +188,6 @@ export default function Footer() {
           {site.address} | {site.phone}
         </div>
       </div>
-    </footer>
+    </motion.footer>
   )
 }

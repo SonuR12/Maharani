@@ -58,7 +58,7 @@ export default function CredentialsSignInForm() {
   
       // ✅ Show success toast
       toast({
-        title: 'Success',
+        // title: 'Success',
         description: 'Successfully Signed In!',
         variant: 'success'
       })
@@ -71,7 +71,7 @@ export default function CredentialsSignInForm() {
   
       // ✅ Show error toast with proper error handling
       toast({
-        title: 'Error',
+        // title: 'destuctive',
         description: error instanceof Error ? 'Invalid email or password' : 'An unknown error occurred',
         variant: 'destructive'
       })

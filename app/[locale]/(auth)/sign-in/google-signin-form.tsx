@@ -14,8 +14,8 @@ export function GoogleSignInForm() {
       setPending(true)
       await SignInWithGoogle() // ✅ Trigger Google sign-in
       toast({
-        title: 'Success',
-        description: 'Signed in with Google successfully!',
+        // title: 'Success',
+        description: 'Successfully Signed In with Google!',
         variant: 'success'
       })
     } catch (error) {

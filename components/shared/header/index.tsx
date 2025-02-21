@@ -22,13 +22,15 @@ export default async function Header() {
               className="flex items-center header-button font-extrabold text-2xl m-1 "
             >
               <Image
-                className="!h-8 !w-8"
+                className="!h-8 !w-8 hidden sm:block"
                 src={site.logo}
                 width={300}
                 height={500}
                 alt={`${site.name} logo`}
               />
-              {site.name}
+              <span className="">
+                {site.name}
+              </span>
             </Link>
           </div>
 
