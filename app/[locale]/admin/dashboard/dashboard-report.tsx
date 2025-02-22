@@ -40,7 +40,7 @@ export default function DashboardReport() {
   })
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [data, setData] = useState<{ [key: string]: any }>()
+  const [data, setdata] = useState<{ [key: string]: any }>()
   const [isLoading, setIsLoading] = useState(true)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -50,8 +50,8 @@ export default function DashboardReport() {
       if (date) {
         startTransition(async () => {
           setIsLoading(true)
-          const fetchedData = await getOrderSummary(date)
-          setData(fetchedData)
+          const fetcheddata = await getOrderSummary(date)
+          setdata(fetcheddata)
           setIsLoading(false)
         })
       }
@@ -352,7 +352,7 @@ export default function DashboardReport() {
               </CardHeader>
               <CardContent className="p-4 py-2 sm:p-4 space-y-2 overflow-x-scroll">
                 <div className="text-lg sm:text-2xl font-bold">
-                  <ProductPrice price={data.totalSales} plain />
+                  <ProductPrice price={data?.totalSales} plain />
                 </div>
                 <div>
                   {t('View revenue')}
@@ -370,7 +370,7 @@ export default function DashboardReport() {
               </CardHeader>
               <CardContent className="p-4 py-2 sm:p-4 space-y-2 overflow-x-scroll">
                 <div className="text-lg sm:text-2xl font-bold">
-                  {formatNumber(data.ordersCount)}
+                  {formatNumber(data?.ordersCount)}
                 </div>
                 <div>
                   {t('View orders')}
@@ -388,7 +388,7 @@ export default function DashboardReport() {
               </CardHeader>
               <CardContent className="p-4 sm:p-4 space-y-2 overflow-x-scroll">
                 <div className="text-lg sm:text-2xl font-bold">
-                  {data.usersCount}
+                  {data?.usersCount}
                 </div>
                 <div>
                   {t('View customers')}
@@ -406,7 +406,7 @@ export default function DashboardReport() {
               </CardHeader>
               <CardContent className="p-4 sm:p-4 space-y-2 overflow-x-scroll">
                 <div className="text-lg sm:text-2xl font-bold">
-                  {data.productsCount}
+                  {data?.productsCount}
                 </div>
                 <div>
                   {t('View products')}
@@ -423,7 +423,7 @@ export default function DashboardReport() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <SalesAreaChart data={data.salesChartData} />
+              <SalesAreaChart data={data?.salesChartdata} />
             </CardContent>
           </Card>
         </div>
@@ -439,7 +439,7 @@ export default function DashboardReport() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <TableChart data={data.monthlySales} labelType="month" />
+              <TableChart data={data?.monthlySales} labelType="month" />
             </CardContent>
           </Card>
           <Card className="border-none drop-shadow-xl">
@@ -453,7 +453,7 @@ export default function DashboardReport() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <TableChart data={data.topSalesProducts} labelType="product" />
+              <TableChart data={data?.topSalesProducts} labelType="product" />
             </CardContent>
           </Card>
         </div>
@@ -466,7 +466,7 @@ export default function DashboardReport() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <SalesCategoryPieChart data={data.topSalesCategories} />
+              <SalesCategoryPieChart data={data?.topSalesCategories} />
             </CardContent>
           </Card>
           <Card className="border-none drop-shadow-xl !w-[92vw] sm:!w-full">
@@ -494,7 +494,7 @@ export default function DashboardReport() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {data.latestOrders.map((order: IOrderList) =>
+                  {data?.latestOrders.map((order: IOrderList) =>
                     <TableRow key={order._id}>
                       <TableCell>
                         {order.user ? order.user.name : t('Deleted User')}
