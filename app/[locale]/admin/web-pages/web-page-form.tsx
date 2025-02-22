@@ -93,10 +93,10 @@ const WebPageForm = ({
   if (loading) {
     return (
       <div className="space-y-4">
-        <Skeleton className="h-10 w-3/4" />
-        <Skeleton className="h-10 w-3/4" />
-        <Skeleton className="h-[500px] w-full" />
-        <Skeleton className="h-10 w-1/4" />
+        <Skeleton className="h-10 w-3/4 bg-gray-300 dark:bg-gray-700 animate-pulse" />
+        <Skeleton className="h-10 w-3/4 bg-gray-300 dark:bg-gray-700 animate-pulse" />
+        <Skeleton className="h-[500px] w-full bg-gray-300 dark:bg-gray-700 animate-pulse" />
+        <Skeleton className="h-10 w-1/4 bg-gray-300 dark:bg-gray-700 animate-pulse" />
       </div>
     )
   }
