@@ -64,7 +64,7 @@ export function AdminNav({
         <div key={item.href} className="flex flex-col items-center text-sm">
           <Link
             href={item.href}
-            prefetch={false}
+            // prefetch={false}
             className={cn(
               'p-1 rounded-md transition-all duration-200',
               pathname.includes(item.href)
