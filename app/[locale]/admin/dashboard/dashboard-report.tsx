@@ -55,7 +55,7 @@ export default function DashboardReport() {
     [date]
   )
 
-  if (!data)
+  if (!data) {
     return (
       <section className="w-full my-6">
         <div className="flex items-center justify-between mb-2">
@@ -140,7 +140,6 @@ export default function DashboardReport() {
             </Link>
           </div>
           <div>
-            {/* Sales Overview */}
             <Card className="border-none drop-shadow-xl">
               <CardHeader>
                 <CardTitle>
@@ -149,12 +148,10 @@ export default function DashboardReport() {
               </CardHeader>
               <CardContent>
                 <Skeleton className="h-96 w-full" />
-                {/* <SalesAreaChart data={data.salesChartData} /> */}
               </CardContent>
             </Card>
           </div>
 
-          {/* How much you’re earning */}
           <div className="grid gap-4 md:grid-cols-2">
             <Card className="border-none drop-shadow-xl">
               <CardHeader>
@@ -166,7 +163,6 @@ export default function DashboardReport() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col gap-1">
-                {/* <TableChart data={data.monthlySales} labelType="month" /> */}
                 <Skeleton className="h-5 w-full" />
                 <Skeleton className="h-5 w-full" />
                 <Skeleton className="h-5 w-full" />
@@ -176,7 +172,6 @@ export default function DashboardReport() {
               </CardContent>
             </Card>
 
-            {/* Product Performance */}
             <Card className="border-none drop-shadow-xl">
               <CardHeader>
                 <CardTitle>
@@ -187,7 +182,6 @@ export default function DashboardReport() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col gap-1">
-                {/* <TableChart data={data.topSalesProducts} labelType="product" /> */}
                 <Skeleton className="h-5 w-full" />
                 <Skeleton className="h-5 w-full" />
                 <Skeleton className="h-5 w-full" />
@@ -199,7 +193,6 @@ export default function DashboardReport() {
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
-            {/* Best-Selling Categories */}
             <Card className="border-none drop-shadow-xl !w-[92vw] sm:!w-full">
               <CardHeader>
                 <CardTitle>
@@ -211,7 +204,6 @@ export default function DashboardReport() {
               </CardContent>
             </Card>
 
-            {/* Recent Sales */}
             <Card className="border-none drop-shadow-xl !w-[92vw] sm:!w-full">
               <CardHeader>
                 <CardTitle>
@@ -329,6 +321,7 @@ export default function DashboardReport() {
         </div>
       </section>
     )
+  }
   return (
     <motion.section
       initial={{ opacity: 0, y: 50 }}
