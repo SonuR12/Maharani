@@ -55,6 +55,14 @@ export default function DashboardReport() {
     [date]
   )
 
+  // Ensure the component is mounted before rendering
+  const [isMounted, setIsMounted] = useState(false)
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return null
+
   if (!data)
     return (
       <section className="w-full my-6">
