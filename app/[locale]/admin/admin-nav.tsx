@@ -65,7 +65,6 @@ export function AdminNav({
           <Link
             href={item.href}
             prefetch={false}
-            as={item.href}
             className={cn(
               'p-1 rounded-md transition-all duration-200',
               pathname.includes(item.href)
