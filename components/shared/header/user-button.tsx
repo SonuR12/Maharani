@@ -47,7 +47,7 @@ export default async function UserButton() {
             </DropdownMenuLabel>
             <DropdownMenuGroup>
               {user.role === 'Admin' && (
-                <Link className="w-full" href={{ pathname: '/admin/dashboard' }} prefetch={true}>
+                <Link className="w-full" href="/admin/dashboard" replace>
                   <DropdownMenuItem>{t('Header.Admin')}</DropdownMenuItem>
                 </Link>
               )}
