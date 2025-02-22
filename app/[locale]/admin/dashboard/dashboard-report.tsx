@@ -55,6 +55,15 @@ export default function DashboardReport() {
     [date]
   )
 
+  useEffect(() => {
+    // Reset state when component mounts
+    setDate({
+      from: calculatePastDate(30),
+      to: new Date()
+    })
+    setData(undefined)
+  }, [])
+
   if (!data)
     return (
       <section className="w-full my-6">
