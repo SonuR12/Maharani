@@ -26,7 +26,7 @@ export default async function AdminLayout({ children }: RootLayoutProps) {
         <SideBar />
         <div className="pb-4 w-full h-full">
           <header className="sticky top-0 px-2 pl-4 w-full z-50 border-b !backdrop-blur-md dark:border-0 text-black dark:text-white">
-            <div className="flex h-16 items-center justify-center pr-6 font-semibold select-none">
+            <div className="flex h-16 items-center justify-center pr-2 font-semibold select-none">
             <Link href="/" className='flex items-center gap-2'>
           {site?.logo ? (
             <Image className='mb-3 !h-10 !w-10'
