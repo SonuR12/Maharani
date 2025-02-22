@@ -40,8 +40,7 @@ export default function DashboardReport() {
   })
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [data, setdata] = useState<{ [key: string]: any }>()
-  const [isLoading, setIsLoading] = useState(true)
+  const [data, setData] = useState<{ [key: string]: any }>()
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPending, startTransition] = useTransition()
@@ -49,17 +48,14 @@ export default function DashboardReport() {
     () => {
       if (date) {
         startTransition(async () => {
-          setIsLoading(true)
-          const fetcheddata = await getOrderSummary(date)
-          setdata(fetcheddata)
-          setIsLoading(false)
+          setData(await getOrderSummary(date))
         })
       }
     },
     [date]
   )
 
-  if (isLoading) {
+  if (!data)
     return (
       <section className="w-full my-6">
         <div className="flex items-center justify-between mb-2">
@@ -144,6 +140,7 @@ export default function DashboardReport() {
             </Link>
           </div>
           <div>
+            {/* Sales Overview */}
             <Card className="border-none drop-shadow-xl">
               <CardHeader>
                 <CardTitle>
@@ -152,10 +149,12 @@ export default function DashboardReport() {
               </CardHeader>
               <CardContent>
                 <Skeleton className="h-96 w-full" />
+                {/* <SalesAreaChart data={data.salesChartData} /> */}
               </CardContent>
             </Card>
           </div>
 
+          {/* How much you’re earning */}
           <div className="grid gap-4 md:grid-cols-2">
             <Card className="border-none drop-shadow-xl">
               <CardHeader>
@@ -167,6 +166,7 @@ export default function DashboardReport() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col gap-1">
+                {/* <TableChart data={data.monthlySales} labelType="month" /> */}
                 <Skeleton className="h-5 w-full" />
                 <Skeleton className="h-5 w-full" />
                 <Skeleton className="h-5 w-full" />
@@ -176,6 +176,7 @@ export default function DashboardReport() {
               </CardContent>
             </Card>
 
+            {/* Product Performance */}
             <Card className="border-none drop-shadow-xl">
               <CardHeader>
                 <CardTitle>
@@ -186,6 +187,7 @@ export default function DashboardReport() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col gap-1">
+                {/* <TableChart data={data.topSalesProducts} labelType="product" /> */}
                 <Skeleton className="h-5 w-full" />
                 <Skeleton className="h-5 w-full" />
                 <Skeleton className="h-5 w-full" />
@@ -197,6 +199,7 @@ export default function DashboardReport() {
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
+            {/* Best-Selling Categories */}
             <Card className="border-none drop-shadow-xl !w-[92vw] sm:!w-full">
               <CardHeader>
                 <CardTitle>
@@ -208,6 +211,7 @@ export default function DashboardReport() {
               </CardContent>
             </Card>
 
+            {/* Recent Sales */}
             <Card className="border-none drop-shadow-xl !w-[92vw] sm:!w-full">
               <CardHeader>
                 <CardTitle>
@@ -325,8 +329,6 @@ export default function DashboardReport() {
         </div>
       </section>
     )
-  }
-
   return (
     <motion.section
       initial={{ opacity: 0, y: 50 }}
@@ -352,7 +354,7 @@ export default function DashboardReport() {
               </CardHeader>
               <CardContent className="p-4 py-2 sm:p-4 space-y-2 overflow-x-scroll">
                 <div className="text-lg sm:text-2xl font-bold">
-                  <ProductPrice price={data?.totalSales} plain />
+                  <ProductPrice price={data.totalSales} plain />
                 </div>
                 <div>
                   {t('View revenue')}
@@ -370,7 +372,7 @@ export default function DashboardReport() {
               </CardHeader>
               <CardContent className="p-4 py-2 sm:p-4 space-y-2 overflow-x-scroll">
                 <div className="text-lg sm:text-2xl font-bold">
-                  {formatNumber(data?.ordersCount)}
+                  {formatNumber(data.ordersCount)}
                 </div>
                 <div>
                   {t('View orders')}
@@ -388,7 +390,7 @@ export default function DashboardReport() {
               </CardHeader>
               <CardContent className="p-4 sm:p-4 space-y-2 overflow-x-scroll">
                 <div className="text-lg sm:text-2xl font-bold">
-                  {data?.usersCount}
+                  {data.usersCount}
                 </div>
                 <div>
                   {t('View customers')}
@@ -406,7 +408,7 @@ export default function DashboardReport() {
               </CardHeader>
               <CardContent className="p-4 sm:p-4 space-y-2 overflow-x-scroll">
                 <div className="text-lg sm:text-2xl font-bold">
-                  {data?.productsCount}
+                  {data.productsCount}
                 </div>
                 <div>
                   {t('View products')}
@@ -423,7 +425,7 @@ export default function DashboardReport() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <SalesAreaChart data={data?.salesChartdata} />
+              <SalesAreaChart data={data.salesChartData} />
             </CardContent>
           </Card>
         </div>
@@ -439,7 +441,7 @@ export default function DashboardReport() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <TableChart data={data?.monthlySales} labelType="month" />
+              <TableChart data={data.monthlySales} labelType="month" />
             </CardContent>
           </Card>
           <Card className="border-none drop-shadow-xl">
@@ -453,7 +455,7 @@ export default function DashboardReport() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <TableChart data={data?.topSalesProducts} labelType="product" />
+              <TableChart data={data.topSalesProducts} labelType="product" />
             </CardContent>
           </Card>
         </div>
@@ -466,7 +468,7 @@ export default function DashboardReport() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <SalesCategoryPieChart data={data?.topSalesCategories} />
+              <SalesCategoryPieChart data={data.topSalesCategories} />
             </CardContent>
           </Card>
           <Card className="border-none drop-shadow-xl !w-[92vw] sm:!w-full">
@@ -494,7 +496,7 @@ export default function DashboardReport() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {data?.latestOrders.map((order: IOrderList) =>
+                  {data.latestOrders.map((order: IOrderList) =>
                     <TableRow key={order._id}>
                       <TableCell>
                         {order.user ? order.user.name : t('Deleted User')}
