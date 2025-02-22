@@ -36,20 +36,19 @@ const ProductList = () => {
   const [inputValue, setInputValue] = useState<string>('')
   const [data, setData] = useState<ProductListDataProps>()
   const [isPending, startTransition] = useTransition()
+  const [isLoading, setIsLoading] = useState(true)
 
   const handlePageChange = (changeType: 'next' | 'prev') => {
     const newPage = changeType === 'next' ? page + 1 : page - 1
-    if (changeType === 'next') {
-      setPage(newPage)
-    } else {
-      setPage(newPage)
-    }
+    setPage(newPage)
     startTransition(async () => {
+      setIsLoading(true)
       const data = await getAllProductsForAdmin({
         query: inputValue,
         page: newPage,
       })
       setData(data)
+      setIsLoading(false)
     })
   }
 
@@ -60,25 +59,32 @@ const ProductList = () => {
       clearTimeout((window as any).debounce)
       ;(window as any).debounce = setTimeout(() => {
         startTransition(async () => {
+          setIsLoading(true)
           const data = await getAllProductsForAdmin({ query: value, page: 1 })
           setData(data)
+          setIsLoading(false)
         })
       }, 500)
     } else {
       startTransition(async () => {
+        setIsLoading(true)
         const data = await getAllProductsForAdmin({ query: '', page })
         setData(data)
+        setIsLoading(false)
       })
     }
   }
+
   useEffect(() => {
     startTransition(async () => {
+      setIsLoading(true)
       const data = await getAllProductsForAdmin({ query: '' })
       setData(data)
+      setIsLoading(false)
     })
   }, [])
 
-  if (isPending) {
+  if (isLoading) {
     return (
       <div>
         <div className='py-4 h-full'>

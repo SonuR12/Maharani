@@ -41,6 +41,7 @@ export default function DashboardReport() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<{ [key: string]: any }>()
+  const [isLoading, setIsLoading] = useState(true)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPending, startTransition] = useTransition()
@@ -48,14 +49,17 @@ export default function DashboardReport() {
     () => {
       if (date) {
         startTransition(async () => {
-          setData(await getOrderSummary(date))
+          setIsLoading(true)
+          const fetchedData = await getOrderSummary(date)
+          setData(fetchedData)
+          setIsLoading(false)
         })
       }
     },
     [date]
   )
 
-  if (!data) {
+  if (isLoading) {
     return (
       <section className="w-full my-6">
         <div className="flex items-center justify-between mb-2">
@@ -322,6 +326,7 @@ export default function DashboardReport() {
       </section>
     )
   }
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 50 }}
