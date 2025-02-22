@@ -12,7 +12,13 @@ import { LuUserRound } from 'react-icons/lu'
 import { SiPagespeedinsights } from 'react-icons/si'
 import { IoSettingsOutline } from 'react-icons/io5'
 
-const links = [
+type NavLink = {
+  icon: React.ReactElement
+  title: string
+  href: string
+}
+
+const links: NavLink[] = [
   {
     icon: <RiFunctionAddFill className="!h-5 !w-5" />,
     title: 'Dashboard',
@@ -37,7 +43,7 @@ const links = [
     icon: <SiPagespeedinsights className="!h-5 !w-5" />,
     title: 'Pages',
     href: '/admin/web-pages'
-  }
+  },
   {
     icon: <IoSettingsOutline className="!h-5 !w-5" />,
     title: 'Settings',
@@ -53,6 +59,9 @@ export function AdminNav({
   const searchParams = useSearchParams()
   const t = useTranslations('Admin')
 
+  // Convert search params into an object
+  const queryParams = Object.fromEntries(searchParams.entries())
+
   return (
     <nav
       className={cn(
@@ -61,35 +70,34 @@ export function AdminNav({
       )}
       {...props}
     >
-      {links.map(item =>
-        <div key={item.href} className="flex flex-col items-center text-sm">
-          <Link
-            href={{
-              pathname: item.href,
-              query: searchParams.toString()
-            }}
-            prefetch={false}
-            className={cn(
-              'p-1 rounded-md transition-all duration-200',
-              pathname.startsWith(item.href)
-                ? 'bg-primary text-white'
-                : 'text-muted-foreground hover:text-primary'
-            )}
-          >
-            {item.icon}
-          </Link>
-          <span
-            className={cn(
-              'text-xs font-medium',
-              pathname.startsWith(item.href)
-                ? 'text-primary'
-                : 'text-muted-foreground'
-            )}
-          >
-            {t(item.title)}
-          </span>
-        </div>
-      )}
+      {links.map(item => {
+        const isActive = pathname.startsWith(item.href)
+
+        return (
+          <div key={item.href} className="flex flex-col items-center text-sm">
+            <Link
+              href={{ pathname: item.href, query: queryParams }}
+              prefetch={false}
+              className={cn(
+                'p-1 rounded-md transition-all duration-200',
+                isActive
+                  ? 'bg-primary text-white'
+                  : 'text-muted-foreground hover:text-primary'
+              )}
+            >
+              {item.icon}
+            </Link>
+            <span
+              className={cn(
+                'text-xs font-medium',
+                isActive ? 'text-primary' : 'text-muted-foreground'
+              )}
+            >
+              {t(item.title)}
+            </span>
+          </div>
+        )
+      })}
     </nav>
   )
 }
