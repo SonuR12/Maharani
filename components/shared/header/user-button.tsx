@@ -17,6 +17,7 @@ import Link from 'next/link'
 export default async function UserButton() {
   const t = await getTranslations()
   const session = await auth()
+  const user = session?.user
 
   return (
     <div className="flex gap-2 items-center">
@@ -26,47 +27,46 @@ export default async function UserButton() {
           asChild
         >
           <div className="flex items-center select-none">
-            <div className="flex flex-col text-xs text-left select-none">
+            <div className="flex flex-col text-xs text-left">
               <span>
-                {t('Header.Hello')},{' '}
-                {session ? session?.user.name : t('Header.sign in')}
+                {t('Header.Hello')}, {user ? user.name : t('Header.sign in')}
               </span>
               <span className="font-bold">{t('Header.Account & Orders')}</span>
             </div>
             <ChevronDownIcon />
           </div>
         </DropdownMenuTrigger>
-        {session ? (
+
+        {user ? (
           <DropdownMenuContent className="w-56 select-none" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{session?.user.name}</p>
-                <p className="text-xs leading-none text-muted-foreground">{session?.user.email}</p>
+                <p className="text-sm font-medium">{user?.name}</p>
+                <p className="text-xs text-muted-foreground">{user?.email}</p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuGroup>
-              <Link className="w-full" href="/account" prefetch={false}>
-                <DropdownMenuItem>{t('Header.Your account')}</DropdownMenuItem>
-              </Link>
-              <Link className="w-full" href="/account/orders" prefetch={false}>
-                <DropdownMenuItem>{t('Header.Your orders')}</DropdownMenuItem>
-              </Link>
-
-              {session?.user.role === 'Admin' && (
-                <Link className="w-full" href="/admin/dashboard" prefetch={false}>
+              {user.role === 'Admin' && (
+                <Link className="w-full" href="/admin/dashboard" prefetch>
                   <DropdownMenuItem>{t('Header.Admin')}</DropdownMenuItem>
                 </Link>
               )}
+              <Link className="w-full" href="/account" prefetch>
+                <DropdownMenuItem>{t('Header.Your account')}</DropdownMenuItem>
+              </Link>
+              <Link className="w-full" href="/account/orders" prefetch>
+                <DropdownMenuItem>{t('Header.Your orders')}</DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuItem className="p-0 mb-1">
-              <SignOutButton /> {/* Use SignOutButton for a faster sign-out */}
+              <SignOutButton />
             </DropdownMenuItem>
           </DropdownMenuContent>
         ) : (
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Link className={cn(buttonVariants(), 'w-full')} href="/sign-in" prefetch={false}>
+                <Link className={cn(buttonVariants(), 'w-full')} href="/sign-in" prefetch>
                   {t('Header.Sign in')}
                 </Link>
               </DropdownMenuItem>
@@ -74,7 +74,7 @@ export default async function UserButton() {
             <DropdownMenuLabel>
               <div className="font-normal">
                 {t('Header.New Customer')}?{' '}
-                <Link href="/sign-up" prefetch={false}>{t('Header.Sign up')}</Link>
+                <Link href="/sign-up" prefetch>{t('Header.Sign up')}</Link>
               </div>
             </DropdownMenuLabel>
           </DropdownMenuContent>
