@@ -22,7 +22,13 @@ import { calculatePastDate, formatDateTime, formatNumber } from '@/lib/utils'
 
 import SalesCategoryPieChart from './sales-category-pie-chart'
 
-import React, { useEffect, useState, useTransition } from 'react'
+import React, {
+  useEffect,
+  useState,
+  useTransition,
+  useMemo,
+  Suspense
+} from 'react'
 import { DateRange } from 'react-day-picker'
 import { getOrderSummary } from '@/lib/actions/order.actions'
 import SalesAreaChart from './sales-area-chart'
@@ -34,16 +40,30 @@ import TableChart from './table-chart'
 
 export default function DashboardReport() {
   const t = useTranslations('Admin')
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: calculatePastDate(30),
-    to: new Date()
-  })
+  const memoizedDate = useMemo(
+    () => ({
+      from: calculatePastDate(30),
+      to: new Date()
+    }),
+    []
+  )
+
+  const [date, setDate] = useState<DateRange | undefined>(memoizedDate)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<{ [key: string]: any }>()
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPending, startTransition] = useTransition()
+
+  useEffect(
+    () => {
+      setDate(memoizedDate)
+      setData(undefined)
+    },
+    [memoizedDate]
+  )
+
   useEffect(
     () => {
       if (date) {
@@ -337,188 +357,227 @@ export default function DashboardReport() {
         </h1>
         <CalendarDateRangePicker defaultDate={date} setDate={setDate} />
       </div>
-      <div className="space-y-4">
-        <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-          <Link className="text-xs" href="/admin/orders">
-            <Card className="hover:bg-gray-100 dark:hover:bg-gray-800 border-none drop-shadow-xl">
-              <CardHeader className="p-4 sm:p-6 sm:px-4 flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  {t('Total Revenue')}
+      <Suspense fallback={<SkeletonLoader />}>
+        <div className="space-y-4">
+          <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+            <Link className="text-xs" href="/admin/orders">
+              <Card className="hover:bg-gray-100 dark:hover:bg-gray-800 border-none drop-shadow-xl">
+                <CardHeader className="p-4 sm:p-6 sm:px-4 flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    {t('Total Revenue')}
+                  </CardTitle>
+                  <BadgeDollarSign />
+                </CardHeader>
+                <CardContent className="p-4 py-2 sm:p-4 space-y-2 overflow-x-scroll">
+                  <div className="text-lg sm:text-2xl font-bold">
+                    <ProductPrice price={data.totalSales} plain />
+                  </div>
+                  <div>
+                    {t('View revenue')}
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link className="text-xs" href="/admin/orders">
+              <Card className="hover:bg-gray-100 dark:hover:bg-gray-800 border-none drop-shadow-xl">
+                <CardHeader className="p-4 sm:p-6 sm:px-4  flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    {t('Orders')}
+                  </CardTitle>
+                  <CreditCard />
+                </CardHeader>
+                <CardContent className="p-4 py-2 sm:p-4 space-y-2 overflow-x-scroll">
+                  <div className="text-lg sm:text-2xl font-bold">
+                    {formatNumber(data.ordersCount)}
+                  </div>
+                  <div>
+                    {t('View orders')}
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link className="text-xs" href="/admin/users">
+              <Card className="hover:bg-gray-100 dark:hover:bg-gray-800 border-none drop-shadow-xl">
+                <CardHeader className="p-4 py-2 sm:p-6 sm:px-4  flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium select-none">
+                    {t('Customers')}
+                  </CardTitle>
+                  <Users />
+                </CardHeader>
+                <CardContent className="p-4 sm:p-4 space-y-2 overflow-x-scroll">
+                  <div className="text-lg sm:text-2xl font-bold">
+                    {data.usersCount}
+                  </div>
+                  <div>
+                    {t('View customers')}
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link className="text-xs" href="/admin/products">
+              <Card className="hover:bg-gray-100 dark:hover:bg-gray-800 border-none drop-shadow-xl">
+                <CardHeader className="p-4 py-2 sm:p-6 sm:px-4 flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium select-none">
+                    {t('Products')}
+                  </CardTitle>
+                  <Barcode />
+                </CardHeader>
+                <CardContent className="p-4 sm:p-4 space-y-2 overflow-x-scroll">
+                  <div className="text-lg sm:text-2xl font-bold">
+                    {data.productsCount}
+                  </div>
+                  <div>
+                    {t('View products')}
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
+          <div>
+            <Card className="border-none drop-shadow-xl">
+              <CardHeader>
+                <CardTitle className="select-none">
+                  {t('Sales Overview')}
                 </CardTitle>
-                <BadgeDollarSign />
               </CardHeader>
-              <CardContent className="p-4 py-2 sm:p-4 space-y-2 overflow-x-scroll">
-                <div className="text-lg sm:text-2xl font-bold">
-                  <ProductPrice price={data.totalSales} plain />
-                </div>
-                <div>
-                  {t('View revenue')}
-                </div>
+              <CardContent>
+                <SalesAreaChart data={data.salesChartData} />
               </CardContent>
             </Card>
-          </Link>
-          <Link className="text-xs" href="/admin/orders">
-            <Card className="hover:bg-gray-100 dark:hover:bg-gray-800 border-none drop-shadow-xl">
-              <CardHeader className="p-4 sm:p-6 sm:px-4  flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  {t('Orders')}
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card className="border-none drop-shadow-xl">
+              <CardHeader>
+                <CardTitle className="select-none">
+                  {t('How much you’re earning')}
                 </CardTitle>
-                <CreditCard />
+                <CardDescription>
+                  {t('Estimated')} · {t('Last 6 months')}
+                </CardDescription>
               </CardHeader>
-              <CardContent className="p-4 py-2 sm:p-4 space-y-2 overflow-x-scroll">
-                <div className="text-lg sm:text-2xl font-bold">
-                  {formatNumber(data.ordersCount)}
-                </div>
-                <div>
-                  {t('View orders')}
-                </div>
+              <CardContent>
+                <TableChart data={data.monthlySales} labelType="month" />
               </CardContent>
             </Card>
-          </Link>
-          <Link className="text-xs" href="/admin/users">
-            <Card className="hover:bg-gray-100 dark:hover:bg-gray-800 border-none drop-shadow-xl">
-              <CardHeader className="p-4 py-2 sm:p-6 sm:px-4  flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium select-none">
-                  {t('Customers')}
+            <Card className="border-none drop-shadow-xl">
+              <CardHeader>
+                <CardTitle className="select-none">
+                  {t('Product Performance')}
                 </CardTitle>
-                <Users />
+                <CardDescription>
+                  {formatDateTime(date!.from!).dateOnly} to{' '}
+                  {formatDateTime(date!.to!).dateOnly}
+                </CardDescription>
               </CardHeader>
-              <CardContent className="p-4 sm:p-4 space-y-2 overflow-x-scroll">
-                <div className="text-lg sm:text-2xl font-bold">
-                  {data.usersCount}
-                </div>
-                <div>
-                  {t('View customers')}
-                </div>
+              <CardContent>
+                <TableChart data={data.topSalesProducts} labelType="product" />
               </CardContent>
             </Card>
-          </Link>
-          <Link className="text-xs" href="/admin/products">
-            <Card className="hover:bg-gray-100 dark:hover:bg-gray-800 border-none drop-shadow-xl">
-              <CardHeader className="p-4 py-2 sm:p-6 sm:px-4 flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium select-none">
-                  {t('Products')}
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card className="border-none drop-shadow-xl !w-[92vw] sm:!w-full">
+              <CardHeader>
+                <CardTitle className="select-none">
+                  {t('Best-Selling Categories')}
                 </CardTitle>
-                <Barcode />
               </CardHeader>
-              <CardContent className="p-4 sm:p-4 space-y-2 overflow-x-scroll">
-                <div className="text-lg sm:text-2xl font-bold">
-                  {data.productsCount}
-                </div>
-                <div>
-                  {t('View products')}
-                </div>
+              <CardContent>
+                <SalesCategoryPieChart data={data.topSalesCategories} />
               </CardContent>
             </Card>
-          </Link>
-        </div>
-        <div>
-          <Card className="border-none drop-shadow-xl">
-            <CardHeader>
-              <CardTitle className="select-none">
-                {t('Sales Overview')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <SalesAreaChart data={data.salesChartData} />
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <Card className="border-none drop-shadow-xl">
-            <CardHeader>
-              <CardTitle className="select-none">
-                {t('How much you’re earning')}
-              </CardTitle>
-              <CardDescription>
-                {t('Estimated')} · {t('Last 6 months')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <TableChart data={data.monthlySales} labelType="month" />
-            </CardContent>
-          </Card>
-          <Card className="border-none drop-shadow-xl">
-            <CardHeader>
-              <CardTitle className="select-none">
-                {t('Product Performance')}
-              </CardTitle>
-              <CardDescription>
-                {formatDateTime(date!.from!).dateOnly} to{' '}
-                {formatDateTime(date!.to!).dateOnly}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <TableChart data={data.topSalesProducts} labelType="product" />
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <Card className="border-none drop-shadow-xl !w-[92vw] sm:!w-full">
-            <CardHeader>
-              <CardTitle className="select-none">
-                {t('Best-Selling Categories')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <SalesCategoryPieChart data={data.topSalesCategories} />
-            </CardContent>
-          </Card>
-          <Card className="border-none drop-shadow-xl !w-[92vw] sm:!w-full">
-            <CardHeader>
-              <CardTitle className="select-none">
-                {t('Recent Sales')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow className="select-none">
-                    <TableHead>
-                      {t('Buyer')}
-                    </TableHead>
-                    <TableHead>
-                      {t('Date')}
-                    </TableHead>
-                    <TableHead>
-                      {t('Total')}
-                    </TableHead>
-                    <TableHead>
-                      {t('Actions')}
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {data.latestOrders.map((order: IOrderList) =>
-                    <TableRow key={order._id}>
-                      <TableCell>
-                        {order.user ? order.user.name : t('Deleted User')}
-                      </TableCell>
-
-                      <TableCell>
-                        {formatDateTime(order.createdAt).dateOnly}
-                      </TableCell>
-                      <TableCell>
-                        <ProductPrice price={order.totalPrice} plain />
-                      </TableCell>
-
-                      <TableCell>
-                        <Link href={`/admin/orders/${order._id}`}>
-                          <span className="px-2 hover:text-primary">
-                            {t('Details')}
-                          </span>
-                        </Link>
-                      </TableCell>
+            <Card className="border-none drop-shadow-xl !w-[92vw] sm:!w-full">
+              <CardHeader>
+                <CardTitle className="select-none">
+                  {t('Recent Sales')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow className="select-none">
+                      <TableHead>
+                        {t('Buyer')}
+                      </TableHead>
+                      <TableHead>
+                        {t('Date')}
+                      </TableHead>
+                      <TableHead>
+                        {t('Total')}
+                      </TableHead>
+                      <TableHead>
+                        {t('Actions')}
+                      </TableHead>
                     </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+                  </TableHeader>
+                  <TableBody>
+                    {data.latestOrders.map((order: IOrderList) =>
+                      <TableRow key={order._id}>
+                        <TableCell>
+                          {order.user ? order.user.name : t('Deleted User')}
+                        </TableCell>
+
+                        <TableCell>
+                          {formatDateTime(order.createdAt).dateOnly}
+                        </TableCell>
+                        <TableCell>
+                          <ProductPrice price={order.totalPrice} plain />
+                        </TableCell>
+
+                        <TableCell>
+                          <Link href={`/admin/orders/${order._id}`}>
+                            <span className="px-2 hover:text-primary">
+                              {t('Details')}
+                            </span>
+                          </Link>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </div>
+      </Suspense>
     </section>
+  )
+}
+
+function SkeletonLoader() {
+  return (
+    <div className="space-y-4">
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+      </div>
+      <SkeletonCard />
+      <div className="grid gap-4 md:grid-cols-2">
+        <SkeletonCard />
+        <SkeletonCard />
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <SkeletonCard />
+        <SkeletonCard />
+      </div>
+    </div>
+  )
+}
+
+function SkeletonCard() {
+  return (
+    <Card className="border-none drop-shadow-xl">
+      <CardHeader>
+        <CardTitle>
+          <Skeleton className="h-5 w-40" />
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Skeleton className="h-96 w-full" />
+      </CardContent>
+    </Card>
   )
 }
