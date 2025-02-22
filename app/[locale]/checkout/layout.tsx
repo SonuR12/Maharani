@@ -16,14 +16,11 @@ export default async function CheckoutLayout({
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <Link href="/">
             <Image
+              className="!h-8 !w-8 md:!h-14 md:!w-14"
               src={site.logo}
-              alt="logo"
-              width={70}
-              height={70}
-              style={{
-                maxWidth: '100%',
-                height: 'auto'
-              }}
+              width={300}
+              height={500}
+              alt={`${site.name} logo`}
             />
           </Link>
           <div>

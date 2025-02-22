@@ -25,28 +25,55 @@ export default function AddToCart({ item, minimal = false }: AddToCartProps) {
   const router = useRouter()
   const { toast } = useToast()
   const { addItem } = useCartStore()
-
-  // Add quantity state
   const [quantity, setQuantity] = useState<number>(1)
 
   const t = useTranslations()
 
   const handleAddToCart = async () => {
     try {
-      const itemId = await addItem(item, quantity) // Ensure addItem returns a valid ID
-      if (itemId) {
-        router.push(`/cart/${itemId}`)
-      } else {
-        toast({
-          description: t('Product.Added to Cart')
-        })
-      }
+      await addItem(item, quantity)
+      toast({
+        action: (
+          <div className="flex items-center justify-between space-x-4 w-full">
+            <span className="text-sm">
+              {t('Product.Added to Cart')}
+            </span>
+            <Button
+              onClick={() => router.push('/cart')}
+              className="bg-primary text-black text-sm px-3 py-1"
+            >
+              View Cart
+            </Button>
+          </div>
+        ),
+        duration: 2000
+      })
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'An unknown error occurred'
       toast({
         variant: 'destructive',
-        description: errorMessage
+        description:
+          error instanceof Error ? error.message : 'An unknown error occurred',
+        duration: 2000
+      })
+    }
+  }
+
+  const handleBuyNow = async () => {
+    try {
+      await addItem(item, quantity)
+      toast({
+        variant: 'success',
+        description: t('Product.Added to Cart'),
+        duration: 2000
+      })
+      setTimeout(() => {
+        router.push('/checkout')
+      }, 500) // Delay to show the toast before navigating
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        description:
+          error instanceof Error ? error.message : 'An unknown error occurred'
       })
     }
   }
@@ -54,29 +81,32 @@ export default function AddToCart({ item, minimal = false }: AddToCartProps) {
   return minimal
     ? <Button
         className="rounded-md w-auto"
-        onClick={() => {
+        onClick={async () => {
           try {
-            addItem(item, 1)
+            await addItem(item, 1)
             toast({
-              description: t('Product.Added to Cart'),
               action: (
-                <Button
-                  onClick={() => {
-                    router.push('/cart')
-                  }}
-                >
-                  {t('Product.Go to Cart')}
-                </Button>
-              )
+                <div className="flex items-center justify-between space-x-4 w-full">
+                  <span className="text-sm">
+                    {t('Product.Added to Cart')}
+                  </span>
+                  <Button
+                    onClick={() => router.push('/cart')}
+                    className="bg-primary text-black text-sm px-3 py-1"
+                  >
+                    View Cart
+                  </Button>
+                </div>
+              ),
+              duration: 2000
             })
           } catch (error) {
-            const errorMessage =
-              error instanceof Error
-                ? error.message
-                : 'An unknown error occurred'
             toast({
               variant: 'destructive',
-              description: errorMessage
+              description:
+                error instanceof Error
+                  ? error.message
+                  : 'An unknown error occurred'
             })
           }
         }}
@@ -86,9 +116,9 @@ export default function AddToCart({ item, minimal = false }: AddToCartProps) {
     : <div className="w-full space-y-2">
         <Select
           value={quantity.toString()}
-          onValueChange={(value: string) => setQuantity(Number(value))}
+          onValueChange={value => setQuantity(Number(value))}
         >
-          <SelectTrigger className="">
+          <SelectTrigger>
             <SelectValue>
               {t('Product.Quantity')}: {quantity}
             </SelectValue>
@@ -112,22 +142,8 @@ export default function AddToCart({ item, minimal = false }: AddToCartProps) {
 
         <Button
           variant="secondary"
-          onClick={() => {
-            try {
-              addItem(item, quantity)
-              router.push(`/checkout`)
-            } catch (error) {
-              const errorMessage =
-                error instanceof Error
-                  ? error.message
-                  : 'An unknown error occurred'
-              toast({
-                variant: 'destructive',
-                description: errorMessage
-              })
-            }
-          }}
-          className="w-full rounded-full "
+          className="w-full rounded-full"
+          onClick={handleBuyNow}
         >
           {t('Product.Buy Now')}
         </Button>

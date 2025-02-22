@@ -1,7 +1,7 @@
 'use client'
 import { BadgeDollarSign, Barcode, CreditCard, Users } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { motion } from 'framer-motion'
+
 import Link from 'next/link'
 import {
   Card,
@@ -330,12 +330,7 @@ export default function DashboardReport() {
       </section>
     )
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0, transition: { duration: 0.8 } }}
-      viewport={{ once: true, amount: 0.2 }}
-      className="w-full my-6"
-    >
+    <section className="w-full my-6">
       <div className="flex items-center justify-between mb-2">
         <h1 className="h1-bold text-xl">
           {t('Dashboard')}
@@ -524,6 +519,6 @@ export default function DashboardReport() {
           </Card>
         </div>
       </div>
-    </motion.section>
+    </section>
   )
 }

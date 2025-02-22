@@ -4,11 +4,11 @@ import * as React from "react"
 import * as ToastPrimitives from "@radix-ui/react-toast"
 import { cva, type VariantProps } from "class-variance-authority"
 import { X } from "lucide-react"
-import { IoMdCloseCircle } from "react-icons/io"
-import { FaCheckCircle } from "react-icons/fa"
 
 import { cn } from "@/lib/utils"
 
+import { IoMdCloseCircle } from "react-icons/io"
+import { FaCheckCircle } from "react-icons/fa"
 const ToastProvider = ToastPrimitives.Provider
 
 const ToastViewport = React.forwardRef<
@@ -42,6 +42,8 @@ const toastVariants = cva(
   }
 )
 
+
+
 const Toast = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> &
@@ -50,20 +52,23 @@ const Toast = React.forwardRef<
   return (
     <ToastPrimitives.Root
       ref={ref}
-      className={cn(toastVariants({ variant }), className)}
+      className={cn(toastVariants({ variant }), "flex items-center space-x-2 p-4", className)}
       {...props}
     >
-      <div className="flex items-center space-x-2">
-        {/* Display icons based on the variant */}
-        {variant === "success" && <FaCheckCircle className="text-white w-5 h-5" />}
-        {variant === "destructive" && <IoMdCloseCircle className="text-white w-5 h-5" />}
-        <div>{children}</div>
-      </div>
+      {/* Icon based on variant */}
+      {variant === "destructive" && <IoMdCloseCircle className="text-red-200 w-5 h-5" />}
+      {variant === "success" && <FaCheckCircle className="text-green-200 w-5 h-5" />}
+
+      {/* Toast Content */}
+      <div className="flex-1">{children}</div>
+      
+      {/* Close Button */}
       <ToastClose />
     </ToastPrimitives.Root>
-  );
-});
+  )
+})
 Toast.displayName = ToastPrimitives.Root.displayName
+
 
 const ToastAction = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Action>,

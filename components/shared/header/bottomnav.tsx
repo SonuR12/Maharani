@@ -1,8 +1,8 @@
 'use client'
-
 import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import React from 'react'
+
 import { cn } from '@/lib/utils'
 import { FiShoppingCart } from 'react-icons/fi'
 import { FaFirstOrder } from 'react-icons/fa'
@@ -11,7 +11,11 @@ import { IoSettingsOutline } from 'react-icons/io5'
 import { GrHomeRounded } from 'react-icons/gr'
 
 const links = [
-  { icon: <GrHomeRounded className="!h-5 !w-5" />, title: 'Home', href: '/' },
+  {
+    icon: <GrHomeRounded className="!h-5 !w-5" />,
+    title: 'Home',
+    href: '/'
+  },
   {
     icon: <FaFirstOrder className="!h-5 !w-5" />,
     title: 'Orders',
@@ -39,7 +43,7 @@ export function BottomNav({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname()
-  const searchParams = useSearchParams()
+  //   const t = useTranslations()
 
   return (
     <nav
@@ -49,34 +53,29 @@ export function BottomNav({
       )}
       {...props}
     >
-      {links.map(({ icon, title, href }) => {
-        const isActive = pathname === href || searchParams.get('page') === href
-
-        return (
-          <div key={href} className="flex flex-col items-center text-sm">
-            <Link
-              prefetch
-              href={href}
-              className={cn(
-                'p-1 rounded-md transition-all duration-200',
-                isActive
-                  ? 'bg-primary text-white'
-                  : 'text-muted-foreground hover:text-primary'
-              )}
-            >
-              {icon}
-            </Link>
-            <span
-              className={cn(
-                'text-xs font-medium',
-                isActive ? 'text-primary' : 'text-muted-foreground'
-              )}
-            >
-              {title}
-            </span>
-          </div>
-        )
-      })}
+      {links.map(item =>
+        <div key={item.href} className="flex flex-col items-center text-sm">
+          <Link
+            href={item.href}
+            className={cn(
+              'p-1 rounded-md transition-all duration-200',
+              pathname === item.href
+                ? 'bg-primary text-white'
+                : 'text-muted-foreground hover:text-primary'
+            )}
+          >
+            {item.icon}
+          </Link>
+          <span
+            className={cn(
+              'text-xs font-medium',
+              pathname === item.href ? 'text-primary' : 'text-muted-foreground'
+            )}
+          >
+            {item.title}
+          </span>
+        </div>
+      )}
     </nav>
   )
 }

@@ -159,24 +159,24 @@ const ProductList = () => {
           </div>
           {(data?.totalPages ?? 0) > 1 && (
             <div className='flex items-center gap-2'>
-            <Button
-              variant='outline'
-              onClick={() => handlePageChange('prev')}
-              disabled={Number(page) <= 1}
-              className='w-24'
-            >
-              <ChevronLeft /> Previous
-            </Button>
-            Page {page} of {data?.totalPages}
-            <Button
-              variant='outline'
-              onClick={() => handlePageChange('next')}
-              disabled={Number(page) >= (data?.totalPages ?? 0)}
-              className='w-24'
-            >
-              Next <ChevronRight />
-            </Button>
-          </div>
+              <Button
+                variant='outline'
+                onClick={() => handlePageChange('prev')}
+                disabled={Number(page) <= 1}
+                className='w-24'
+              >
+                <Skeleton className="h-5 w-5" />
+              </Button>
+              <Skeleton className="h-5 w-28" />
+              <Button
+                variant='outline'
+                onClick={() => handlePageChange('next')}
+                disabled={Number(page) >= (data?.totalPages ?? 0)}
+                className='w-24'
+              >
+                <Skeleton className="h-5 w-5" />
+              </Button>
+            </div>
           )}
         </div>
       </div>

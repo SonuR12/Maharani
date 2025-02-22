@@ -1,3 +1,4 @@
+import { EllipsisVertical } from 'lucide-react'
 import {
   Sheet,
   SheetContent,
@@ -11,7 +12,6 @@ import UserButton from './user-button'
 import ThemeSwitcher from './theme-switcher'
 import LanguageSwitcher from './language-switcher'
 import { useTranslations } from 'next-intl'
-// import { RxHamburgerMenu } from 'react-icons/rx'
 
 const Menu = ({ forAdmin = false }: { forAdmin?: boolean }) => {
   const t = useTranslations()

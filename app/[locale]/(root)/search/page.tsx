@@ -120,7 +120,7 @@ export default async function SearchPage(props: {
   const t = await getTranslations()
   return (
     <div>
-      <div className="my-2 bg-card md:border-b flex-between flex-col md:flex-row mt-36 md:mt-24">
+      <div className="my-2 bg-card md:border-b  flex-between flex-col md:flex-row ">
         <div className="flex items-center">
           {data.totalProducts === 0
             ? t('Search.No')
@@ -156,7 +156,7 @@ export default async function SearchPage(props: {
               </Button>
             : null}
         </div>
-        <div className="mb-2">
+        <div>
           <ProductSortSelector
             sortOrders={sortOrders}
             sort={sort}
@@ -164,7 +164,7 @@ export default async function SearchPage(props: {
           />
         </div>
       </div>
-      <div className="bg-card grid md:grid-cols-5 md:gap-4 py-2">
+      <div className="bg-card grid md:grid-cols-5 md:gap-4 py-16">
         <CollapsibleOnMobile title={t('Search.Filters')}>
           <div className="space-y-4">
             <div>

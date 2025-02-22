@@ -79,7 +79,10 @@ export default function SideBar() {
               alt={`${site?.name || 'Site'} logo`}
             />
           ) : (
-            <img src="/path/to/default/logo.png" alt="logo.png" />
+            // <div className="w-12 h-12 bg-white flex items-center justify-center rounded-md">
+            //   Logo.png
+            // </div>
+            <img src="/" alt="logo.png" />
           )}
           <span className='font-semibold dark:text-white'>{site?.name}</span>
         </Link>
@@ -92,7 +95,7 @@ export default function SideBar() {
           <Link
               key={item.href}
               href={item.href}
-              prefetch={false}
+              prefetch={true}
               className={cn(
               "px-3 py-2 rounded-md flex items-center gap-2 drop-shadow-xl overflow-x-hidden sm:text-sm md:text-base",
               pathname.includes(item.href) ? "bg-primary font-medium": "text-gray-500 transition-colors hover:bg-gray-300 dark:hover:bg-gray-800 dark:text-white hover:text-black"
