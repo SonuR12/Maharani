@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import React from 'react'
 
 import { cn } from '@/lib/utils'
@@ -37,7 +37,7 @@ const links = [
     icon: <SiPagespeedinsights className="!h-5 !w-5" />,
     title: 'Pages',
     href: '/admin/web-pages'
-  },
+  }
   {
     icon: <IoSettingsOutline className="!h-5 !w-5" />,
     title: 'Settings',
@@ -50,6 +50,7 @@ export function AdminNav({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
   const t = useTranslations('Admin')
 
   return (
@@ -63,12 +64,14 @@ export function AdminNav({
       {links.map(item =>
         <div key={item.href} className="flex flex-col items-center text-sm">
           <Link
-            href={item.href}
+            href={{
+              pathname: item.href,
+              query: searchParams.toString()
+            }}
             prefetch={false}
-            as={item.href}
             className={cn(
               'p-1 rounded-md transition-all duration-200',
-              pathname.includes(item.href)
+              pathname.startsWith(item.href)
                 ? 'bg-primary text-white'
                 : 'text-muted-foreground hover:text-primary'
             )}
@@ -78,7 +81,7 @@ export function AdminNav({
           <span
             className={cn(
               'text-xs font-medium',
-              pathname.includes(item.href)
+              pathname.startsWith(item.href)
                 ? 'text-primary'
                 : 'text-muted-foreground'
             )}
