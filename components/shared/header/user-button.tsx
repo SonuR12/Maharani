@@ -49,14 +49,14 @@ export default async function UserButton() {
             </DropdownMenuLabel>
             <DropdownMenuGroup>
               {user.role === 'Admin' && (
-                <Link className="w-full" href={{pathname: '/admin/dashboard', query: {name:'?refresh=true'}}}>
+                <Link className="w-full" href={{ pathname: '/admin/dashboard', query: { refresh: 'true' } }}>
                   <DropdownMenuItem>{t('Header.Admin')}</DropdownMenuItem>
                 </Link>
               )}
-              <Link className="w-full" href={{pathname: '/account', query: {name:'?refresh=true'}}}>
+              <Link className="w-full" href={{ pathname: '/account', query: { refresh: 'true' } }}>
                 <DropdownMenuItem>{t('Header.Your account')}</DropdownMenuItem>
               </Link>
-              <Link className="w-full" href={{pathname: '/aaccount/orders', query: {name:'?refresh=true'}}}>
+              <Link className="w-full" href={{ pathname: '/account/orders', query: { refresh: 'true' } }}>
                 <DropdownMenuItem>{t('Header.Your orders')}</DropdownMenuItem>
               </Link>
             </DropdownMenuGroup>
