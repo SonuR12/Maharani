@@ -1,3 +1,5 @@
+"use server"
+
 import { auth } from '@/auth'
 import { buttonVariants } from '@/components/ui/button'
 import {
@@ -47,7 +49,7 @@ export default async function UserButton() {
             </DropdownMenuLabel>
             <DropdownMenuGroup>
               {user.role === 'Admin' && (
-                <Link className="w-full" href="/admin/orders">
+                <Link className="w-full" href={{pathname: '/admin/dashboard', query: {name:'?refresh=true'}}}>
                   <DropdownMenuItem>{t('Header.Admin')}</DropdownMenuItem>
                 </Link>
               )}
