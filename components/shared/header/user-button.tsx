@@ -53,10 +53,10 @@ export default async function UserButton() {
                   <DropdownMenuItem>{t('Header.Admin')}</DropdownMenuItem>
                 </Link>
               )}
-              <Link className="w-full" href="/account" prefetch>
+              <Link className="w-full" href={{pathname: '/account', query: {name:'?refresh=true'}}}>
                 <DropdownMenuItem>{t('Header.Your account')}</DropdownMenuItem>
               </Link>
-              <Link className="w-full" href="/account/orders" prefetch>
+              <Link className="w-full" href={{pathname: '/aaccount/orders', query: {name:'?refresh=true'}}}>
                 <DropdownMenuItem>{t('Header.Your orders')}</DropdownMenuItem>
               </Link>
             </DropdownMenuGroup>

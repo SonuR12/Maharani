@@ -31,7 +31,7 @@ export default async function Header() {
               {site.name}
             </Link>
           </div>
-
+          <Link href="/admin/dashboard">Admin</Link>
           <div className="hidden md:block flex-1 max-w-xl">
             <Search />
           </div>
