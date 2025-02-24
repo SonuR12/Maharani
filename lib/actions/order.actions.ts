@@ -8,7 +8,7 @@ import { OrderInputSchema } from '../validator'
 import Order, { IOrder } from '../db/models/order.model'
 import { revalidatePath } from 'next/cache'
 import { 
-  // sendAskReviewOrderItems,
+  sendAskReviewOrderItems,
    sendPurchaseReceipt} from '@/emails'
 import { paypal } from '../paypal'
 import { DateRange } from 'react-day-picker'
@@ -16,7 +16,6 @@ import Product from '../db/models/product.model'
 import User from '../db/models/user.model'
 import mongoose from 'mongoose'
 import { getSetting } from './setting.actions'
-
 // CREATE
 export const createOrder = async (clientSideCart: Cart) => {
   try {
@@ -129,12 +128,7 @@ export async function deliverOrder(orderId: string) {
     order.isDelivered = true
     order.deliveredAt = new Date()
     await order.save()
-    // if (order.user.email) {
-    //   await sendAskReviewOrderItems({ order })
-    //   if (order.invoice) {
-    //     await sendInvoice(order.user.email, order.invoice); // Send the invoice to the user
-    //   }
-    // }
+    if (order.user.email) await sendAskReviewOrderItems({ order })
     revalidatePath(`/account/orders/${orderId}`)
     return { success: true, message: 'Order delivered successfully' }
   } catch (err) {
@@ -546,6 +540,7 @@ async function getTopSalesCategories(date: DateRange, limit = 5) {
   return result
 }
 
+
 export async function uploadInvoice(orderId: string, file: File) {
   try {
     await connectToDatabase();
@@ -571,7 +566,6 @@ export async function uploadInvoice(orderId: string, file: File) {
   }
 }
 
-// Example function to handle file uploads
 // async function handleFileUpload(file: File): Promise<string> {
 //   // Implement your file upload logic here
 //   // For example, you can upload the file to a cloud storage service and return the file URL
