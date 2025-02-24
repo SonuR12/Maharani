@@ -7,7 +7,9 @@ import { auth } from '@/auth'
 import { OrderInputSchema } from '../validator'
 import Order, { IOrder } from '../db/models/order.model'
 import { revalidatePath } from 'next/cache'
-import { sendAskReviewOrderItems, sendPurchaseReceipt} from '@/emails'
+import { 
+  // sendAskReviewOrderItems,
+   sendPurchaseReceipt} from '@/emails'
 import { paypal } from '../paypal'
 import { DateRange } from 'react-day-picker'
 import Product from '../db/models/product.model'
@@ -127,12 +129,12 @@ export async function deliverOrder(orderId: string) {
     order.isDelivered = true
     order.deliveredAt = new Date()
     await order.save()
-    if (order.user.email) {
-      await sendAskReviewOrderItems({ order })
-      if (order.invoice) {
-        await sendInvoice(order.user.email, order.invoice); // Send the invoice to the user
-      }
-    }
+    // if (order.user.email) {
+    //   await sendAskReviewOrderItems({ order })
+    //   if (order.invoice) {
+    //     await sendInvoice(order.user.email, order.invoice); // Send the invoice to the user
+    //   }
+    // }
     revalidatePath(`/account/orders/${orderId}`)
     return { success: true, message: 'Order delivered successfully' }
   } catch (err) {
@@ -544,34 +546,34 @@ async function getTopSalesCategories(date: DateRange, limit = 5) {
   return result
 }
 
-export async function uploadInvoice(orderId: string, file: File) {
-  try {
-    await connectToDatabase();
-    const order = await Order.findById(orderId);
-    if (!order) throw new Error('Order not found');
+// export async function uploadInvoice(orderId: string, file: File) {
+//   try {
+//     await connectToDatabase();
+//     const order = await Order.findById(orderId);
+//     if (!order) throw new Error('Order not found');
 
-    // Read the file content
-    const fileContent = await file.arrayBuffer();
-    const fileBuffer = Buffer.from(fileContent);
+//     // // Read the file content
+//     // const fileContent = await file.arrayBuffer();
+//     // const fileBuffer = Buffer.from(fileContent);
 
-    // Store the file directly in the order document
-    order.invoice = {
-      data: fileBuffer,
-      contentType: file.type,
-      fileName: file.name,
-    };
-    await order.save();
+//     // // Store the file directly in the order document
+//     // order.invoice = {
+//     //   data: fileBuffer,
+//     //   contentType: file.type,
+//     //   fileName: file.name,
+//     // };
+//     // await order.save();
 
-    revalidatePath(`/account/orders/${orderId}`);
-    return { success: true, message: 'Invoice uploaded successfully' };
-  } catch (err) {
-    return { success: false, message: formatError(err) };
-  }
-}
+//     revalidatePath(`/account/orders/${orderId}`);
+//     return { success: true, message: 'Invoice uploaded successfully' };
+//   } catch (err) {
+//     return { success: false, message: formatError(err) };
+//   }
+// }
 
 // Example function to handle file uploads
-async function handleFileUpload(file: File): Promise<string> {
-  // Implement your file upload logic here
-  // For example, you can upload the file to a cloud storage service and return the file URL
-  return 'uploaded-file-url';
-}
+// async function handleFileUpload(file: File): Promise<string> {
+//   // Implement your file upload logic here
+//   // For example, you can upload the file to a cloud storage service and return the file URL
+//   return 'uploaded-file-url';
+// }
