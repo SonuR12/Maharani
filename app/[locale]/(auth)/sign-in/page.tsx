@@ -49,7 +49,7 @@ export default async function SignInPage({
         </div>
       </div>
       <div className="md:w-1/2 h-full hidden md:block">
-        <Image
+        <Image 
           className="object-cover w-full h-full rounded-r-3xl"
           src="/SignIn.png"
           width={500}

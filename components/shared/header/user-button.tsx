@@ -68,7 +68,7 @@ export default async function UserButton() {
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Link className={cn(buttonVariants(), 'w-full')} href="/sign-in" prefetch>
+                <Link className={cn(buttonVariants(), 'w-full')} href="/sign-in" prefetch={true}>
                   {t('Header.Sign in')}
                 </Link>
               </DropdownMenuItem>
@@ -76,7 +76,7 @@ export default async function UserButton() {
             <DropdownMenuLabel>
               <div className="font-normal">
                 {t('Header.New Customer')}?{' '}
-                <Link href="/sign-up" className='hover:underline' prefetch>{t('Header.Sign up')}</Link>
+                <Link href="/sign-up" className='hover:underline' prefetch={true}>{t('Header.Sign up')}</Link>
               </div>
             </DropdownMenuLabel>
           </DropdownMenuContent>
