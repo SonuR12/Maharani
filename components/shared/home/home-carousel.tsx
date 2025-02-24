@@ -38,7 +38,7 @@ export function HomeCarousel({ items }: { items: ICarousel[] }) {
             key={item.title}
             className="mt-2 sm:aspect-auto w-screen"
           >
-            <Link href={item.url}>
+            <Link href={item.url} prefetch={true}>
               <div
                 className="flex aspect-[12/6] h-full lg:h-[65vh] w-full items-center justify-center p-6 relative bg-no-repeat bg-cover"
                 style={{
