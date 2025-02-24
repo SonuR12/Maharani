@@ -39,15 +39,21 @@ export function HomeCarousel({ items }: { items: ICarousel[] }) {
             className="mt-2 sm:aspect-auto w-screen"
           >
             <Link href={item.url}>
-              <div className="flex aspect-[16/6] h-full lg:h-[60vh] w-full items-center justify-center p-6 relative">
-                <Image
+              <div
+                className="flex aspect-[12/6] h-full lg:h-[65vh] w-full items-center justify-center p-6 relative bg-no-repeat bg-cover"
+                style={{
+                  backgroundImage: `url(${item.image})`,
+                  backgroundSize: 'cover' // ✅ Ensures the background image covers the entire container
+                }}
+              >
+                {/* <Image
                   src={item.image}
                   alt={item.title}
                   fill
                   className="!object-contain !w-full !h-full"
                   priority
-                />
-                <div className="absolute w-1/3 left-16 md:left-32 top-1/2 transform -translate-y-1/2">
+                /> */}
+                <div className="absolute w-1/3 left-7 sm:left-16 md:left-32 top-1/2 transform -translate-y-1/2">
                   <h2
                     className={cn(
                       'text-xl md:text-6xl font-bold mb-4 text-primary'

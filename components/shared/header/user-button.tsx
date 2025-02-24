@@ -76,7 +76,7 @@ export default async function UserButton() {
             <DropdownMenuLabel>
               <div className="font-normal">
                 {t('Header.New Customer')}?{' '}
-                <Link href="/sign-up" prefetch>{t('Header.Sign up')}</Link>
+                <Link href="/sign-up" className='hover:underline' prefetch>{t('Header.Sign up')}</Link>
               </div>
             </DropdownMenuLabel>
           </DropdownMenuContent>

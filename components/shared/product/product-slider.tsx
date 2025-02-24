@@ -21,7 +21,7 @@ export default function ProductSlider({
   hideDetails?: boolean
 }) {
   return (
-    <div className="w-full bg-background">
+    <div className="w-full bg-background z-10">
       <h2 className="h2-bold mb-5">
         {title}
       </h2>
@@ -31,7 +31,7 @@ export default function ProductSlider({
         }}
         className="w-full"
       >
-        <CarouselContent>
+        <CarouselContent className="z-10 bg-background">
           {products.map(product =>
             <CarouselItem
               key={product.slug}

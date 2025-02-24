@@ -28,7 +28,7 @@ export default function Footer() {
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0, transition: { duration: 0.8 } }}
       viewport={{ once: true, amount: 0.2 }}
-      className="bg-black mb-8 sm:mb-0 text-white underline-link bottom-0"
+      className="bg-black mb-8 sm:mb-0 text-white underline-link bottom-0 z-10"
     >
       <div className="w-full">
         <Button

@@ -1,3 +1,4 @@
+'use server'
 // import { EllipsisVertical } from 'lucide-react'
 import {
   Sheet,
@@ -11,10 +12,15 @@ import CartButton from './cart-button'
 import UserButton from './user-button'
 import ThemeSwitcher from './theme-switcher'
 import LanguageSwitcher from './language-switcher'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
-const Menu = ({ forAdmin = false }: { forAdmin?: boolean }) => {
-  const t = useTranslations()
+export default async function Menu({
+  forAdmin = false
+}: {
+  forAdmin?: boolean
+}) {
+  const t = await getTranslations() // ✅ Fetch translations on the server
+
   return (
     <div className="flex justify-end">
       <nav className="md:flex gap-3 hidden w-full">
@@ -58,5 +64,3 @@ const Menu = ({ forAdmin = false }: { forAdmin?: boolean }) => {
     </div>
   )
 }
-
-export default Menu

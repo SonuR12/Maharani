@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -16,12 +16,15 @@ import {
 } from '@/components/ui/table'
 import { IOrder } from '@/lib/db/models/order.model'
 import { cn, formatDateTime } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import ProductPrice from '../product/product-price'
 import ActionButton from '../action-button'
-import { deliverOrder, updateOrderToPaid } from '@/lib/actions/order.actions'
+import { deliverOrder, updateOrderToPaid, uploadInvoice } from '@/lib/actions/order.actions'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Separator } from '@/components/ui/separator'
+import { Input } from '@/components/ui/input'
+import { IoClose } from 'react-icons/io5'
+import { toast } from '@/hooks/use-toast'
 
 export default function OrderDetailsForm({
   order,
@@ -40,6 +43,60 @@ export default function OrderDetailsForm({
     },
     [order]
   )
+
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null); // Reference for input field
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+
+    if (selectedFile) {
+      setFile(selectedFile);
+
+      // Generate preview URL for images or PDFs
+      if (selectedFile.type.startsWith("image/") || selectedFile.type === "application/pdf") {
+        setPreview(URL.createObjectURL(selectedFile));
+      } else {
+        setPreview(null); // No preview for unsupported file types
+      }
+    }
+  };
+
+  const removeFile = () => {
+    setFile(null);
+    setPreview(null);
+    
+    // Reset the file input field
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleUpload = async (event: React.FormEvent) => {
+    event.preventDefault(); // Prevent form from reloading the page
+
+    if (!file) return;
+
+    try {
+      const response = await uploadInvoice(order._id, file);
+
+      if (!response.success) {
+        throw new Error(response.message);
+      }
+
+      toast({
+        variant:'success',
+        description:'Invoice uploaded successfully'
+      });
+      console.log('Invoice uploaded successfully:', response.message);
+    } catch (error) {
+      toast({
+        variant:'destructive',
+        description:'Error uploading invoice'});
+      console.error('Error uploading invoice:', error);
+    }
+  };
 
   if (loading) {
     return (
@@ -238,7 +295,7 @@ export default function OrderDetailsForm({
           </CardContent>
         </Card>
       </div>
-      <div>
+      <div className='flex flex-col gap-2'>
         <Card>
           <CardContent className="p-4 space-y-4 gap-4">
             <h2 className="text-xl pb-4">Order Summary</h2>
@@ -283,6 +340,83 @@ export default function OrderDetailsForm({
               />}
           </CardContent>
         </Card>
+
+        {isAdmin && !isDelivered && (
+          <Card>
+            <CardContent className="p-4">
+              <h2 className="text-xl pb-4">Invoice</h2>
+
+              <form onSubmit={handleUpload} className='space-y-2'>
+                {/* File Input */}
+                <Input
+                  className='border-2 border-solid !border-black cursor-pointer' 
+                  type="file" 
+                  accept="image/*, application/pdf" 
+                  onChange={handleFileChange} 
+                  ref={fileInputRef} // Attach ref to input
+                />
+
+                {/* File Preview Section */}
+                {preview && (
+                  <div className="relative mt-4 w-full max-w-lg border rounded-lg overflow-hidden">
+                    {/* Close Button */}
+                    <Button 
+                      className="absolute top-0 right-0 bg-white text-black p-2 rounded-tl-none rounded-br-none rounded-bl-lg text-sm hover:bg-gray-100"
+                      onClick={removeFile} // Remove file on click
+                    >
+                      <IoClose />
+                    </Button>
+
+                    {/* Image Preview */}
+                    {file?.type.startsWith("image/") ? (
+                      <Image height={500} width={500} src={preview} alt="File Preview" className="w-full h-auto rounded-lg shadow-md" />
+                    ) : (
+                      /* PDF Preview */
+                      <iframe src={preview} className="w-full h-64 border rounded-md"></iframe>
+                    )}
+                  </div>
+                )}
+                
+                <Button type="submit">Submit</Button>
+              </form>
+            </CardContent>
+          </Card>
+        )}
+
+        {!isAdmin && (
+          <Card>
+            <CardContent className="p-4 space-y-2">
+              <h2 className="text-xl pb-4">Invoice</h2>
+              {/* Display the invoice for the user */}
+              {preview && (
+                <div className="relative mt-4 w-full max-w-lg border rounded-lg overflow-hidden">
+                  {/* Image Preview */}
+                  {file?.type.startsWith("image/") ? (
+                    <Image height={500} width={500} src={preview} alt="File Preview" className="w-full h-auto rounded-lg shadow-md" />
+                  ) : (
+                    /* PDF Preview */
+                    <iframe src={preview} className="w-full h-64 border rounded-md"></iframe>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
+
+        {preview && isDelivered && (
+                  <div className="relative mt-4 w-full max-w-lg border rounded-lg overflow-hidden">
+                    {/* Close Button */}
+                   
+
+                    {/* Image Preview */}
+                    {file?.type.startsWith("image/") ? (
+                      <Image height={500} width={500} src={preview} alt="File Preview" className="w-full h-auto rounded-lg shadow-md" />
+                    ) : (
+                      /* PDF Preview */
+                      <iframe src={preview} className="w-full h-64 border rounded-md"></iframe>
+                    )}
+                  </div>
+          )}
       </div>
     </div>
   )

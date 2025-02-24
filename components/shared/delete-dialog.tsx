@@ -1,5 +1,6 @@
 'use client'
 import { useState, useTransition } from 'react'
+import { X } from 'lucide-react'
 
 import {
   AlertDialog,
@@ -35,10 +36,23 @@ export default function DeleteDialog({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone.
-          </AlertDialogDescription>
+          <div className="flex justify-between items-center">
+            <div>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone.
+              </AlertDialogDescription>
+            </div>
+            <AlertDialogCancel asChild className="relative">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="bg-gray-100 absolute top-0 right-0 rounded-bl-md rounded-tl-none rounded-br-none"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </AlertDialogCancel>
+          </div>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className="drop-shadow-xl">

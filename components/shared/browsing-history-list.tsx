@@ -15,7 +15,7 @@ export default function BrowsingHistoryList({
   const t = useTranslations('Home')
   return (
     products.length !== 0 &&
-    <div className="bg-background">
+    <div className="bg-background z-10">
       <Separator className={cn('my-4', className)} />
       <ProductList
         title={t("Related to items that you've viewed")}
