@@ -60,6 +60,13 @@ Maharani/
 ```
 ---
 
+### 📸 Screenshot
+
+![Apple Clone Screenshot](https://github.com/SonuR12/Maharani/blob/main/public/maharani.png)
+
+
+---
+
 ##  .env.local
 
 ```bash
